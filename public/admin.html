@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FastWellBook Admin</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--teal:#0D9488;--teal-dark:#0F766E;--white:#fff;--cream:#F5FAF8;--gray-400:#9CA3AF;--gray-600:#4B5563;--ink:#0D1F1A;--border:#E5E7EB;--red:#EF4444;--font:system-ui,-apple-system,sans-serif}
+html,body{min-height:100vh;background:var(--cream);color:var(--ink);font-family:var(--font)}
+.header{background:var(--teal);color:white;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+.header h1{font-size:18px;font-weight:700}
+.container{max-width:800px;margin:32px auto;padding:0 20px}
+.card{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:20px}
+.card h2{font-size:16px;font-weight:700;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.fg{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
+.fg2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--gray-600)}
+input{padding:10px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;color:var(--ink);outline:none;font-family:var(--font);width:100%}
+input:focus{border-color:var(--teal)}
+.btn{padding:11px 20px;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font)}
+.btn-t{background:var(--teal);color:white;width:100%;margin-top:4px}
+.btn-t:hover{background:var(--teal-dark)}
+.btn-d{background:#FEE2E2;color:var(--red);border:1px solid #FECACA;padding:6px 12px;font-size:12px}
+.si{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border:1.5px solid var(--border);border-radius:12px;margin-bottom:8px}
+.sn{font-size:14px;font-weight:700;margin-bottom:2px}
+.sm{font-size:12px;color:var(--gray-400)}
+.sp{font-size:16px;font-style:italic;color:var(--teal);margin-right:10px}
+.msg{padding:10px 14px;border-radius:10px;font-size:13px;margin-bottom:12px}
+.err{background:#FEE2E2;color:var(--red)}
+.ok{background:#DCFCE7;color:#15803D}
+.lw{max-width:400px;margin:80px auto;padding:0 20px}
+.lc{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:32px}
+.lt{font-size:22px;font-weight:700;margin-bottom:6px}
+.ls{font-size:14px;color:var(--gray-400);margin-bottom:24px}
+.row{display:flex;gap:8px;align-items:flex-end}
+.row input{flex:1}
+</style>
+</head>
+<body>
+<div id="L">
+<div class="lw"><div class="lc">
+<div class="lt">Admin Panel</div>
+<div class="ls">FastWellBook — Manage business services</div>
+<div id="lm"></div>
+<div class="fg"><label>Password</label><input type="password" id="pw" placeholder="Enter admin password"></div>
+<button class="btn btn-t" onclick="login()">Sign in</button>
+</div></div>
+</div>
+
+<div id="M" style="display:none">
+<div class="header"><h1>FastWellBook Admin</h1><span id="hn"></span></div>
+<div class="container">
+<div class="card">
+<h2>Select Business</h2>
+<div class="row">
+<div class="fg" style="flex:1;margin:0"><label>Business slug</label><input type="text" id="si" placeholder="e.g. catching-comfort-massage"></div>
+<button class="btn btn-t" style="width:auto;margin:0" onclick="load()">Load</button>
+</div>
+<div id="sm" style="margin-top:10px"></div>
+</div>
+<div id="BS" style="display:none">
+<div class="card">
+<h2 id="bt">Services</h2>
+<div id="SL"></div>
+</div>
+<div class="card">
+<h2>Add Service</h2>
+<div id="am"></div>
+<div class="fg"><label>Service name</label><input type="text" id="an" placeholder="e.g. Deep Tissue Massage"></div>
+<div class="fg"><label>Description (optional)</label><input type="text" id="ad" placeholder="e.g. Targets deep muscle tension"></div>
+<div class="fg2">
+<div class="fg"><label>Duration (minutes)</label><input type="number" id="adur" placeholder="60" min="15" step="15"></div>
+<div class="fg"><label>Price (£)</label><input type="number" id="apr" placeholder="65.00" step="0.50"></div>
+</div>
+<button class="btn btn-t" onclick="add()">Add service</button>
+</div>
+</div>
+</div>
+</div>
+
+<script>
+var pw='',bid='',bslug='';
+function login(){pw=document.getElementById('pw').value;if(!pw)return;document.getElementById('L').style.display='none';document.getElementById('M').style.display='block';}
+document.getElementById('pw').onkeydown=function(e){if(e.key==='Enter')login();};
+function m(id,t,c){var el=document.getElementById(id);el.innerHTML=t?'<div class="msg '+c+'">'+t+'</div>':'';}
+async function load(){
+  var slug=document.getElementById('si').value.trim();if(!slug)return;
+  m('sm','Loading...','ok');
+  try{
+    var r=await fetch('/api/admin/services?slug='+encodeURIComponent(slug),{headers:{'x-admin-password':pw}});
+    var d=await r.json();
+    if(!r.ok){m('sm',d.error,'err');return;}
+    bid=d.business.id;bslug=d.business.slug;
+    document.getElementById('bt').textContent=d.business.name+' — Services';
+    document.getElementById('hn').textContent=d.business.name;
+    m('sm','','');
+    document.getElementById('BS').style.display='block';
+    render(d.services);
+  }catch(e){m('sm','Failed to load','err');}
+}
+function render(svcs){
+  var el=document.getElementById('SL');
+  if(!svcs||!svcs.length){el.innerHTML='<p style="color:var(--gray-400);text-align:center;padding:20px">No services yet</p>';return;}
+  el.innerHTML=svcs.map(function(s){return'<div class="si"><div><div class="sn">'+s.name+(s.description?' <span style="font-weight:400;color:var(--gray-400)">— '+s.description+'</span>':'')+'</div><div class="sm">'+s.duration_mins+' min</div></div><div style="display:flex;align-items:center"><span class="sp">£'+(s.price_pence/100).toFixed(2)+'</span><button class="btn btn-d" onclick="del(\''+s.id+'\')">Delete</button></div></div>';}).join('');
+}
+async function add(){
+  var n=document.getElementById('an').value.trim(),desc=document.getElementById('ad').value.trim(),dur=document.getElementById('adur').value,pr=document.getElementById('apr').value;
+  if(!n||!dur||!pr){m('am','Fill in name, duration and price','err');return;}
+  try{
+    var r=await fetch('/api/admin/services',{method:'POST',headers:{'Content-Type':'application/json','x-admin-password':pw},body:JSON.stringify({business_id:bid,name:n,description:desc||null,duration_mins:parseInt(dur),price_pence:Math.round(parseFloat(pr)*100)})});
+    var d=await r.json();
+    if(!r.ok){m('am',d.error,'err');return;}
+    m('am','Service added!','ok');
+    document.getElementById('an').value='';document.getElementById('ad').value='';document.getElementById('adur').value='';document.getElementById('apr').value='';
+    load();
+  }catch(e){m('am','Failed','err');}
+}
+async function del(id){
+  if(!confirm('Delete this service?'))return;
+  await fetch('/api/admin/services?id='+id,{method:'DELETE',headers:{'x-admin-password':pw}});
+  load();
+}
+</script>
+</body>
+</html>
