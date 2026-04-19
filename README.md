@@ -1,4 +1,4 @@
-# Bookr — Booking Platform
+# Bookr — Booking Platform.
 
 Commission-based booking platform. Businesses get free websites, you earn 8% on every booking via Stripe Connect.
 
