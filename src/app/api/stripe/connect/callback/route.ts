@@ -1,54 +1,54 @@
 // src/app/api/stripe/connect/callback/route.ts
-// Called after business completes Stripe Express onboarding
+// Called when business returns from Stripe Express onboarding.
+// Stripe redirects here with ?account=acct_xxx&businessId=xxx
+// We store the account ID + check onboarding status.
 
 import { NextRequest, NextResponse } from 'next/server'
-import { exchangeConnectCode } from '@/lib/stripe'
+import { getAccountStatus } from '@/lib/stripe'
 import { createAdminClient } from '@/lib/supabase'
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url)
-  const code = searchParams.get('code')
-  const state = searchParams.get('state')
-  const error = searchParams.get('error')
+  const stripeAccountId = searchParams.get('account')
+  const businessId = searchParams.get('businessId')
 
-  if (error) {
-    return NextResponse.redirect(
-      new URL(`/platform/connect-stripe?error=${error}`, req.url)
-    )
-  }
-
-  if (!code || !state) {
+  if (!stripeAccountId || !businessId) {
     return NextResponse.redirect(
       new URL('/platform/connect-stripe?error=missing_params', req.url)
     )
   }
 
-  let businessId: string
   try {
-    const decoded = JSON.parse(Buffer.from(state, 'base64').toString())
-    businessId = decoded.businessId
-  } catch {
-    return NextResponse.redirect(
-      new URL('/platform/connect-stripe?error=invalid_state', req.url)
-    )
-  }
-
-  try {
-    const stripeAccountId = await exchangeConnectCode(code)
     const supabase = createAdminClient()
 
+    // Store account ID (may already be stored from createConnectAccountLink)
     await supabase
       .from('businesses')
       .update({ stripe_account_id: stripeAccountId })
       .eq('id', businessId)
 
-    return NextResponse.redirect(
-      new URL('/platform/dashboard?connected=true', req.url)
-    )
+    // Check if onboarding complete
+    const status = await getAccountStatus(stripeAccountId)
+
+    if (status.detailsSubmitted && status.payoutsEnabled) {
+      await supabase
+        .from('businesses')
+        .update({ stripe_onboarded: true })
+        .eq('id', businessId)
+
+      return NextResponse.redirect(
+        new URL('/platform/dashboard?connected=true', req.url)
+      )
+    } else {
+      // Onboarding started but not complete — send back to finish
+      return NextResponse.redirect(
+        new URL('/platform/connect-stripe?incomplete=true', req.url)
+      )
+    }
   } catch (err) {
-    console.error('Stripe Connect exchange failed:', err)
+    console.error('Connect callback error:', err)
     return NextResponse.redirect(
-      new URL('/platform/connect-stripe?error=exchange_failed', req.url)
+      new URL('/platform/connect-stripe?error=verification_failed', req.url)
     )
   }
 }

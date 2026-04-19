@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — FastWellBook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fraunces:ital,opsz,wght@1,9..144,200;1,9..144,300;1,9..144,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --teal:#0D9488;--teal-dark:#0F766E;--teal-deep:#134E4A;--teal-mid:#14B8A6;
+  --teal-bright:#2DD4BF;--teal-100:#CCFBF1;--teal-50:#F0FDFA;--teal-glow:rgba(13,148,136,0.18);
+  --green:#16A34A;--green-100:#DCFCE7;--green-dim:rgba(22,163,74,0.1);
+  --white:#FFFFFF;--cream:#F5FAF8;--warm:#F7F9F8;
+  --gray-100:#F3F4F6;--gray-200:#E5E7EB;--gray-400:#9CA3AF;
+  --gray-500:#6B7280;--gray-600:#4B5563;--gray-800:#1F2937;
+  --ink:#0D1F1A;--border:#E5E7EB;--gold:#F59E0B;
+  --red:#DC2626;--red-dim:rgba(220,38,38,0.1);--amber-dim:rgba(245,158,11,0.1);
+  --font:'Plus Jakarta Sans',system-ui,sans-serif;--serif:'Fraunces',Georgia,serif;
+  --r:12px;--r-lg:18px;--shadow:0 2px 12px rgba(0,0,0,0.06);--shadow-md:0 6px 24px rgba(0,0,0,0.08);
+}
+html,body{background:var(--warm);color:var(--ink);font-family:var(--font);height:100%;-webkit-font-smoothing:antialiased}
+
+/* APP LAYOUT */
+.app{display:grid;grid-template-columns:220px 1fr;min-height:100vh}
+
+/* SIDEBAR */
+.sidebar{background:var(--white);border-right:1px solid var(--border);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto}
+.sb-top{padding:20px 16px 16px;border-bottom:1px solid var(--border)}
+.sb-logo{display:flex;align-items:center;gap:9px;text-decoration:none;margin-bottom:4px}
+.sb-mark{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,var(--teal-dark),var(--teal-mid));display:flex;align-items:center;justify-content:center;font-size:15px}
+.sb-name{font-size:16px;font-weight:800;color:var(--ink);letter-spacing:-0.3px}
+.sb-name span{color:var(--teal)}
+.sb-biz{font-size:12px;color:var(--gray-400);font-weight:500;padding-left:41px}
+.sb-nav{padding:12px 8px;flex:1}
+.sb-section{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--gray-400);padding:0 10px 8px;margin-top:14px}
+.nb{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:10px;font-size:13px;color:var(--gray-500);cursor:pointer;transition:all 0.15s;border:none;background:none;width:100%;font-family:var(--font);text-align:left;margin-bottom:2px;font-weight:500}
+.nb:hover{background:var(--warm);color:var(--ink)}
+.nb.act{background:var(--teal-50);color:var(--teal-dark);font-weight:700}
+.nb-icon{font-size:15px;width:20px;text-align:center;flex-shrink:0}
+.sb-foot{padding:12px 8px;border-top:1px solid var(--border)}
+.sb-profile{display:flex;align-items:center;gap:10px;padding:10px}
+.sb-av{width:32px;height:32px;border-radius:50%;background:var(--teal-50);border:2px solid var(--teal-100);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-style:italic;font-size:13px;color:var(--teal);flex-shrink:0;font-weight:700}
+.sb-pname{font-size:13px;font-weight:700;color:var(--ink)}
+.sb-pemail{font-size:11px;color:var(--gray-400)}
+
+/* MAIN */
+.main-area{overflow-y:auto;background:var(--warm)}
+.mhead{padding:28px 32px 0;display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:24px}
+.mhead-left{}
+.mhead-title{font-family:var(--serif);font-size:28px;font-style:italic;font-weight:200;color:var(--ink);letter-spacing:-0.5px}
+.mhead-sub{font-size:13px;color:var(--gray-400);margin-top:3px;font-weight:500}
+.mhead-actions{display:flex;gap:10px}
+.btn-sm{padding:9px 18px;border:1.5px solid var(--border);border-radius:30px;background:var(--white);color:var(--gray-600);font-size:13px;cursor:pointer;font-family:var(--font);transition:all 0.15s;font-weight:600}
+.btn-sm:hover{border-color:var(--teal);color:var(--teal)}
+.btn-primary-sm{padding:9px 18px;border-radius:30px;border:none;background:var(--teal);color:white;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font);transition:all 0.15s;box-shadow:0 4px 12px var(--teal-glow)}
+.btn-primary-sm:hover{background:var(--teal-dark)}
+.content{padding:0 32px 40px}
+
+/* STRIPE BANNER */
+.stripe-banner{background:linear-gradient(135deg,var(--teal-50),var(--white));border:1.5px solid var(--teal-100);border-radius:var(--r-lg);padding:18px 22px;display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;gap:16px}
+.sb-text{font-size:14px;font-weight:700;color:var(--teal-deep)}
+.sb-sub{font-size:13px;color:var(--teal);margin-top:2px;font-weight:400}
+
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+.stat{background:var(--white);border:1.5px solid var(--border);border-radius:var(--r-lg);padding:20px 18px;transition:all 0.2s}
+.stat:hover{border-color:var(--teal-100);box-shadow:var(--shadow)}
+.stat-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--gray-400);margin-bottom:10px}
+.stat-val{font-family:var(--serif);font-size:32px;font-style:italic;font-weight:200;color:var(--ink);line-height:1;margin-bottom:7px;letter-spacing:-1px}
+.stat-val.teal{color:var(--teal)}
+.stat-change{font-size:12px;font-weight:600;display:flex;align-items:center;gap:4px}
+.up{color:var(--green)}.dn{color:var(--red)}.neu{color:var(--gray-400)}
+
+/* GRID */
+.dash-grid{display:grid;grid-template-columns:1fr 280px;gap:16px;margin-bottom:16px}
+
+/* CARD */
+.card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--r-lg);overflow:hidden}
+.card-head{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.card-title{font-size:13px;font-weight:700;color:var(--ink)}
+.card-action{font-size:12px;color:var(--teal);cursor:pointer;background:none;border:none;font-family:var(--font);font-weight:700;transition:color 0.15s}
+.card-action:hover{color:var(--teal-dark)}
+
+/* TABLE */
+table{width:100%;border-collapse:collapse}
+th{text-align:left;padding:12px 20px;font-size:11px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:0.07em;border-bottom:1px solid var(--border)}
+td{padding:13px 20px;font-size:13px;border-bottom:1px solid var(--border);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tbody tr{cursor:pointer;transition:background 0.1s}
+tbody tr:hover{background:var(--teal-50)}
+.cust{display:flex;align-items:center;gap:10px}
+.cav{width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0}
+.cn{font-size:13px;font-weight:700;color:var(--ink)}
+.ce{font-size:11px;color:var(--gray-400);margin-top:1px}
+.badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700}
+.badge.confirmed{background:var(--green-100);color:var(--green)}
+.badge.pending{background:var(--amber-dim);color:#92400E}
+.badge.cancelled{background:var(--red-dim);color:var(--red)}
+.badge.completed{background:var(--teal-50);color:var(--teal)}
+.amt{font-weight:700;color:var(--ink)}
+.fee{font-size:11px;color:var(--teal);margin-top:1px}
+
+/* CHART */
+.chart-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--r-lg);overflow:hidden}
+.chart-body{padding:20px}
+.chart-period{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--gray-400)}
+.chart-total{font-family:var(--serif);font-size:28px;font-style:italic;font-weight:200;color:var(--teal);margin:4px 0;letter-spacing:-0.5px}
+.bars{display:flex;align-items:flex-end;gap:5px;height:88px;margin:16px 0 6px}
+.bwrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px}
+.bar{width:100%;border-radius:4px 4px 0 0;background:var(--teal-100);border:1.5px solid rgba(13,148,136,0.2);cursor:pointer;transition:all 0.2s}
+.bar:hover,.bar.cur{background:var(--teal);border-color:var(--teal)}
+.blabel{font-size:9px;color:var(--gray-400);text-transform:uppercase;letter-spacing:0.04em}
+.split-row{display:flex;justify-content:space-between;padding-top:14px;border-top:1px solid var(--border);margin-top:2px}
+.split-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--gray-400);margin-bottom:4px}
+.split-earn{font-size:17px;font-weight:800;color:var(--teal);letter-spacing:-0.3px}
+.split-fee{font-size:17px;font-weight:800;color:var(--gray-400);letter-spacing:-0.3px}
+.split-note{text-align:center;font-size:10px;color:var(--gray-400);margin-top:8px;font-weight:500}
+
+/* SERVICES */
+.svc-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.svc-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--r-lg);padding:18px;transition:all 0.15s}
+.svc-card:hover{border-color:var(--teal-100);box-shadow:var(--shadow)}
+.svc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
+.svc-name{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:3px}
+.svc-meta{font-size:12px;color:var(--gray-400)}
+.svc-price{font-family:var(--serif);font-size:22px;font-style:italic;font-weight:200;color:var(--teal);letter-spacing:-0.5px}
+.svc-actions{display:flex;gap:8px}
+.svc-btn{padding:5px 12px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font);border:1.5px solid var(--border);background:none;color:var(--gray-500);transition:all 0.15s}
+.svc-btn:hover{color:var(--ink);border-color:var(--gray-400)}
+.svc-btn.del:hover{color:var(--red);border-color:var(--red)}
+.tog{width:38px;height:22px;border-radius:11px;border:none;cursor:pointer;position:relative;transition:background 0.2s;flex-shrink:0}
+.tog.on{background:var(--teal)}.tog.off{background:var(--gray-200)}
+.tog::after{content:'';position:absolute;top:3px;width:16px;height:16px;border-radius:50%;background:white;transition:left 0.2s;box-shadow:0 1px 4px rgba(0,0,0,0.15)}
+.tog.on::after{left:19px}.tog.off::after{left:3px}
+
+/* AVAILABILITY */
+.avail-row{display:flex;align-items:center;gap:14px;padding:14px 20px;border-bottom:1px solid var(--border)}
+.avail-row:last-child{border-bottom:none}
+.avail-day{width:90px;font-size:13px;font-weight:600}
+.avtimes{display:flex;align-items:center;gap:8px;flex:1;transition:opacity 0.2s}
+.avtimes.off{opacity:0.3;pointer-events:none}
+input[type=time]{padding:7px 10px;background:var(--warm);border:1.5px solid var(--border);border-radius:8px;color:var(--ink);font-size:12px;font-family:var(--font);outline:none}
+input[type=time]:focus{border-color:var(--teal)}
+.tsep{font-size:12px;color:var(--gray-400)}
+.closed-tag{font-size:12px;color:var(--gray-400);font-style:italic}
+
+/* SETTINGS */
+.settings-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--r-lg);padding:28px;margin-bottom:16px}
+.settings-title{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:20px}
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.sf{display:flex;flex-direction:column;gap:6px}
+.sf.full{grid-column:1/-1}
+.sf label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--gray-600)}
+.sf input{padding:11px 13px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:var(--font);color:var(--ink);background:var(--white);outline:none;transition:border-color 0.15s}
+.sf input:focus{border-color:var(--teal)}
+.link-row{display:flex;gap:10px;align-items:center;background:var(--teal-50);border:1.5px solid var(--teal-100);border-radius:10px;padding:12px 16px}
+.link-url{font-size:13px;color:var(--gray-500);flex:1}
+.link-url strong{color:var(--teal-dark)}
+
+/* PAYOUTS */
+.payout-hero{text-align:center;padding:52px 28px}
+.payout-icon{font-size:52px;margin-bottom:20px}
+.payout-title{font-family:var(--serif);font-size:28px;font-style:italic;font-weight:200;color:var(--ink);margin-bottom:10px;letter-spacing:-0.5px}
+.payout-sub{font-size:14px;color:var(--gray-400);line-height:1.7;max-width:380px;margin:0 auto 28px}
+.payout-note{font-size:12px;color:var(--gray-400);margin-top:14px}
+
+/* TAB VIEWS */
+.tview{display:none}.tview.act{display:block}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--gray-200);border-radius:2px}
+
+@media(max-width:1100px){.stats-grid{grid-template-columns:repeat(2,1fr)}.dash-grid{grid-template-columns:1fr}.svc-grid{grid-template-columns:1fr}}
+@media(max-width:768px){.app{grid-template-columns:1fr}.sidebar{display:none}.content,.mhead{padding-left:20px;padding-right:20px}}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sb-top">
+    <a class="sb-logo" href="index.html">
+      <div class="sb-mark">🌿</div>
+      <div class="sb-name">Fast<span>Well</span>Book</div>
+    </a>
+    <div class="sb-biz">Serene Studio</div>
+  </div>
+  <div class="sb-nav">
+    <div class="sb-section">Menu</div>
+    <button class="nb act" onclick="sw('overview',this)"><span class="nb-icon">◈</span>Overview</button>
+    <button class="nb" onclick="sw('bookings',this)"><span class="nb-icon">📅</span>Bookings</button>
+    <button class="nb" onclick="sw('services',this)"><span class="nb-icon">✦</span>Services</button>
+    <button class="nb" onclick="sw('availability',this)"><span class="nb-icon">🕐</span>Availability</button>
+    <div class="sb-section">Account</div>
+    <button class="nb" onclick="sw('settings',this)"><span class="nb-icon">⚙</span>Settings</button>
+    <button class="nb" onclick="sw('payouts',this)"><span class="nb-icon">💳</span>Payouts</button>
+    <button class="nb" onclick="window.open('../b/booking.html')"><span class="nb-icon">🔗</span>View booking page</button>
+  </div>
+  <div class="sb-foot">
+    <div class="sb-profile">
+      <div class="sb-av">SS</div>
+      <div><div class="sb-pname">Serene Studio</div><div class="sb-pemail">hello@serenestudio.co.uk</div></div>
+    </div>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<div class="main-area">
+
+  <!-- OVERVIEW -->
+  <div id="tab-overview" class="tview act">
+    <div class="mhead">
+      <div><div class="mhead-title">Good morning, Serene</div><div class="mhead-sub">Thursday 17 April 2025 · 3 bookings today</div></div>
+      <div class="mhead-actions">
+        <button class="btn-sm">Export CSV</button>
+        <button class="btn-primary-sm" onclick="copyLink()">📋 Copy booking link</button>
+      </div>
+    </div>
+    <div class="content">
+      <div class="stripe-banner">
+        <div><div class="sb-text">⚡ Connect Stripe to receive payouts</div><div class="sb-sub">Bookings are being taken — connect your bank to start receiving earnings</div></div>
+        <button class="btn-primary-sm" onclick="sw('payouts',null)">Connect now →</button>
+      </div>
+      <div class="stats-grid" id="stats-grid"></div>
+      <div class="dash-grid">
+        <div class="card">
+          <div class="card-head"><span class="card-title">Recent bookings</span><button class="card-action" onclick="sw('bookings',null)">View all →</button></div>
+          <table><thead><tr><th>Customer</th><th>Service</th><th>Date</th><th>Amount</th><th>Status</th></tr></thead><tbody id="recent-tbody"></tbody></table>
+        </div>
+        <div class="chart-card">
+          <div class="card-head"><span class="card-title">Revenue</span><button class="card-action">Apr 2025</button></div>
+          <div class="chart-body">
+            <div class="chart-period">Month to date</div>
+            <div class="chart-total">£3,240</div>
+            <div class="bars" id="bars"></div>
+            <div class="split-row">
+              <div><div class="split-lbl">Your earnings</div><div class="split-earn">£2,959</div></div>
+              <div style="text-align:right"><div class="split-lbl">Platform fee</div><div class="split-fee">£281</div></div>
+            </div>
+            <div class="split-note">8.69% commission · fastwellbook.com</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOOKINGS -->
+  <div id="tab-bookings" class="tview">
+    <div class="mhead">
+      <div><div class="mhead-title">Bookings</div><div class="mhead-sub">All upcoming and past appointments</div></div>
+      <div class="mhead-actions">
+        <select style="padding:9px 14px;border:1.5px solid var(--border);border-radius:30px;background:var(--white);color:var(--ink);font-size:13px;font-family:var(--font);outline:none">
+          <option>All statuses</option><option>Confirmed</option><option>Pending</option><option>Cancelled</option>
+        </select>
+      </div>
+    </div>
+    <div class="content">
+      <div class="card">
+        <table><thead><tr><th>Customer</th><th>Service</th><th>Date &amp; time</th><th>Amount</th><th>Status</th><th></th></tr></thead><tbody id="all-tbody"></tbody></table>
+      </div>
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <div id="tab-services" class="tview">
+    <div class="mhead">
+      <div><div class="mhead-title">Services</div><div class="mhead-sub">Manage what clients can book</div></div>
+      <div class="mhead-actions"><button class="btn-primary-sm">+ Add service</button></div>
+    </div>
+    <div class="content"><div class="svc-grid" id="svc-grid"></div></div>
+  </div>
+
+  <!-- AVAILABILITY -->
+  <div id="tab-availability" class="tview">
+    <div class="mhead">
+      <div><div class="mhead-title">Availability</div><div class="mhead-sub">Your weekly working hours</div></div>
+      <div class="mhead-actions"><button class="btn-primary-sm" onclick="savedAvail()">Save changes</button></div>
+    </div>
+    <div class="content"><div class="card"><div id="avail-table"></div></div></div>
+  </div>
+
+  <!-- SETTINGS -->
+  <div id="tab-settings" class="tview">
+    <div class="mhead"><div><div class="mhead-title">Settings</div></div></div>
+    <div class="content">
+      <div class="settings-card">
+        <div class="settings-title">Business profile</div>
+        <div class="sg">
+          <div class="sf"><label>Business name</label><input type="text" value="Serene Studio"></div>
+          <div class="sf"><label>Email</label><input type="email" value="hello@serenestudio.co.uk"></div>
+          <div class="sf"><label>Phone</label><input type="tel" value="020 7123 4567"></div>
+          <div class="sf"><label>Category</label><input type="text" value="Massage & Holistic Therapy"></div>
+          <div class="sf full"><label>Address</label><input type="text" value="14 Garden Lane, London E2 8DQ"></div>
+        </div>
+        <button class="btn-primary-sm" style="margin-top:20px">Save changes</button>
+      </div>
+      <div class="settings-card">
+        <div class="settings-title">Your booking link</div>
+        <p style="font-size:13px;color:var(--gray-400);margin-bottom:16px">Share this with clients to let them book online</p>
+        <div class="link-row">
+          <span class="link-url">fastwellbook.com/b/<strong>serene-studio</strong></span>
+          <button class="btn-primary-sm" onclick="copyLink()">Copy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAYOUTS -->
+  <div id="tab-payouts" class="tview">
+    <div class="mhead"><div><div class="mhead-title">Payouts</div></div></div>
+    <div class="content">
+      <div class="card">
+        <div class="payout-hero">
+          <div class="payout-icon">💳</div>
+          <div class="payout-title">Connect your Stripe account</div>
+          <div class="payout-sub">Earnings are automatically transferred to your bank after each booking. Setup takes 5 minutes.</div>
+          <button class="btn-primary-sm" style="padding:14px 32px;font-size:14px">Connect with Stripe →</button>
+          <div class="payout-note">You receive 91.31% of every booking · 8.69% platform commission · Powered by Stripe</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<script>
+const BOOKINGS=[
+  {n:'Sarah Mitchell',e:'sarah@example.com',i:'SM',c:'#CCFBF1',ct:'#0F766E',svc:'Hot Stone Therapy',date:'Today, 10:00 am',amt:9500,status:'confirmed'},
+  {n:'James Okafor',e:'james@example.com',i:'JO',c:'#DCFCE7',ct:'#15803D',svc:'Swedish Massage',date:'Today, 2:00 pm',amt:6500,status:'confirmed'},
+  {n:'Priya Sharma',e:'priya@example.com',i:'PS',c:'#FEF3C7',ct:'#92400E',svc:'Deep Tissue',date:'Today, 4:30 pm',amt:7500,status:'pending'},
+  {n:'Tom Williams',e:'tom@example.com',i:'TW',c:'#F0FDFA',ct:'#0D9488',svc:'Sports Massage',date:'Tomorrow, 9:00 am',amt:5500,status:'confirmed'},
+  {n:'Emma Clarke',e:'emma@example.com',i:'EC',c:'#FEF2F2',ct:'#DC2626',svc:'Swedish Massage',date:'18 Apr, 11:30 am',amt:6500,status:'cancelled'},
+  {n:'Alex Thompson',e:'alex@example.com',i:'AT',c:'#F0FDFA',ct:'#0D9488',svc:'Hot Stone Therapy',date:'19 Apr, 3:00 pm',amt:9500,status:'completed'},
+]
+const SVCS=[
+  {n:'Swedish Massage',dur:60,price:6500,on:true},
+  {n:'Deep Tissue Massage',dur:60,price:7500,on:true},
+  {n:'Hot Stone Therapy',dur:90,price:9500,on:true},
+  {n:'Sports Massage',dur:45,price:5500,on:false},
+]
+const DAYS=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday']
+const AVAIL=[{o:true,s:'09:00',e:'18:00'},{o:true,s:'09:00',e:'18:00'},{o:true,s:'09:00',e:'18:00'},{o:true,s:'09:00',e:'18:00'},{o:true,s:'09:00',e:'20:00'},{o:true,s:'10:00',e:'17:00'},{o:false,s:'10:00',e:'16:00'}]
+
+const fmt=p=>`£${(p/100).toFixed(2)}`
+const comm=p=>Math.round(p*.0869)
+
+function rowHtml(b,extra=''){
+  return`<tr>
+    <td><div class="cust"><div class="cav" style="background:${b.c};color:${b.ct}">${b.i}</div><div><div class="cn">${b.n}</div><div class="ce">${b.e}</div></div></div></td>
+    <td style="color:var(--gray-400);font-size:12px">${b.svc}</td>
+    <td style="font-size:12px;color:var(--gray-400)">${b.date}</td>
+    <td><div class="amt">${fmt(b.amt)}</div><div class="fee">+${fmt(comm(b.amt))} fee</div></td>
+    <td><span class="badge ${b.status}">${b.status.charAt(0).toUpperCase()+b.status.slice(1)}</span></td>
+    ${extra}
+  </tr>`
+}
+
+function renderStats(){
+  const data=[
+    {l:'Revenue this month',v:'£3,240',cls:'teal',ch:'↑ 18% vs last month',dir:'up'},
+    {l:'Bookings this month',v:'42',ch:'↑ 7 vs last month',dir:'up'},
+    {l:'Avg booking value',v:'£77',ch:'Same as last month',dir:'neu'},
+    {l:'Cancellation rate',v:'4.8%',ch:'↑ 1.2%',dir:'dn'},
+  ]
+  document.getElementById('stats-grid').innerHTML=data.map(d=>`
+    <div class="stat">
+      <div class="stat-label">${d.l}</div>
+      <div class="stat-val ${d.cls||''}">${d.v}</div>
+      <div class="stat-change ${d.dir}">${d.ch}</div>
+    </div>`).join('')
+}
+
+function renderChart(){
+  const vals=[1800,2100,1600,2800,3100,2400,2700,3000,2200,3240,0,0]
+  const labels=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+  const max=Math.max(...vals.filter(v=>v>0))
+  const now=new Date().getMonth()
+  document.getElementById('bars').innerHTML=vals.slice(0,now+1).map((v,i)=>`
+    <div class="bwrap">
+      <div class="bar${i===now?' cur':''}" style="height:${v?Math.max(6,(v/max)*88):0}px"></div>
+      <div class="blabel">${labels[i]}</div>
+    </div>`).join('')
+}
+
+function renderBookings(){
+  document.getElementById('recent-tbody').innerHTML=BOOKINGS.slice(0,5).map(b=>rowHtml(b)).join('')
+  document.getElementById('all-tbody').innerHTML=BOOKINGS.map(b=>rowHtml(b,`<td><button class="svc-btn">View</button></td>`)).join('')
+}
+
+function renderServices(){
+  document.getElementById('svc-grid').innerHTML=SVCS.map((s,i)=>`
+    <div class="svc-card">
+      <div class="svc-top">
+        <div><div class="svc-name">${s.n}</div><div class="svc-meta">${s.dur} min</div></div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="svc-price">${fmt(s.price)}</div>
+          <button class="tog ${s.on?'on':'off'}" onclick="togSvc(${i})"></button>
+        </div>
+      </div>
+      <div class="svc-actions">
+        <button class="svc-btn">Edit</button>
+        <button class="svc-btn del">Delete</button>
+      </div>
+    </div>`).join('')
+}
+function togSvc(i){SVCS[i].on=!SVCS[i].on;renderServices()}
+
+function renderAvail(){
+  document.getElementById('avail-table').innerHTML=DAYS.map((d,i)=>`
+    <div class="avail-row">
+      <span class="avail-day">${d}</span>
+      <button class="tog ${AVAIL[i].o?'on':'off'}" onclick="togDay(${i})"></button>
+      <div class="avtimes ${AVAIL[i].o?'':'off'}">
+        <input type="time" value="${AVAIL[i].s}" onchange="AVAIL[${i}].s=this.value">
+        <span class="tsep">to</span>
+        <input type="time" value="${AVAIL[i].e}" onchange="AVAIL[${i}].e=this.value">
+      </div>
+      ${!AVAIL[i].o?'<span class="closed-tag">Closed</span>':''}
+    </div>`).join('')
+}
+function togDay(i){AVAIL[i].o=!AVAIL[i].o;renderAvail()}
+
+function sw(name,btn){
+  document.querySelectorAll('.tview').forEach(t=>t.classList.remove('act'))
+  document.getElementById(`tab-${name}`).classList.add('act')
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('act'))
+  if(btn)btn.classList.add('act')
+  if(name==='services')renderServices()
+  if(name==='availability')renderAvail()
+}
+function copyLink(){
+  navigator.clipboard?.writeText('https://fastwellbook.com/b/serene-studio').catch(()=>{})
+  event.target.textContent='✓ Copied!'
+  setTimeout(()=>event.target.textContent=event.target.textContent.includes('Copy')?event.target.textContent:'📋 Copy booking link',2000)
+}
+function savedAvail(){const b=event.target;b.textContent='✓ Saved';setTimeout(()=>b.textContent='Save changes',2000)}
+
+renderStats();renderChart();renderBookings()
+</script>
+</body>
+</html>

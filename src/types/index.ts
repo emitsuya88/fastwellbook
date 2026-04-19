@@ -15,7 +15,7 @@ export interface Business {
   email: string
   phone: string | null
   address: string | null
-  stripe_account_id: string | null
+  stripe_account_id: string | null  // Business's Stripe Express account (receives transfers)
   stripe_onboarded: boolean
   active: boolean
   created_at: string
@@ -27,7 +27,7 @@ export interface Service {
   name: string
   description: string | null
   duration_mins: number
-  price_pence: number  // always in pence (GBP)
+  price_pence: number  // always in pence (GBP) — this is what customer pays
   active: boolean
   created_at: string
 }
@@ -55,15 +55,33 @@ export interface Booking {
   service_id: string
   starts_at: string
   ends_at: string
-  total_pence: number
-  commission_pence: number
+  // Pricing — all snapshotted at booking creation time
+  total_pence: number           // what customer paid
+  commission_bps: number        // basis points at time of booking (869 = 8.69%)
+  commission_pence: number      // total_pence * commission_bps / 10000
+  stripe_fee_pence: number      // estimated Stripe fee (1.5% + 20p)
+  payout_pence: number          // total_pence - commission_pence - stripe_fee_pence
+  // Stripe
   stripe_payment_intent_id: string | null
   stripe_checkout_session_id: string | null
+  // Transfer to business
+  payout_transferred: boolean
+  transferred_at: string | null
+  // Guest fields (when customer_id is null)
   guest_email: string | null
   guest_name: string | null
   guest_phone: string | null
   status: BookingStatus
   notes: string | null
+  created_at: string
+}
+
+export interface Payout {
+  id: string
+  business_id: string
+  booking_id: string
+  stripe_transfer_id: string
+  amount_pence: number
   created_at: string
 }
 
@@ -73,11 +91,40 @@ export interface BookingWithDetails extends Booking {
   business: Business
 }
 
-// Commission helpers
-export const COMMISSION_RATE = 0.08  // 8%
+// ─── Commission helpers ───
+// You are merchant of record. You charge customer full price on YOUR Stripe account.
+// After charge succeeds, you transfer payout_pence to business's Stripe Express account.
 
+export const COMMISSION_BPS = 869  // 8.69% expressed in basis points
+
+/**
+ * Calculate commission in pence.
+ * commission = total * 869 / 10000
+ */
 export function calculateCommission(totalPence: number): number {
-  return Math.round(totalPence * COMMISSION_RATE)
+  return Math.round((totalPence * COMMISSION_BPS) / 10000)
+}
+
+/**
+ * Estimate Stripe processing fee for a UK card charge.
+ * Rate: 1.5% + 20p (Stripe UK standard)
+ */
+export function estimateStripeFee(totalPence: number): number {
+  return Math.round(totalPence * 0.015) + 20
+}
+
+/**
+ * Calculate net payout to business after commission and Stripe fee.
+ */
+export function calculatePayout(totalPence: number): {
+  commission: number
+  stripeFee: number
+  payout: number
+} {
+  const commission = calculateCommission(totalPence)
+  const stripeFee = estimateStripeFee(totalPence)
+  const payout = totalPence - commission - stripeFee
+  return { commission, stripeFee, payout }
 }
 
 export function formatPence(pence: number): string {
