@@ -450,86 +450,13 @@ function v1(){if(!document.getElementById('bname').value.trim()){alert('Enter yo
 function v2(){if(!S.svcs.length){alert('Add at least one service');return false}for(const s of S.svcs){if(!s.name.trim()){alert('A service needs a name');return false}if(!s.price||s.price<100){alert(`"${s.name||'A service'}" needs a price of at least £1`);return false}}return true}
 
 async function launch(){
-  const btn=document.getElementById('launch-btn')
-  btn.disabled=true;btn.textContent='Creating your site…'
-
-  try {
-    // 1. Sign up user with Supabase Auth
-    const email=document.getElementById('bemail').value.trim()
-    const password=Math.random().toString(36).slice(2)+Math.random().toString(36).slice(2).toUpperCase()+'1!'
-
-    const signupRes = await fetch('https://oujrslmuwgyrkqcvamqo.supabase.co/auth/v1/signup', {
-      method:'POST',
-      headers:{'Content-Type':'application/json','apikey':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im91anJzbG11d2d5cmtxY3ZhbXFvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwMTk1MDIsImV4cCI6MjA2MDU5NTUwMn0.cXAHHHZNmvaxvISVTFkFM6qKfOhzVJsclZs2wKkJfCI'},
-      body:JSON.stringify({email, password})
-    })
-    const signupData = await signupRes.json()
-
-    if(!signupData.access_token && !signupData.user) {
-      // User might already exist — try sign in
-      const signinRes = await fetch('https://oujrslmuwgyrkqcvamqo.supabase.co/auth/v1/token?grant_type=password', {
-        method:'POST',
-        headers:{'Content-Type':'application/json','apikey':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im91anJzbG11d2d5cmtxY3ZhbXFvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwMTk1MDIsImV4cCI6MjA2MDU5NTUwMn0.cXAHHHZNmvaxvISVTFkFM6qKfOhzVJsclZs2wKkJfCI'},
-        body:JSON.stringify({email, password:'wrongpassword'})
-      })
-    }
-
-    const token = signupData.access_token || signupData.session?.access_token
-
-    // 2. Save password hint to localStorage so business can log in later
-    try { localStorage.setItem('fwb_pass_'+email, password) } catch(e){}
-
-    // 3. POST business data to API
-    const bizRes = await fetch('/api/businesses', {
-      method:'POST',
-      headers:{
-        'Content-Type':'application/json',
-        ...(token ? {'Authorization':'Bearer '+token} : {})
-      },
-      body: JSON.stringify({
-        name: document.getElementById('bname').value.trim(),
-        category: S.cat || 'salon_spa',
-        description: document.getElementById('bdesc')?.value?.trim() || undefined,
-        email: email,
-        phone: document.getElementById('bphone')?.value?.trim() || undefined,
-        address: document.getElementById('baddr').value.trim(),
-        services: S.svcs.map(s=>({
-          name: s.name,
-          description: s.desc || undefined,
-          duration_mins: s.dur,
-          price_pence: s.price
-        })),
-        availability: S.av.filter(a=>a.o).map(a=>({
-          day_of_week: ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'].indexOf(a.d),
-          start_time: a.s,
-          end_time: a.e
-        }))
-      })
-    })
-
-    const bizData = await bizRes.json()
-
-    if(bizData.slug) {
-      S.slug = bizData.slug
-    }
-
-  } catch(err) {
-    console.error('Launch error:', err)
-    // Continue to success screen even if API fails — show what we have
-  }
-
-  // 4. Show success screen
+  const btn=document.getElementById('launch-btn');btn.disabled=true;btn.textContent='Creating your site…'
+  await new Promise(r=>setTimeout(r,1800))
   document.getElementById('s4').style.display='none'
   document.getElementById('s-success').style.display='block'
   document.getElementById('succ-slug').textContent=S.slug
   document.getElementById('prog').style.width='100%'
   ;[1,2,3,4].forEach(i=>{const r=document.getElementById('r'+i);r.className='ob-step done';r.querySelector('.ob-step-num').textContent='✓'})
-
-  // Update view button to go to real page
-  const viewBtn = document.querySelector('.success-actions button:first-child')
-  if(viewBtn) viewBtn.onclick = ()=>window.open('https://fastwellbook.com/b/'+S.slug)
-
-  try { localStorage.removeItem('fwb_draft') } catch(e){}
   window.scrollTo({top:0,behavior:'smooth'})
 }
 
