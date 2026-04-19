@@ -1,8 +1,3 @@
-// src/app/api/businesses/route.ts
-// POST — called at end of onboarding wizard.
-// Creates business + services + availability atomically.
-// Returns { businessId, slug } — frontend redirects to dashboard.
-
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { createServerSupabaseClient, createAdminClient } from '@/lib/supabase'
@@ -11,7 +6,7 @@ const ServiceSchema = z.object({
   name: z.string().min(1),
   description: z.string().optional(),
   duration_mins: z.number().int().min(15).max(480),
-  price_pence: z.number().int().min(100), // min £1
+  price_pence: z.number().int().min(100),
 })
 
 const AvailabilitySchema = z.object({
@@ -31,7 +26,6 @@ const CreateBusinessSchema = z.object({
   availability: z.array(AvailabilitySchema).min(1),
 })
 
-// Generate URL-safe slug from business name
 function generateSlug(name: string): string {
   return name
     .toLowerCase()
@@ -43,32 +37,59 @@ function generateSlug(name: string): string {
 }
 
 export async function POST(req: NextRequest) {
-  // 1. Auth
-  const supabase = await createServerSupabaseClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
-
-  // 2. Validate
+  const admin = createAdminClient()
   const body = await req.json()
+
+  // Auth — try session first, fall back to creating user from email
+  const supabase = await createServerSupabaseClient()
+  let { data: { user } } = await supabase.auth.getUser()
+
+  if (!user) {
+    const email = body.email
+    if (!email) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
+
+    // Try to create the user via admin
+    const { data: newUser } = await admin.auth.admin.createUser({
+      email,
+      email_confirm: true,
+      password: Math.random().toString(36).slice(2) + 'Aa1!',
+    })
+
+    if (newUser?.user) {
+      user = newUser.user
+    } else {
+      // User already exists — find them
+      const { data: list } = await admin.auth.admin.listUsers()
+      const found = list?.users?.find((u: any) => u.email === email)
+      if (found) user = found
+    }
+
+    if (!user) return NextResponse.json({ error: 'Could not create account' }, { status: 500 })
+  }
+
+  // Validate
   const parsed = CreateBusinessSchema.safeParse(body)
   if (!parsed.success) {
     return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 })
   }
   const data = parsed.data
-  const admin = createAdminClient()
 
-  // 3. Check user doesn't already have a business
+  // Check user doesn't already have a business
   const { data: existing } = await admin
     .from('businesses')
-    .select('id')
+    .select('id, slug')
     .eq('owner_id', user.id)
     .single()
 
   if (existing) {
-    return NextResponse.json({ error: 'Business already exists for this account' }, { status: 409 })
+    return NextResponse.json({
+      businessId: existing.id,
+      slug: existing.slug,
+      bookingUrl: `${process.env.NEXT_PUBLIC_APP_URL}/b/${existing.slug}`,
+    }, { status: 200 })
   }
 
-  // 4. Generate unique slug
+  // Generate unique slug
   let slug = generateSlug(data.name)
   const { data: slugCheck } = await admin
     .from('businesses')
@@ -77,11 +98,10 @@ export async function POST(req: NextRequest) {
     .single()
 
   if (slugCheck) {
-    // Append random suffix to ensure uniqueness
     slug = `${slug}-${Math.random().toString(36).slice(2, 6)}`
   }
 
-  // 5. Insert business
+  // Insert business
   const { data: business, error: bizErr } = await admin
     .from('businesses')
     .insert({
@@ -102,7 +122,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Failed to create business' }, { status: 500 })
   }
 
-  // 6. Insert services
+  // Insert services
   const { error: svcErr } = await admin
     .from('services')
     .insert(
@@ -121,7 +141,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Failed to create services' }, { status: 500 })
   }
 
-  // 7. Insert availability
+  // Insert availability
   const { error: availErr } = await admin
     .from('availability')
     .insert(
