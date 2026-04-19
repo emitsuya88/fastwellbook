@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- FastWellBook App Icon — 512×512 -->
+  <!-- Background -->
+  <rect width="512" height="512" rx="112" fill="#0F766E"/>
+  <!-- Subtle top shimmer -->
+  <rect width="512" height="256" rx="112" fill="white" opacity="0.05"/>
+  <rect y="200" width="512" height="312" fill="#0F766E"/>
+
+  <!-- Leaf shape -->
+  <path d="M256 420 C132 420 77 320 86 237 C95 154 157 114 256 114 C355 114 417 154 426 237 C435 320 380 420 256 420Z"
+        fill="#2DD4BF"/>
+
+  <!-- Highlight cap on leaf -->
+  <path d="M256 420 C148 420 94 328 105 248 C116 175 170 134 256 134 C318 134 360 162 384 210"
+        fill="#99F6E4" opacity="0.28"/>
+
+  <!-- Bright tip glow -->
+  <circle cx="256" cy="120" r="18" fill="#CCFBF1" opacity="0.4"/>
+
+  <!-- Stem -->
+  <line x1="256" y1="420" x2="256" y2="478" stroke="white" stroke-width="20" stroke-linecap="round"/>
+
+  <!-- Centre vein -->
+  <line x1="256" y1="148" x2="256" y2="412" stroke="#0F766E" stroke-width="10" stroke-linecap="round" opacity="0.4"/>
+
+  <!-- Right veins -->
+  <line x1="256" y1="228" x2="348" y2="174" stroke="#0F766E" stroke-width="7" stroke-linecap="round" opacity="0.35"/>
+  <line x1="256" y1="285" x2="358" y2="250" stroke="#0F766E" stroke-width="7" stroke-linecap="round" opacity="0.30"/>
+  <line x1="256" y1="338" x2="342" y2="314" stroke="#0F766E" stroke-width="6" stroke-linecap="round" opacity="0.25"/>
+
+  <!-- Left veins -->
+  <line x1="256" y1="252" x2="165" y2="204" stroke="#0F766E" stroke-width="7" stroke-linecap="round" opacity="0.30"/>
+  <line x1="256" y1="308" x2="154" y2="280" stroke="#0F766E" stroke-width="7" stroke-linecap="round" opacity="0.25"/>
+  <line x1="256" y1="364" x2="170" y2="348" stroke="#0F766E" stroke-width="6" stroke-linecap="round" opacity="0.22"/>
+</svg>
