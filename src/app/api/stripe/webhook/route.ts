@@ -78,6 +78,4 @@ export async function POST(req: NextRequest) {
 }
 
 // Stripe requires raw body — disable Next.js body parsing
-export const config = {
-  api: { bodyParser: false },
-}
+export const runtime = 'nodejs'
