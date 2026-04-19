@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Set up your business — FastWellBook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fraunces:ital,opsz,wght@1,9..144,200;1,9..144,300;1,9..144,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --teal:#0D9488;--teal-dark:#0F766E;--teal-deep:#134E4A;--teal-mid:#14B8A6;
+  --teal-bright:#2DD4BF;--teal-100:#CCFBF1;--teal-50:#F0FDFA;--teal-glow:rgba(13,148,136,0.18);
+  --green:#16A34A;--green-100:#DCFCE7;
+  --white:#FFFFFF;--cream:#F5FAF8;--warm:#F7F9F8;
+  --gray-100:#F3F4F6;--gray-200:#E5E7EB;--gray-400:#9CA3AF;
+  --gray-500:#6B7280;--gray-600:#4B5563;--gray-800:#1F2937;
+  --ink:#0D1F1A;--border:#E5E7EB;--gold:#F59E0B;
+  --font:'Plus Jakarta Sans',system-ui,sans-serif;--serif:'Fraunces',Georgia,serif;
+  --r:14px;--r-lg:22px;--r-xl:32px;
+  --shadow:0 4px 20px rgba(0,0,0,0.07);--shadow-teal:0 12px 40px rgba(13,148,136,0.2);
+}
+html{background:var(--white);font-family:var(--font);color:var(--ink);-webkit-font-smoothing:antialiased}
+body{min-height:100vh;display:flex;flex-direction:column}
+
+/* NAV */
+nav{height:64px;padding:0 40px;display:flex;align-items:center;justify-content:space-between;background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+.nav-logo{display:flex;align-items:center;gap:9px;text-decoration:none}
+.nav-mark{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--teal-dark),var(--teal-mid));display:flex;align-items:center;justify-content:center;font-size:17px}
+.nav-name{font-size:18px;font-weight:800;color:var(--ink);letter-spacing:-0.4px}
+.nav-name span{color:var(--teal)}
+.nav-step-label{font-size:13px;color:var(--gray-400);font-weight:500}
+
+/* LAYOUT */
+.ob-layout{flex:1;display:grid;grid-template-columns:280px 1fr}
+
+/* SIDEBAR */
+.ob-sidebar{background:var(--warm);border-right:1px solid var(--border);padding:40px 28px;position:sticky;top:64px;height:calc(100vh - 64px);display:flex;flex-direction:column}
+.ob-sidebar-title{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--gray-400);margin-bottom:28px}
+.ob-steps{display:flex;flex-direction:column;gap:4px;flex:1}
+.ob-step{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;transition:all 0.2s}
+.ob-step.active{background:var(--teal-50);border:1.5px solid var(--teal-100)}
+.ob-step.done{opacity:0.7}
+.ob-step-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;transition:all 0.3s;border:2px solid var(--border)}
+.ob-step.active .ob-step-num{background:var(--teal);border-color:var(--teal);color:white}
+.ob-step.done .ob-step-num{background:var(--green);border-color:var(--green);color:white;font-size:11px}
+.ob-step-label{font-size:14px;font-weight:600;color:var(--gray-400)}
+.ob-step.active .ob-step-label{color:var(--teal-dark)}
+.ob-step.done .ob-step-label{color:var(--gray-500)}
+.ob-step-desc{font-size:12px;color:var(--gray-400);margin-top:1px}
+.ob-connector{width:2px;height:20px;background:var(--border);margin-left:26px}
+
+.ob-sidebar-footer{padding-top:24px;border-top:1px solid var(--border)}
+.ob-save{font-size:12px;color:var(--gray-400);font-weight:500;display:flex;align-items:center;gap:6px}
+.ob-save::before{content:'💾'}
+
+/* MAIN */
+.ob-main{padding:48px 64px;overflow-y:auto;background:var(--white)}
+.ob-progress{height:4px;background:var(--gray-100);border-radius:4px;margin-bottom:48px;overflow:hidden}
+.ob-progress-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--teal-bright));border-radius:4px;transition:width 0.5s cubic-bezier(0.16,1,0.3,1)}
+
+.step-tag{display:inline-flex;align-items:center;gap:7px;background:var(--teal-50);border:1.5px solid var(--teal-100);border-radius:30px;padding:5px 12px 5px 8px;margin-bottom:16px;font-size:12px;font-weight:700;color:var(--teal-dark)}
+.step-tag::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--teal)}
+.step-h{font-family:var(--serif);font-size:clamp(28px,3.5vw,42px);font-weight:200;font-style:italic;color:var(--ink);line-height:1.15;margin-bottom:8px;letter-spacing:-1px}
+.step-sub{font-size:15px;color:var(--gray-400);margin-bottom:40px;line-height:1.6}
+
+/* FORM ELEMENTS */
+.field{display:flex;flex-direction:column;gap:7px;margin-bottom:18px}
+.field-row{display:grid;gap:14px;margin-bottom:18px}
+.field-row.c2{grid-template-columns:1fr 1fr}
+.field-row.c3{grid-template-columns:1fr 1fr 1fr}
+label{font-size:12px;font-weight:700;color:var(--gray-600);text-transform:uppercase;letter-spacing:0.07em}
+label .opt{font-weight:400;color:var(--gray-400);text-transform:none;letter-spacing:0;margin-left:4px}
+input,textarea,select{padding:12px 14px;border:1.5px solid var(--border);border-radius:var(--r);font-size:15px;font-family:var(--font);color:var(--ink);background:var(--white);outline:none;transition:all 0.15s;-webkit-appearance:none;font-weight:500;width:100%}
+input:focus,textarea:focus,select:focus{border-color:var(--teal);box-shadow:0 0 0 4px var(--teal-50)}
+input::placeholder,textarea::placeholder{color:var(--gray-400);font-weight:400}
+textarea{resize:vertical;min-height:80px;line-height:1.6}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%239CA3AF' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:40px;cursor:pointer}
+.hint{font-size:12px;color:var(--gray-400);line-height:1.5}
+.url-preview{display:flex;align-items:center;gap:10px;background:var(--teal-50);border:1.5px solid var(--teal-100);border-radius:var(--r);padding:11px 14px;margin-top:8px}
+.url-domain{font-size:13px;color:var(--gray-400)}
+.url-slug{font-size:13px;color:var(--teal-dark);font-weight:700}
+.url-check{font-size:12px;color:var(--green);font-weight:700}
+
+/* CATEGORY CARDS */
+.cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px}
+.cat-card{padding:22px 18px;border:2px solid var(--border);border-radius:var(--r-lg);cursor:pointer;transition:all 0.2s;background:var(--white);position:relative;overflow:hidden}
+.cat-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--teal),var(--teal-bright));transform:scaleX(0);transform-origin:left;transition:transform 0.3s}
+.cat-card:hover{border-color:var(--teal-100);transform:translateY(-3px);box-shadow:var(--shadow)}
+.cat-card:hover::after,.cat-card.sel::after{transform:scaleX(1)}
+.cat-card.sel{border-color:var(--teal);background:var(--teal-50)}
+.cat-icon{font-size:36px;margin-bottom:12px;display:block}
+.cat-name{font-size:15px;font-weight:800;color:var(--ink);margin-bottom:5px}
+.cat-desc{font-size:13px;color:var(--gray-400);line-height:1.4}
+.cat-tick{position:absolute;top:12px;right:12px;width:22px;height:22px;border-radius:50%;background:var(--teal);color:white;display:none;align-items:center;justify-content:center;font-size:11px;font-weight:800}
+.cat-card.sel .cat-tick{display:flex}
+
+/* SERVICE LIST */
+.svc-list{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+.svc-item{border:1.5px solid var(--border);border-radius:var(--r-lg);background:var(--white);overflow:hidden;transition:border-color 0.2s}
+.svc-item:hover{border-color:var(--teal-100)}
+.svc-head{padding:14px 18px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none}
+.svc-display-name{font-size:14px;font-weight:700;color:var(--ink)}
+.svc-display-meta{font-size:12px;color:var(--gray-400);margin-top:2px}
+.svc-head-right{display:flex;align-items:center;gap:8px}
+.icon-btn{width:28px;height:28px;border-radius:8px;border:none;background:none;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;color:var(--gray-400);transition:all 0.15s}
+.icon-btn:hover{background:var(--gray-100);color:var(--ink)}
+.icon-btn.del:hover{background:var(--red-50,#FEF2F2);color:#DC2626}
+.svc-body{padding:0 18px 18px;border-top:1px solid var(--border)}
+.svc-body .field-row{margin-top:16px}
+.add-svc-btn{width:100%;padding:13px;border:1.5px dashed var(--border);border-radius:var(--r-lg);background:none;color:var(--gray-400);font-size:13px;font-weight:600;cursor:pointer;font-family:var(--font);transition:all 0.15s;display:flex;align-items:center;justify-content:center;gap:6px}
+.add-svc-btn:hover{border-color:var(--teal);color:var(--teal);background:var(--teal-50)}
+
+/* AVAILABILITY */
+.avail-rows{display:flex;flex-direction:column;gap:10px}
+.avrow{display:flex;align-items:center;gap:14px;padding:14px 18px;background:var(--white);border:1.5px solid var(--border);border-radius:var(--r-lg);transition:all 0.15s}
+.avrow.open{border-color:var(--teal-100);background:var(--teal-50)}
+.avday{width:96px;font-size:14px;font-weight:600;flex-shrink:0}
+.avtimes{display:flex;align-items:center;gap:8px;flex:1;transition:opacity 0.2s}
+.avtimes.off{opacity:0.3;pointer-events:none}
+.avtimes input[type=time]{padding:8px 11px;border:1.5px solid var(--border);border-radius:9px;font-size:13px;font-family:var(--font);color:var(--ink);background:var(--white);outline:none;width:auto;min-width:110px}
+.avtimes input:focus{border-color:var(--teal)}
+.tsep{font-size:13px;color:var(--gray-400)}
+.closed-lbl{font-size:13px;color:var(--gray-400);font-style:italic}
+.tog{width:38px;height:22px;border-radius:11px;border:none;cursor:pointer;position:relative;transition:background 0.2s;flex-shrink:0}
+.tog.on{background:var(--teal)}.tog.off{background:var(--gray-200)}
+.tog::after{content:'';position:absolute;top:3px;width:16px;height:16px;border-radius:50%;background:white;transition:left 0.2s;box-shadow:0 1px 4px rgba(0,0,0,0.15)}
+.tog.on::after{left:19px}.tog.off::after{left:3px}
+
+/* REVIEW */
+.review-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--r-xl);overflow:hidden;margin-bottom:20px}
+.rev-section{padding:20px 24px;border-bottom:1px solid var(--border)}
+.rev-section:last-child{border-bottom:none}
+.rev-section:last-child{background:var(--teal-50)}
+.rev-head{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.09em;color:var(--gray-400);margin-bottom:14px;display:flex;justify-content:space-between;align-items:center}
+.rev-edit{font-size:13px;font-weight:700;color:var(--teal);cursor:pointer;text-transform:none;letter-spacing:0;background:none;border:none;font-family:var(--font)}
+.rev-row{display:flex;justify-content:space-between;font-size:14px;margin-bottom:8px}
+.rev-row:last-child{margin-bottom:0}
+.rev-k{color:var(--gray-400);font-weight:400}
+.rev-v{font-weight:600;text-align:right;max-width:55%}
+.rev-svcs{display:flex;flex-direction:column;gap:8px}
+.rev-svc{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:var(--cream);border-radius:9px;font-size:13px}
+.rev-svc-price{font-weight:800;color:var(--teal)}
+.banner-info{display:flex;gap:10px;padding:12px 14px;background:var(--teal-50);border:1.5px solid var(--teal-100);border-radius:var(--r);margin-bottom:24px;font-size:13px;color:var(--teal-dark);line-height:1.6}
+
+/* SUCCESS */
+.success-wrap{text-align:center;padding:32px 0 48px}
+.success-icon{width:72px;height:72px;border-radius:50%;background:var(--green-100);border:2px solid rgba(22,163,74,0.25);display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 24px}
+.success-title{font-family:var(--serif);font-size:40px;font-style:italic;font-weight:200;color:var(--ink);margin-bottom:10px;letter-spacing:-1px}
+.success-sub{font-size:16px;color:var(--gray-400);margin-bottom:36px;line-height:1.6}
+.url-big{display:flex;align-items:center;gap:10px;background:var(--teal-50);border:1.5px solid var(--teal-100);border-radius:var(--r-lg);padding:14px 18px;margin-bottom:32px;text-align:left}
+.url-big-text{font-size:14px;flex:1}
+.success-actions{display:flex;flex-direction:column;gap:12px}
+
+/* BUTTONS */
+.btn-row{display:flex;align-items:center;justify-content:space-between;margin-top:36px}
+.btn-primary{padding:14px 32px;background:var(--teal);color:white;border:none;border-radius:var(--r);font-size:15px;font-weight:800;font-family:var(--font);cursor:pointer;transition:all 0.2s;letter-spacing:-0.2px;box-shadow:0 6px 24px var(--teal-glow)}
+.btn-primary:hover{background:var(--teal-dark);transform:translateY(-1px);box-shadow:var(--shadow-teal)}
+.btn-primary.green{background:var(--green)}
+.btn-primary.full{width:100%;justify-content:center;padding:16px}
+.btn-back{padding:12px 20px;background:none;border:1.5px solid var(--border);border-radius:var(--r);font-size:14px;font-weight:600;font-family:var(--font);cursor:pointer;color:var(--gray-500);transition:all 0.15s}
+.btn-back:hover{border-color:var(--gray-400);color:var(--ink)}
+.btn-ghost-sm{background:none;border:none;color:var(--gray-400);font-size:14px;font-weight:600;cursor:pointer;font-family:var(--font);padding:12px 0;transition:color 0.15s}
+.btn-ghost-sm:hover{color:var(--ink)}
+.pfx{display:flex;align-items:center;border:1.5px solid var(--border);border-radius:var(--r);background:var(--white);overflow:hidden;transition:all 0.15s}
+.pfx:focus-within{border-color:var(--teal);box-shadow:0 0 0 4px var(--teal-50)}
+.pfx-lbl{padding:0 12px;font-size:14px;color:var(--gray-400);background:var(--warm);border-right:1.5px solid var(--border);white-space:nowrap;display:flex;align-items:center;flex-shrink:0}
+.pfx input{border:none!important;box-shadow:none!important;border-radius:0}
+
+/* PANEL ANIMATION */
+.ob-panel{animation:fadeUp 0.4s cubic-bezier(0.16,1,0.3,1) both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+@media(max-width:900px){.ob-layout{grid-template-columns:1fr}.ob-sidebar{display:none}.ob-main{padding:36px 24px}.field-row.c2,.field-row.c3{grid-template-columns:1fr}.cat-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">
+    <div class="nav-mark">🌿</div>
+    <div class="nav-name">Fast<span>Well</span>Book</div>
+  </a>
+  <span class="nav-step-label" id="nav-step-label">Step 1 of 4</span>
+</nav>
+
+<div class="ob-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="ob-sidebar">
+    <div class="ob-sidebar-title">Setup</div>
+    <div class="ob-steps">
+      <div class="ob-step active" id="r1">
+        <div class="ob-step-num">1</div>
+        <div><div class="ob-step-label">Your business</div><div class="ob-step-desc">Name, type, contact</div></div>
+      </div>
+      <div class="ob-connector"></div>
+      <div class="ob-step" id="r2">
+        <div class="ob-step-num">2</div>
+        <div><div class="ob-step-label">Services</div><div class="ob-step-desc">What you offer &amp; pricing</div></div>
+      </div>
+      <div class="ob-connector"></div>
+      <div class="ob-step" id="r3">
+        <div class="ob-step-num">3</div>
+        <div><div class="ob-step-label">Availability</div><div class="ob-step-desc">When clients can book</div></div>
+      </div>
+      <div class="ob-connector"></div>
+      <div class="ob-step" id="r4">
+        <div class="ob-step-num">4</div>
+        <div><div class="ob-step-label">Review &amp; launch</div><div class="ob-step-desc">Go live instantly</div></div>
+      </div>
+    </div>
+    <div class="ob-sidebar-footer">
+      <div class="ob-save">Progress saved automatically</div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="ob-main">
+    <div class="ob-progress"><div class="ob-progress-fill" id="prog" style="width:25%"></div></div>
+
+    <!-- STEP 1: Business info -->
+    <div id="s1" class="ob-panel">
+      <div class="step-tag">Step 1 of 4</div>
+      <h1 class="step-h">Tell us about<br>your business</h1>
+      <p class="step-sub">This is what clients will see on your booking page.</p>
+
+      <div class="field">
+        <label>Business name</label>
+        <input type="text" id="bname" placeholder="e.g. Serene Studio" oninput="updSlug()" maxlength="80">
+        <div class="url-preview" id="url-prev" style="display:none">
+          <span class="url-domain">fastwellbook.com/b/</span>
+          <span class="url-slug" id="slug-disp"></span>
+          <span class="url-check">✓ Available</span>
+        </div>
+      </div>
+
+      <div class="field" style="margin-bottom:8px"><label>Category</label></div>
+      <div class="cat-grid">
+        <div class="cat-card" onclick="selCat('salon_spa',this)">
+          <span class="cat-icon">💆</span><div class="cat-name">Salon &amp; Spa</div>
+          <div class="cat-desc">Massage, beauty, skincare, wellness therapy</div>
+          <div class="cat-tick">✓</div>
+        </div>
+        <div class="cat-card" onclick="selCat('fitness_yoga',this)">
+          <span class="cat-icon">🧘</span><div class="cat-name">Fitness &amp; Yoga</div>
+          <div class="cat-desc">Training, yoga, pilates, classes</div>
+          <div class="cat-tick">✓</div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Description <span class="opt">optional</span></label>
+        <textarea id="bdesc" placeholder="A short description for your booking page…" maxlength="500" oninput="document.getElementById('dcount').textContent=this.value.length+' / 500'"></textarea>
+        <span class="hint" id="dcount">0 / 500</span>
+      </div>
+      <div class="field-row c2">
+        <div><label>Email</label><input type="email" id="bemail" placeholder="hello@yourbusiness.com"></div>
+        <div><label>Phone <span class="opt">optional</span></label><input type="tel" placeholder="+44 7700 000000"></div>
+      </div>
+      <div class="field">
+        <label>Address</label>
+        <input type="text" id="baddr" placeholder="14 Garden Lane, London E2 8DQ">
+        <span class="hint">Shown to clients after booking</span>
+      </div>
+
+      <div class="btn-row">
+        <div></div>
+        <button class="btn-primary" onclick="goTo(2)">Continue →</button>
+      </div>
+    </div>
+
+    <!-- STEP 2: Services -->
+    <div id="s2" class="ob-panel" style="display:none">
+      <div class="step-tag">Step 2 of 4</div>
+      <h1 class="step-h">What do you<br>offer?</h1>
+      <p class="step-sub">Add each service with a duration and price. You can always add more later.</p>
+      <div class="svc-list" id="svc-list"></div>
+      <button class="add-svc-btn" onclick="addSvc()"><span>+</span> Add another service</button>
+      <div class="btn-row">
+        <button class="btn-back" onclick="goTo(1)">← Back</button>
+        <button class="btn-primary" onclick="goTo(3)">Continue →</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: Availability -->
+    <div id="s3" class="ob-panel" style="display:none">
+      <div class="step-tag">Step 3 of 4</div>
+      <h1 class="step-h">When are you<br>available?</h1>
+      <p class="step-sub">Set your weekly schedule. Clients only see slots within these hours.</p>
+      <div class="avail-rows" id="av-rows"></div>
+      <div class="btn-row">
+        <button class="btn-back" onclick="goTo(2)">← Back</button>
+        <button class="btn-primary" onclick="goTo(4)">Continue →</button>
+      </div>
+    </div>
+
+    <!-- STEP 4: Review -->
+    <div id="s4" class="ob-panel" style="display:none">
+      <div class="step-tag">Step 4 of 4</div>
+      <h1 class="step-h">Everything<br>look right?</h1>
+      <p class="step-sub">Review before we launch your site.</p>
+      <div class="banner-info"><span>ℹ️</span><span>We take <strong>8.69%</strong> per booking. No monthly fees. You receive the rest directly to your bank via Stripe.</span></div>
+      <div class="review-card" id="rev-card"></div>
+      <div class="url-preview" style="margin-bottom:0">
+        <span class="url-domain">fastwellbook.com/b/</span>
+        <span class="url-slug" id="rev-slug"></span>
+        <button style="background:none;border:none;color:var(--teal);font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font);margin-left:auto" onclick="navigator.clipboard?.writeText('https://fastwellbook.com/b/'+S.slug)">Copy link</button>
+      </div>
+      <div class="btn-row">
+        <button class="btn-back" onclick="goTo(3)">← Back</button>
+        <button class="btn-primary green" id="launch-btn" onclick="launch()">🚀 Launch my website</button>
+      </div>
+    </div>
+
+    <!-- SUCCESS -->
+    <div id="s-success" class="ob-panel" style="display:none">
+      <div class="success-wrap">
+        <div class="success-icon">✓</div>
+        <h1 class="success-title">You're live!</h1>
+        <p class="success-sub">Your booking page is ready. Share your link and start taking bookings right now.</p>
+        <div class="url-big">
+          <div class="url-big-text">
+            <div style="font-size:12px;color:var(--gray-400);margin-bottom:3px;font-weight:600">Your booking link</div>
+            <div>fastwellbook.com/b/<strong id="succ-slug" style="color:var(--teal)"></strong></div>
+          </div>
+          <button class="btn-primary" style="padding:10px 18px;font-size:13px;white-space:nowrap" onclick="navigator.clipboard?.writeText('https://fastwellbook.com/b/'+S.slug)">Copy</button>
+        </div>
+        <div class="success-actions">
+          <button class="btn-primary full" onclick="window.open('/b/'+S.slug)">View my booking page →</button>
+          <button class="btn-primary full" style="background:var(--teal-dark)" onclick="window.location.href='connect-stripe.html'">Connect Stripe to receive payouts →</button>
+          <button class="btn-ghost-sm" onclick="window.location.href='dashboard.html'">Go to dashboard</button>
+        </div>
+        <p style="font-size:12px;color:var(--gray-400);margin-top:20px;line-height:1.7">Clients can book immediately. Connect Stripe before we can send your earnings.</p>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+const S={step:1,cat:null,slug:'',svcs:[],av:[
+  {d:'Monday',o:true,s:'09:00',e:'18:00'},{d:'Tuesday',o:true,s:'09:00',e:'18:00'},
+  {d:'Wednesday',o:true,s:'09:00',e:'18:00'},{d:'Thursday',o:true,s:'09:00',e:'18:00'},
+  {d:'Friday',o:true,s:'09:00',e:'20:00'},{d:'Saturday',o:true,s:'10:00',e:'17:00'},
+  {d:'Sunday',o:false,s:'10:00',e:'16:00'},
+]}
+
+function slugify(n){return n.toLowerCase().replace(/[^a-z0-9\s-]/g,'').trim().replace(/\s+/g,'-').replace(/-+/g,'-').slice(0,60)}
+function updSlug(){const n=document.getElementById('bname').value.trim();if(!n){document.getElementById('url-prev').style.display='none';return}S.slug=slugify(n);document.getElementById('slug-disp').textContent=S.slug;document.getElementById('url-prev').style.display='flex'}
+function selCat(c,el){S.cat=c;document.querySelectorAll('.cat-card').forEach(x=>x.classList.remove('sel'));el.classList.add('sel')}
+
+let sid=0
+function addSvc(def={}){
+  const id=++sid
+  S.svcs.push({id,name:def.name||'',dur:def.dur||60,price:def.price||0,desc:''})
+  renderSvcs()
+}
+const DURS=[15,30,45,60,75,90,105,120,150,180]
+function renderSvcs(){
+  const el=document.getElementById('svc-list')
+  if(!S.svcs.length){el.innerHTML='<p style="font-size:14px;color:var(--gray-400);padding:16px 0">No services yet. Add at least one.</p>';return}
+  el.innerHTML=S.svcs.map((s,i)=>`
+    <div class="svc-item" id="si-${s.id}">
+      <div class="svc-head" onclick="togBody(${s.id})">
+        <div>
+          <div class="svc-display-name">${s.name||'<span style="color:var(--gray-400)">Untitled service</span>'}</div>
+          <div class="svc-display-meta">${s.dur} min · ${s.price?'£'+(s.price/100).toFixed(0):'—'}</div>
+        </div>
+        <div class="svc-head-right">
+          <button class="icon-btn del" onclick="event.stopPropagation();rmSvc(${s.id})">✕</button>
+          <span style="color:var(--gray-400);font-size:12px" id="chev-${s.id}">▾</span>
+        </div>
+      </div>
+      <div class="svc-body" id="sb-${s.id}">
+        <div class="field-row c2">
+          <div><label>Service name</label><input type="text" value="${s.name}" placeholder="e.g. Swedish Massage" oninput="updSvc(${s.id},'name',this.value)"></div>
+          <div><label>Duration</label><select onchange="updSvc(${s.id},'dur',parseInt(this.value))">${DURS.map(d=>`<option value="${d}"${d===s.dur?' selected':''}>${d} min</option>`).join('')}</select></div>
+        </div>
+        <div class="field-row c2">
+          <div><label>Price</label><div class="pfx"><span class="pfx-lbl">£</span><input type="number" min="1" step="0.01" placeholder="65.00" value="${s.price?(s.price/100).toFixed(2):''}" oninput="updSvc(${s.id},'price',Math.round(parseFloat(this.value||0)*100))"></div></div>
+          <div><label>Description <span class="opt">optional</span></label><input type="text" placeholder="Brief description…" value="${s.desc}" oninput="updSvc(${s.id},'desc',this.value)"></div>
+        </div>
+      </div>
+    </div>`).join('')
+}
+function togBody(id){const b=document.getElementById('sb-'+id);const v=b.style.display!=='none';b.style.display=v?'none':'block';document.getElementById('chev-'+id).textContent=v?'▸':'▾'}
+function updSvc(id,f,v){const s=S.svcs.find(x=>x.id===id);if(s){s[f]=v;const nh=document.querySelector(`#si-${id} .svc-display-name`);const mh=document.querySelector(`#si-${id} .svc-display-meta`);if(nh)nh.innerHTML=s.name||'<span style="color:var(--gray-400)">Untitled service</span>';if(mh)mh.textContent=`${s.dur} min · ${s.price?'£'+(s.price/100).toFixed(0):'—'}`}}
+function rmSvc(id){S.svcs=S.svcs.filter(s=>s.id!==id);renderSvcs()}
+
+function renderAv(){
+  document.getElementById('av-rows').innerHTML=S.av.map((a,i)=>`
+    <div class="avrow ${a.o?'open':''}">
+      <span class="avday">${a.d}</span>
+      <button class="tog ${a.o?'on':'off'}" onclick="togAv(${i})"></button>
+      <div class="avtimes ${a.o?'':'off'}">
+        <input type="time" value="${a.s}" onchange="S.av[${i}].s=this.value">
+        <span class="tsep">to</span>
+        <input type="time" value="${a.e}" onchange="S.av[${i}].e=this.value">
+      </div>
+      ${!a.o?'<span class="closed-lbl">Closed</span>':''}
+    </div>`).join('')
+}
+function togAv(i){S.av[i].o=!S.av[i].o;renderAv()}
+
+function buildReview(){
+  const name=document.getElementById('bname').value
+  const email=document.getElementById('bemail').value
+  const addr=document.getElementById('baddr').value
+  const catL=S.cat==='salon_spa'?'Salon & Spa':S.cat==='fitness_yoga'?'Fitness & Yoga':'—'
+  const openDays=S.av.filter(a=>a.o).map(a=>a.d.slice(0,3)).join(', ')
+  document.getElementById('rev-slug').textContent=S.slug
+  document.getElementById('rev-card').innerHTML=`
+    <div class="rev-section"><div class="rev-head">Business <button class="rev-edit" onclick="goTo(1)">Edit</button></div>
+      <div class="rev-row"><span class="rev-k">Name</span><span class="rev-v">${name||'—'}</span></div>
+      <div class="rev-row"><span class="rev-k">Category</span><span class="rev-v">${catL}</span></div>
+      <div class="rev-row"><span class="rev-k">Email</span><span class="rev-v">${email||'—'}</span></div>
+      <div class="rev-row"><span class="rev-k">Address</span><span class="rev-v">${addr||'—'}</span></div>
+    </div>
+    <div class="rev-section"><div class="rev-head">Services <button class="rev-edit" onclick="goTo(2)">Edit</button></div>
+      <div class="rev-svcs">${S.svcs.map(s=>`<div class="rev-svc"><div><div style="font-weight:700">${s.name||'Untitled'}</div><div style="font-size:12px;color:var(--gray-400);margin-top:2px">${s.dur} min</div></div><div class="rev-svc-price">${s.price?'£'+(s.price/100).toFixed(2):'—'}</div></div>`).join('')}</div>
+    </div>
+    <div class="rev-section"><div class="rev-head">Availability <button class="rev-edit" onclick="goTo(3)">Edit</button></div>
+      <div class="rev-row"><span class="rev-k">Open days</span><span class="rev-v">${openDays||'—'}</span></div>
+    </div>
+    <div class="rev-section"><div class="rev-head">Pricing</div>
+      <div class="rev-row"><span class="rev-k">Platform fee</span><span class="rev-v">8.69% per booking</span></div>
+      <div class="rev-row"><span class="rev-k">Monthly fee</span><span class="rev-v" style="color:var(--green)">£0 forever</span></div>
+    </div>`
+}
+
+function goTo(n){
+  if(n>S.step){if(S.step===1&&!v1())return;if(S.step===2&&!v2())return}
+  document.getElementById('s'+S.step).style.display='none'
+  document.getElementById('s'+n).style.display='block'
+  ;[1,2,3,4].forEach(i=>{
+    const r=document.getElementById('r'+i)
+    r.className='ob-step'+(i<n?' done':i===n?' active':'')
+    if(i<n)r.querySelector('.ob-step-num').textContent='✓'
+  })
+  document.getElementById('prog').style.width=`${(n/4)*100}%`
+  document.getElementById('nav-step-label').textContent=`Step ${n} of 4`
+  S.step=n
+  if(n===3)renderAv()
+  if(n===4)buildReview()
+  window.scrollTo({top:0,behavior:'smooth'})
+}
+function v1(){if(!document.getElementById('bname').value.trim()){alert('Enter your business name');return false}if(!S.cat){alert('Select a category');return false}if(!document.getElementById('bemail').value.includes('@')){alert('Enter a valid email');return false}if(!document.getElementById('baddr').value.trim()){alert('Enter your address');return false}return true}
+function v2(){if(!S.svcs.length){alert('Add at least one service');return false}for(const s of S.svcs){if(!s.name.trim()){alert('A service needs a name');return false}if(!s.price||s.price<100){alert(`"${s.name||'A service'}" needs a price of at least £1`);return false}}return true}
+
+async function launch(){
+  const btn=document.getElementById('launch-btn');btn.disabled=true;btn.textContent='Creating your site…'
+  await new Promise(r=>setTimeout(r,1800))
+  document.getElementById('s4').style.display='none'
+  document.getElementById('s-success').style.display='block'
+  document.getElementById('succ-slug').textContent=S.slug
+  document.getElementById('prog').style.width='100%'
+  ;[1,2,3,4].forEach(i=>{const r=document.getElementById('r'+i);r.className='ob-step done';r.querySelector('.ob-step-num').textContent='✓'})
+  window.scrollTo({top:0,behavior:'smooth'})
+}
+
+addSvc({name:'Swedish Massage',dur:60,price:6500})
+renderSvcs()
+</script>
+</body>
+</html>

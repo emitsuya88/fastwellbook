@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book — Serene Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fraunces:ital,opsz,wght@1,9..144,200;1,9..144,300;1,9..144,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --teal:#0D9488;--teal-dark:#0F766E;--teal-deep:#134E4A;--teal-mid:#14B8A6;
+  --teal-bright:#2DD4BF;--teal-100:#CCFBF1;--teal-50:#F0FDFA;--teal-glow:rgba(13,148,136,0.18);
+  --green:#16A34A;--white:#FFFFFF;--cream:#F5FAF8;--warm:#F7F9F8;
+  --gray-100:#F3F4F6;--gray-200:#E5E7EB;--gray-400:#9CA3AF;
+  --gray-500:#6B7280;--gray-600:#4B5563;--gray-800:#1F2937;
+  --ink:#0D1F1A;--border:#E5E7EB;--gold:#F59E0B;
+  --font:'Plus Jakarta Sans',system-ui,sans-serif;--serif:'Fraunces',Georgia,serif;
+  --r:12px;--r-lg:18px;--r-xl:28px;
+  --shadow:0 4px 20px rgba(0,0,0,0.07);--shadow-md:0 8px 32px rgba(0,0,0,0.09);
+  --shadow-teal:0 12px 40px rgba(13,148,136,0.2);
+}
+html{background:var(--cream);color:var(--ink);font-family:var(--font);-webkit-font-smoothing:antialiased}
+body{min-height:100vh}
+
+/* LAYOUT */
+.page{display:grid;grid-template-columns:340px 1fr;min-height:100vh}
+
+/* LEFT PANEL — business info */
+.left{background:var(--white);border-right:1px solid var(--border);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto}
+.left-cover{height:8px;background:linear-gradient(90deg,var(--teal-dark),var(--teal-bright),var(--green))}
+.left-top{padding:28px 28px 24px;border-bottom:1px solid var(--border);flex-shrink:0}
+.biz-cat{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--teal);margin-bottom:10px}
+.biz-name{font-family:var(--serif);font-size:34px;font-weight:200;font-style:italic;color:var(--ink);line-height:1.15;letter-spacing:-0.5px;margin-bottom:6px}
+.biz-tagline{font-size:13px;color:var(--gray-400)}
+.left-body{padding:24px 28px;display:flex;flex-direction:column;gap:18px;flex:1}
+.info-row{display:flex;align-items:flex-start;gap:12px}
+.info-icon{width:34px;height:34px;border-radius:9px;background:var(--teal-50);border:1.5px solid var(--teal-100);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.info-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.09em;color:var(--teal);margin-bottom:3px}
+.info-val{font-size:13px;color:var(--gray-600);line-height:1.5;font-weight:500}
+.rating-row{display:flex;align-items:center;gap:8px;padding-top:18px;border-top:1px solid var(--border);margin-top:2px}
+.stars{color:var(--gold);font-size:14px;letter-spacing:1px}
+.rating-text{font-size:12px;color:var(--gray-400);font-weight:600}
+.cancel-note{font-size:12px;color:var(--gray-400);line-height:1.6;padding:16px 28px;border-top:1px solid var(--border);flex-shrink:0}
+.powered-by{padding:14px 28px;border-top:1px solid var(--border);font-size:11px;color:var(--gray-400);flex-shrink:0}
+.powered-by a{color:var(--teal);font-weight:700;text-decoration:none}
+
+/* RIGHT — booking flow */
+.right{padding:40px 48px;overflow-y:auto;background:var(--cream)}
+.pips{display:flex;gap:5px;margin-bottom:36px}
+.pip{flex:1;height:4px;border-radius:4px;background:var(--gray-200);transition:background 0.3s}
+.pip.done{background:var(--teal)}
+.pip.active{background:var(--teal);opacity:0.5}
+.panel-title{font-family:var(--serif);font-size:28px;font-weight:200;font-style:italic;color:var(--ink);margin-bottom:6px;letter-spacing:-0.5px}
+.panel-sub{font-size:14px;color:var(--gray-400);margin-bottom:28px;font-weight:400}
+
+/* SERVICE CARDS */
+.slist{display:flex;flex-direction:column;gap:10px;margin-bottom:24px}
+.scard{border:1.5px solid var(--border);border-radius:var(--r-lg);padding:18px 20px;cursor:pointer;transition:all 0.2s;background:var(--white);display:flex;align-items:center;justify-content:space-between;position:relative;overflow:hidden}
+.scard::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--teal),var(--teal-bright));transform:scaleX(0);transform-origin:left;transition:transform 0.3s}
+.scard:hover{border-color:var(--teal-100);box-shadow:var(--shadow)}
+.scard:hover::after{transform:scaleX(1)}
+.scard.sel{border-color:var(--teal);background:var(--teal-50)}
+.scard.sel::after{transform:scaleX(1)}
+.sn{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.sd{font-size:12px;color:var(--gray-400)}
+.sp{font-family:var(--serif);font-size:22px;font-weight:200;font-style:italic;color:var(--teal);letter-spacing:-0.5px;white-space:nowrap}
+.scard.sel .sn{color:var(--teal-deep)}
+
+/* CALENDAR */
+.calh{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.calm{font-family:var(--serif);font-size:20px;font-style:italic;font-weight:200;color:var(--ink);letter-spacing:-0.3px}
+.calnav{display:flex;gap:6px}
+.calbtn{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--border);background:var(--white);cursor:pointer;font-size:16px;color:var(--ink);display:flex;align-items:center;justify-content:center;transition:all 0.15s}
+.calbtn:hover{background:var(--teal);color:white;border-color:var(--teal)}
+.cgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:24px}
+.cday-name{text-align:center;font-size:10px;font-weight:700;color:var(--gray-400);padding:7px 0;text-transform:uppercase;letter-spacing:0.06em}
+.cday{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:13px;border-radius:9px;cursor:pointer;border:1.5px solid transparent;transition:all 0.15s;color:var(--ink);font-weight:500}
+.cday:hover:not(.empty):not(.past):not(.nos){background:var(--teal-50);border-color:var(--teal-100)}
+.cday.sel{background:var(--teal)!important;color:white!important;border-color:var(--teal)!important}
+.cday.today{border-color:var(--gold);font-weight:700}
+.cday.past,.cday.nos{color:var(--gray-300);cursor:default}
+.cday.empty{cursor:default}
+.tlabel{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--gray-400);margin-bottom:12px}
+.sgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:24px}
+.slotbtn{padding:10px 4px;border:1.5px solid var(--border);border-radius:9px;background:var(--white);font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font);color:var(--ink);transition:all 0.15s;text-align:center}
+.slotbtn:hover{border-color:var(--teal);color:var(--teal);background:var(--teal-50)}
+.slotbtn.sel{background:var(--teal);color:white;border-color:var(--teal)}
+.slotbtn.una{color:var(--gray-300);text-decoration:line-through;cursor:not-allowed;background:var(--gray-100);border-color:var(--gray-100)}
+
+/* FORM */
+.atabs{display:flex;padding:4px;background:var(--warm);border-radius:12px;border:1.5px solid var(--border);margin-bottom:22px}
+.atab{flex:1;padding:9px;border:none;background:none;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--font);color:var(--gray-400);transition:all 0.2s}
+.atab.active{background:var(--white);color:var(--ink);box-shadow:0 2px 6px rgba(0,0,0,0.08)}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.ff{margin-bottom:12px}
+label{display:block;font-size:11px;font-weight:700;color:var(--gray-600);margin-bottom:5px;text-transform:uppercase;letter-spacing:0.07em}
+label .opt{font-weight:400;color:var(--gray-400);text-transform:none;letter-spacing:0}
+input[type=text],input[type=email],input[type=tel],input[type=password],textarea{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:var(--r);font-size:14px;font-family:var(--font);color:var(--ink);background:var(--white);outline:none;transition:all 0.15s;font-weight:500}
+input:focus,textarea:focus{border-color:var(--teal);box-shadow:0 0 0 4px var(--teal-50)}
+input::placeholder,textarea::placeholder{color:var(--gray-400);font-weight:400}
+textarea{resize:none;height:72px;line-height:1.5}
+
+/* SUMMARY */
+.sumbox{background:var(--white);border:1.5px solid var(--border);border-radius:var(--r-lg);padding:18px;margin:20px 0 0}
+.sumrow{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px;font-size:14px}
+.sumrow:last-child{margin-bottom:0}
+.sumk{color:var(--gray-400);font-weight:400}
+.sumv{font-weight:700}
+.sum-total{font-family:var(--serif);font-size:22px;font-style:italic;font-weight:200;color:var(--teal);letter-spacing:-0.5px}
+.sumdiv{height:1px;background:var(--border);margin:10px 0}
+
+/* BUTTONS */
+.cta-btn{width:100%;padding:15px;margin-top:18px;background:var(--teal);color:white;border:none;border-radius:var(--r);font-size:15px;font-weight:800;font-family:var(--font);cursor:pointer;transition:all 0.2s;letter-spacing:-0.2px;box-shadow:0 6px 24px var(--teal-glow)}
+.cta-btn:hover{background:var(--teal-dark);transform:translateY(-1px);box-shadow:var(--shadow-teal)}
+.cta-btn:disabled{opacity:0.35;cursor:not-allowed;transform:none;box-shadow:none}
+.sec-note{text-align:center;font-size:11px;color:var(--gray-400);margin-top:9px;font-weight:500}
+.back-btn{display:inline-flex;align-items:center;gap:5px;background:none;border:none;color:var(--gray-400);font-size:13px;cursor:pointer;font-family:var(--font);padding:0 0 22px;transition:color 0.15s;font-weight:600}
+.back-btn:hover{color:var(--teal)}
+
+/* CONFIRM */
+.confw{text-align:center;padding:16px 0 32px}
+.conf-circle{width:70px;height:70px;border-radius:50%;background:var(--green-100,#DCFCE7);border:2px solid rgba(22,163,74,0.25);display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 22px;color:var(--green)}
+.conf-title{font-family:var(--serif);font-size:32px;font-style:italic;font-weight:200;color:var(--ink);margin-bottom:7px;letter-spacing:-0.5px}
+.conf-sub{font-size:14px;color:var(--gray-400);margin-bottom:28px}
+.conf-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--r-lg);padding:20px;text-align:left}
+
+/* PANEL ANIMATION */
+.panel{animation:fadeUp 0.35s cubic-bezier(0.16,1,0.3,1) both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+@media(max-width:800px){.page{grid-template-columns:1fr}.left{position:static;height:auto}.right{padding:28px 20px}.sgrid{grid-template-columns:repeat(3,1fr)}.frow{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- LEFT: Business info -->
+<aside class="left">
+  <div class="left-cover"></div>
+  <div class="left-top">
+    <div class="biz-cat">Massage &amp; Holistic Therapy</div>
+    <div class="biz-name">Serene<br>Studio</div>
+    <div class="biz-tagline">East London's favourite wellness studio</div>
+  </div>
+  <div class="left-body">
+    <div class="info-row">
+      <div class="info-icon">📍</div>
+      <div><div class="info-label">Location</div><div class="info-val">14 Garden Lane, Shoreditch<br>London E2 8DQ</div></div>
+    </div>
+    <div class="info-row">
+      <div class="info-icon">🕐</div>
+      <div><div class="info-label">Hours</div><div class="info-val">Mon–Fri 9am – 8pm<br>Sat–Sun 10am – 6pm</div></div>
+    </div>
+    <div class="info-row">
+      <div class="info-icon">📞</div>
+      <div><div class="info-label">Contact</div><div class="info-val">020 7123 4567</div></div>
+    </div>
+    <div class="rating-row">
+      <span class="stars">★★★★★</span>
+      <span class="rating-text">4.9 · 127 reviews</span>
+    </div>
+  </div>
+  <div class="cancel-note">Free cancellation up to 24 hours before your appointment.</div>
+  <div class="powered-by">Booking powered by <a href="index.html">FastWellBook</a></div>
+</aside>
+
+<!-- RIGHT: Booking flow -->
+<main class="right">
+  <div class="pips">
+    <div class="pip active" id="p1"></div>
+    <div class="pip" id="p2"></div>
+    <div class="pip" id="p3"></div>
+  </div>
+
+  <!-- Step 1: Service -->
+  <div id="s1" class="panel">
+    <div class="panel-title">Choose a service</div>
+    <div class="panel-sub">Select what you'd like to book today</div>
+    <div class="slist">
+      <div class="scard" onclick="selSvc(this,'Swedish Massage',60,6500)">
+        <div><div class="sn">Swedish Massage</div><div class="sd">60 min · Full body relaxation</div></div>
+        <div class="sp">£65</div>
+      </div>
+      <div class="scard" onclick="selSvc(this,'Deep Tissue Massage',60,7500)">
+        <div><div class="sn">Deep Tissue Massage</div><div class="sd">60 min · Muscle tension relief</div></div>
+        <div class="sp">£75</div>
+      </div>
+      <div class="scard" onclick="selSvc(this,'Hot Stone Therapy',90,9500)">
+        <div><div class="sn">Hot Stone Therapy</div><div class="sd">90 min · Deep warmth &amp; relaxation</div></div>
+        <div class="sp">£95</div>
+      </div>
+      <div class="scard" onclick="selSvc(this,'Sports Massage',45,5500)">
+        <div><div class="sn">Sports Massage</div><div class="sd">45 min · Recovery &amp; performance</div></div>
+        <div class="sp">£55</div>
+      </div>
+    </div>
+    <button class="cta-btn" id="cta1" disabled onclick="goTo(2)">Continue to date &amp; time →</button>
+  </div>
+
+  <!-- Step 2: Date & Time -->
+  <div id="s2" class="panel" style="display:none">
+    <button class="back-btn" onclick="goTo(1)">← Back</button>
+    <div class="panel-title">Pick a date</div>
+    <div class="panel-sub">Select an available date and time</div>
+    <div class="calh">
+      <span class="calm" id="calm"></span>
+      <div class="calnav">
+        <button class="calbtn" onclick="chMo(-1)">‹</button>
+        <button class="calbtn" onclick="chMo(1)">›</button>
+      </div>
+    </div>
+    <div class="cgrid" id="cgrid"></div>
+    <div id="tslots" style="display:none">
+      <div class="tlabel" id="tlabel">Available times</div>
+      <div class="sgrid" id="sgrid"></div>
+    </div>
+    <button class="cta-btn" id="cta2" disabled onclick="goTo(3)">Continue to your details →</button>
+  </div>
+
+  <!-- Step 3: Details -->
+  <div id="s3" class="panel" style="display:none">
+    <button class="back-btn" onclick="goTo(2)">← Back</button>
+    <div class="panel-title">Your details</div>
+    <div class="panel-sub">Almost done</div>
+    <div class="atabs">
+      <button class="atab active" onclick="swAuth('g',this)">Book as guest</button>
+      <button class="atab" onclick="swAuth('l',this)">Sign in</button>
+    </div>
+    <div id="gf">
+      <div class="frow">
+        <div><label>First name</label><input type="text" placeholder="Jane"></div>
+        <div><label>Last name</label><input type="text" placeholder="Smith"></div>
+      </div>
+      <div class="ff"><label>Email</label><input type="email" placeholder="jane@example.com"></div>
+      <div class="ff"><label>Phone <span class="opt">optional</span></label><input type="tel" placeholder="+44 7700 000000"></div>
+      <div class="ff"><label>Notes <span class="opt">optional</span></label><textarea placeholder="Injuries, preferences…"></textarea></div>
+    </div>
+    <div id="lf" style="display:none">
+      <div class="ff"><label>Email</label><input type="email" placeholder="jane@example.com"></div>
+      <div class="ff"><label>Password</label><input type="password" placeholder="••••••••"></div>
+    </div>
+    <div class="sumbox">
+      <div class="sumrow"><span class="sumk">Service</span><span class="sumv" id="ss">—</span></div>
+      <div class="sumrow"><span class="sumk">Date &amp; time</span><span class="sumv" id="sd">—</span></div>
+      <div class="sumdiv"></div>
+      <div class="sumrow"><span class="sumk">Total</span><span class="sumv sum-total" id="st">—</span></div>
+    </div>
+    <button class="cta-btn" onclick="submit()">Confirm &amp; pay →</button>
+    <p class="sec-note">🔒 Secured by Stripe · Free cancellation 24h before</p>
+  </div>
+
+  <!-- Confirm -->
+  <div id="sc" class="panel" style="display:none">
+    <div class="confw">
+      <div class="conf-circle">✓</div>
+      <div class="conf-title">You're all booked!</div>
+      <div class="conf-sub">Confirmation sent to your email address</div>
+      <div class="conf-card">
+        <div class="sumrow"><span class="sumk">Service</span><span class="sumv" id="cs"></span></div>
+        <div class="sumrow" style="margin-top:9px"><span class="sumk">Date &amp; time</span><span class="sumv" id="cd"></span></div>
+        <div class="sumrow" style="margin-top:9px"><span class="sumk">Location</span><span class="sumv">14 Garden Lane, E2 8DQ</span></div>
+        <div class="sumdiv"></div>
+        <div class="sumrow"><span class="sumk">Total paid</span><span class="sumv sum-total" id="ct"></span></div>
+      </div>
+    </div>
+  </div>
+</main>
+</div>
+
+<script>
+const S={svc:null,price:0,date:null,time:null,mo:new Date()};S.mo.setDate(1)
+const fmt=p=>`£${(p/100).toFixed(2)}`
+function selSvc(el,n,m,p){document.querySelectorAll('.scard').forEach(c=>c.classList.remove('sel'));el.classList.add('sel');S.svc=n;S.price=p;document.getElementById('cta1').disabled=false}
+function goTo(n){
+  ['s1','s2','s3','sc'].forEach(id=>{const e=document.getElementById(id);if(e)e.style.display='none'})
+  document.getElementById(n==='c'?'sc':'s'+n).style.display='block'
+  ;[1,2,3].forEach(i=>{const p=document.getElementById('p'+i);if(!p)return;p.className='pip'+(i<n?' done':i===n?' active':'')})
+  if(n===2)renderCal();if(n===3)updSum();window.scrollTo({top:0})
+}
+const MO=['January','February','March','April','May','June','July','August','September','October','November','December']
+const DA=['Sun','Mon','Tue','Wed','Thu','Fri','Sat']
+const AV=[2,4,5,7,9,10,12,14,15,17,18,19,22,24,25,26,28,29]
+const TK=['10:00 am','3:00 pm']
+const TM=['9:00 am','9:30 am','10:00 am','10:30 am','11:00 am','11:30 am','2:00 pm','2:30 pm','3:00 pm','3:30 pm','4:00 pm','5:00 pm','5:30 pm','6:00 pm']
+function chMo(d){S.mo.setMonth(S.mo.getMonth()+d);renderCal();document.getElementById('tslots').style.display='none';document.getElementById('cta2').disabled=true;S.date=null;S.time=null}
+function renderCal(){
+  const m=S.mo,t=new Date();t.setHours(0,0,0,0)
+  document.getElementById('calm').textContent=`${MO[m.getMonth()]} ${m.getFullYear()}`
+  const g=document.getElementById('cgrid')
+  g.innerHTML=DA.map(d=>`<div class="cday-name">${d}</div>`).join('')
+  const fd=new Date(m.getFullYear(),m.getMonth(),1).getDay()
+  const dim=new Date(m.getFullYear(),m.getMonth()+1,0).getDate()
+  for(let i=0;i<fd;i++)g.innerHTML+=`<div class="cday empty"></div>`
+  for(let d=1;d<=dim;d++){
+    const dt=new Date(m.getFullYear(),m.getMonth(),d)
+    const past=dt<t,has=AV.includes(d)&&!past
+    const sel=S.date&&S.date.getDate()===d&&S.date.getMonth()===m.getMonth()
+    const tod=dt.toDateString()===t.toDateString()
+    const cls=`cday${past?' past':!AV.includes(d)?' nos':''}${tod?' today':''}${sel?' sel':''}`
+    g.innerHTML+=`<div class="${cls}" onclick="${has?`selD(${m.getFullYear()},${m.getMonth()},${d})`:''}'">${d}</div>`
+  }
+}
+function selD(y,mo,d){S.date=new Date(y,mo,d);renderCal();const l=S.date.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});document.getElementById('tlabel').textContent=`Times for ${l}`;document.getElementById('tslots').style.display='block';renderSlots()}
+function renderSlots(){S.time=null;document.getElementById('cta2').disabled=true;document.getElementById('sgrid').innerHTML=TM.map(t=>{const tk=TK.includes(t);return`<button class="slotbtn${tk?' una':''}" onclick="${tk?'':'selT(`'+t+'`)'"  ${tk?'disabled':''}>${t}</button>`}).join('')}
+function selT(t){S.time=t;document.querySelectorAll('.slotbtn').forEach(b=>b.classList.remove('sel'));event.target.classList.add('sel');document.getElementById('cta2').disabled=false}
+function swAuth(m,btn){document.querySelectorAll('.atab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.getElementById('gf').style.display=m==='g'?'block':'none';document.getElementById('lf').style.display=m==='l'?'block':'none'}
+function updSum(){document.getElementById('ss').textContent=S.svc||'—';document.getElementById('sd').textContent=S.date?S.date.toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'})+' at '+S.time:'—';document.getElementById('st').textContent=S.price?fmt(S.price):'—'}
+function submit(){document.getElementById('cs').textContent=S.svc;document.getElementById('cd').textContent=S.date.toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'long'})+' at '+S.time;document.getElementById('ct').textContent=fmt(S.price);['s1','s2','s3'].forEach(id=>{const e=document.getElementById(id);if(e)e.style.display='none'});document.getElementById('sc').style.display='block';document.querySelectorAll('.pip').forEach(p=>p.className='pip done')}
+renderCal()
+</script>
+</body>
+</html>

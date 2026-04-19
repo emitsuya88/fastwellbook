@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg"><link rel="apple-touch-icon" href="icon-512.svg">
+<title>FastWellBook — Free Booking Websites for Wellness Businesses</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300;1,9..144,200;1,9..144,300;1,9..144,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* Teal palette */
+  --teal:        #0D9488;
+  --teal-dark:   #0F766E;
+  --teal-deep:   #134E4A;
+  --teal-mid:    #14B8A6;
+  --teal-bright: #2DD4BF;
+  --teal-light:  #99F6E4;
+  --teal-100:    #CCFBF1;
+  --teal-50:     #F0FDFA;
+  --teal-glow:   rgba(13,148,136,0.18);
+
+  /* Green accent */
+  --green:       #16A34A;
+  --green-50:    #F0FDF4;
+  --green-100:   #DCFCE7;
+
+  /* Warm neutrals — the base */
+  --white:       #FFFFFF;
+  --off-white:   #FAFCFB;
+  --cream:       #F5FAF8;
+  --warm-50:     #F7F9F8;
+  --warm-100:    #EDF4F1;
+
+  /* Grays */
+  --gray-100:    #F3F4F6;
+  --gray-200:    #E5E7EB;
+  --gray-300:    #D1D5DB;
+  --gray-400:    #9CA3AF;
+  --gray-500:    #6B7280;
+  --gray-600:    #4B5563;
+  --gray-800:    #1F2937;
+  --ink:         #0D1F1A;
+
+  /* Gold for stars/accents */
+  --gold:        #F59E0B;
+
+  /* Borders */
+  --border:      rgba(13,148,136,0.12);
+  --border-gray: #E5E7EB;
+
+  /* Shadows */
+  --shadow-sm:   0 1px 4px rgba(0,0,0,0.05);
+  --shadow:      0 4px 20px rgba(0,0,0,0.07);
+  --shadow-md:   0 8px 32px rgba(0,0,0,0.08);
+  --shadow-lg:   0 20px 60px rgba(0,0,0,0.1);
+  --shadow-teal: 0 12px 40px rgba(13,148,136,0.2);
+
+  /* Type */
+  --font:   'Plus Jakarta Sans', system-ui, sans-serif;
+  --serif:  'Fraunces', Georgia, serif;
+
+  /* Radius */
+  --r:    14px;
+  --r-lg: 22px;
+  --r-xl: 32px;
+}
+
+html { background: var(--white); color: var(--ink); font-family: var(--font); scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+body { overflow-x: hidden; }
+a { text-decoration: none; }
+
+/* ════════════════════════════════
+   NAV
+════════════════════════════════ */
+nav {
+  position: sticky; top: 0; z-index: 200;
+  height: 68px; padding: 0 56px;
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-gray);
+  transition: box-shadow 0.3s;
+}
+nav.scrolled { box-shadow: 0 4px 24px rgba(0,0,0,0.06); }
+
+.nav-logo { display: flex; align-items: center; gap: 10px; }
+.nav-mark { font-size:0;
+  width: 36px; height: 36px; border-radius: 10px;
+  background: linear-gradient(135deg, var(--teal-dark), var(--teal-mid));
+  display: flex; align-items: center; justify-content: center; font-size: 18px;
+  box-shadow: 0 4px 12px var(--teal-glow);
+}
+.nav-logo-text { font-size: 19px; font-weight: 800; color: var(--ink); letter-spacing: -0.4px; }
+.nav-logo-text span { color: var(--teal); }
+
+.nav-links { display: flex; gap: 36px; }
+.nav-links a { font-size: 14px; font-weight: 600; color: var(--gray-500); transition: color 0.15s; }
+.nav-links a:hover { color: var(--teal); }
+
+.nav-right { display: flex; gap: 10px; align-items: center; }
+.btn-ghost-nav {
+  padding: 9px 20px; border: 1.5px solid var(--border-gray); border-radius: 30px;
+  background: none; color: var(--gray-600); font-size: 13px; font-weight: 600;
+  cursor: pointer; font-family: var(--font); transition: all 0.15s;
+}
+.btn-ghost-nav:hover { border-color: var(--teal); color: var(--teal); }
+.btn-solid-nav {
+  padding: 10px 22px; border: none; border-radius: 30px;
+  background: var(--teal); color: white; font-size: 13px; font-weight: 700;
+  cursor: pointer; font-family: var(--font); transition: all 0.2s;
+  box-shadow: 0 4px 14px var(--teal-glow);
+}
+.btn-solid-nav:hover { background: var(--teal-dark); transform: translateY(-1px); }
+
+/* ════════════════════════════════
+   HERO — clean light version
+════════════════════════════════ */
+.hero {
+  min-height: 92vh; padding: 80px 56px 80px;
+  display: flex; align-items: center;
+  background: var(--white);
+  position: relative; overflow: hidden;
+}
+
+/* Soft teal gradient blob — top left */
+.hero::before {
+  content: '';
+  position: absolute; top: -160px; left: -160px;
+  width: 700px; height: 700px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(13,148,136,0.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+/* Soft green blob — bottom right */
+.hero::after {
+  content: '';
+  position: absolute; bottom: -120px; right: -100px;
+  width: 500px; height: 500px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(22,163,74,0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Dot grid texture */
+.hero-dots {
+  position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  background-image: radial-gradient(circle, rgba(13,148,136,0.08) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 0%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 0%, transparent 100%);
+}
+
+.hero-inner {
+  position: relative; z-index: 1;
+  max-width: 1240px; margin: 0 auto; width: 100%;
+  display: grid; grid-template-columns: 1fr 460px; gap: 80px; align-items: center;
+}
+
+/* Eyebrow pill */
+.hero-pill {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--teal-50); border: 1.5px solid var(--teal-100);
+  border-radius: 30px; padding: 6px 14px 6px 8px; margin-bottom: 28px;
+}
+.hero-pill-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--teal); }
+.hero-pill-text { font-size: 13px; font-weight: 600; color: var(--teal-dark); }
+
+.hero-h1 {
+  font-size: clamp(44px, 6vw, 76px); font-weight: 800;
+  line-height: 1.06; letter-spacing: -2.5px; color: var(--ink); margin-bottom: 22px;
+}
+.hero-h1-serif {
+  font-family: var(--serif); font-weight: 200; font-style: italic;
+  color: var(--teal); display: block; letter-spacing: -1.5px;
+}
+
+.hero-sub {
+  font-size: 18px; color: var(--gray-500); line-height: 1.75;
+  margin-bottom: 40px; max-width: 460px; font-weight: 400;
+}
+.hero-sub strong { color: var(--ink); font-weight: 700; }
+
+/* Stats row */
+.hero-stats {
+  display: flex; gap: 32px; margin-bottom: 40px;
+  padding-bottom: 36px; border-bottom: 1px solid var(--border-gray);
+}
+.hstat-num { font-size: 28px; font-weight: 800; color: var(--teal); line-height: 1; margin-bottom: 4px; letter-spacing: -0.5px; }
+.hstat-label { font-size: 12px; color: var(--gray-400); font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; }
+
+.hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn-primary {
+  padding: 16px 32px; background: var(--teal); color: white;
+  border: none; border-radius: var(--r); font-size: 16px; font-weight: 800;
+  cursor: pointer; font-family: var(--font); transition: all 0.2s; letter-spacing: -0.2px;
+  box-shadow: var(--shadow-teal);
+}
+.btn-primary:hover { background: var(--teal-dark); transform: translateY(-2px); box-shadow: 0 20px 48px rgba(13,148,136,0.28); }
+.btn-secondary {
+  padding: 16px 28px; background: var(--warm-100); color: var(--ink);
+  border: none; border-radius: var(--r); font-size: 15px; font-weight: 600;
+  cursor: pointer; font-family: var(--font); transition: all 0.2s;
+}
+.btn-secondary:hover { background: var(--teal-50); color: var(--teal-dark); }
+
+/* Signup card */
+.signup-card {
+  background: var(--white); border-radius: var(--r-xl); padding: 36px;
+  box-shadow: var(--shadow-lg), 0 0 0 1px var(--border-gray);
+  position: relative; overflow: hidden;
+}
+.signup-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--teal-dark), var(--teal-bright), var(--green));
+}
+.scard-title { font-size: 22px; font-weight: 800; color: var(--ink); margin-bottom: 4px; letter-spacing: -0.3px; }
+.scard-sub { font-size: 14px; color: var(--gray-400); margin-bottom: 24px; }
+
+.sform { display: flex; flex-direction: column; gap: 13px; }
+.sform-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.sfield { display: flex; flex-direction: column; gap: 6px; }
+.sfield label { font-size: 11px; font-weight: 700; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.09em; }
+.sfield input, .sfield select {
+  padding: 12px 14px; border: 1.5px solid var(--border-gray); border-radius: var(--r);
+  font-size: 15px; font-family: var(--font); color: var(--ink); background: var(--white);
+  outline: none; transition: all 0.15s; -webkit-appearance: none; font-weight: 500;
+}
+.sfield input:focus, .sfield select:focus { border-color: var(--teal); box-shadow: 0 0 0 4px var(--teal-50); }
+.sfield input::placeholder { color: var(--gray-300); font-weight: 400; }
+.sfield select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%239CA3AF' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 14px center; padding-right: 40px; cursor: pointer;
+}
+.btn-form {
+  width: 100%; padding: 15px;
+  background: linear-gradient(135deg, var(--teal-dark), var(--teal-mid));
+  color: white; border: none; border-radius: var(--r);
+  font-size: 16px; font-weight: 800; font-family: var(--font);
+  cursor: pointer; transition: all 0.2s; letter-spacing: -0.2px;
+  box-shadow: 0 6px 24px var(--teal-glow);
+}
+.btn-form:hover { transform: translateY(-2px); filter: brightness(1.06); box-shadow: 0 14px 40px var(--teal-glow); }
+.sform-trust {
+  display: flex; justify-content: center; gap: 18px;
+  padding-top: 14px; border-top: 1px solid var(--border-gray); margin-top: 2px;
+}
+.strust { font-size: 12px; color: var(--gray-400); font-weight: 600; display: flex; align-items: center; gap: 5px; }
+.strust::before { content: '✓'; color: var(--teal); font-weight: 800; }
+
+/* ════════════════════════════════
+   MARQUEE — teal on white
+════════════════════════════════ */
+.marquee-bar {
+  background: var(--teal-50); border-top: 1.5px solid var(--teal-100);
+  border-bottom: 1.5px solid var(--teal-100); padding: 16px 0; overflow: hidden;
+}
+.marquee-track { display: flex; animation: marquee 28s linear infinite; width: max-content; }
+.mitem {
+  display: flex; align-items: center; gap: 10px; padding: 0 32px;
+  font-size: 13px; font-weight: 700; color: var(--teal-dark);
+  text-transform: uppercase; letter-spacing: 0.08em; white-space: nowrap;
+  border-right: 1px solid var(--teal-100);
+}
+.mitem:last-child { border-right: none; }
+.mdot { width: 5px; height: 5px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+@keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+
+/* ════════════════════════════════
+   SHARED
+════════════════════════════════ */
+.section { padding: 100px 56px; }
+.inner { max-width: 1240px; margin: 0 auto; }
+.stag {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em;
+  color: var(--teal); margin-bottom: 18px; padding: 5px 12px 5px 8px;
+  background: var(--teal-50); border: 1.5px solid var(--teal-100); border-radius: 30px;
+}
+.stag::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--teal); }
+.sh {
+  font-size: clamp(32px, 4vw, 52px); font-weight: 800; color: var(--ink);
+  line-height: 1.1; letter-spacing: -1.5px; margin-bottom: 16px;
+}
+.sh em { font-family: var(--serif); font-weight: 200; font-style: italic; color: var(--teal); }
+.sp { font-size: 17px; color: var(--gray-500); line-height: 1.75; max-width: 500px; }
+
+/* ════════════════════════════════
+   FOR WELLNESS
+════════════════════════════════ */
+.for-wellness { background: var(--warm-50); }
+.fw-header { text-align: center; margin-bottom: 64px; }
+.fw-header .sp { margin: 0 auto; }
+
+.fw-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 48px; }
+.fw-card {
+  background: var(--white); border-radius: var(--r-lg); padding: 28px 22px;
+  border: 1.5px solid var(--border-gray); text-align: center;
+  transition: all 0.25s; cursor: pointer; position: relative; overflow: hidden;
+}
+.fw-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--teal), var(--teal-bright)); transform: scaleX(0); transform-origin: left; transition: transform 0.3s; }
+.fw-card:hover { border-color: var(--teal-100); transform: translateY(-5px); box-shadow: var(--shadow-md); }
+.fw-card:hover::after { transform: scaleX(1); }
+.fw-icon { font-size: 40px; margin-bottom: 14px; display: block; }
+.fw-name { font-size: 15px; font-weight: 800; color: var(--ink); margin-bottom: 7px; letter-spacing: -0.2px; }
+.fw-desc { font-size: 13px; color: var(--gray-400); line-height: 1.55; }
+
+/* Statement strip */
+.fw-strip {
+  background: var(--teal-50); border: 1.5px solid var(--teal-100);
+  border-radius: var(--r-xl); padding: 52px 56px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+}
+.fw-strip-left .sh { margin-bottom: 16px; }
+.fw-strip-left .sp { margin-bottom: 28px; }
+.fw-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 26px; background: var(--teal); color: white;
+  border: none; border-radius: var(--r); font-size: 15px; font-weight: 700;
+  font-family: var(--font); cursor: pointer; transition: all 0.2s;
+  box-shadow: var(--shadow-teal);
+}
+.fw-btn:hover { background: var(--teal-dark); transform: translateY(-1px); }
+
+.fw-pills { display: flex; flex-direction: column; gap: 12px; }
+.fw-pill {
+  display: flex; align-items: center; gap: 14px;
+  background: var(--white); border: 1.5px solid var(--teal-100);
+  border-radius: var(--r); padding: 16px 20px; transition: all 0.2s;
+}
+.fw-pill:hover { border-color: var(--teal); box-shadow: var(--shadow-sm); }
+.fw-pill-icon { font-size: 22px; flex-shrink: 0; }
+.fw-pill-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+.fw-pill-sub { font-size: 12px; color: var(--gray-400); line-height: 1.4; }
+
+/* ════════════════════════════════
+   HOW IT WORKS
+════════════════════════════════ */
+.how { background: var(--white); }
+.how-header { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: end; margin-bottom: 64px; }
+.how-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+
+.hstep {
+  border-radius: var(--r-xl); padding: 40px 32px; transition: all 0.25s;
+  cursor: pointer; position: relative; overflow: hidden;
+}
+.hs-1 { background: var(--teal-deep); }
+.hs-2 { background: var(--teal); }
+.hs-3 { background: var(--teal-50); border: 1.5px solid var(--teal-100); }
+.hstep:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+
+.hs-num {
+  font-family: var(--serif); font-size: 96px; font-weight: 200; font-style: italic;
+  line-height: 0.9; margin-bottom: 20px; letter-spacing: -3px; display: block; opacity: 0.18;
+}
+.hs-1 .hs-num, .hs-2 .hs-num { color: white; }
+.hs-3 .hs-num { color: var(--teal); opacity: 0.25; }
+
+.hs-icon { font-size: 36px; margin-bottom: 18px; display: block; }
+.hs-title { font-size: 20px; font-weight: 800; margin-bottom: 10px; letter-spacing: -0.3px; }
+.hs-desc { font-size: 14px; line-height: 1.7; }
+.hs-1 .hs-title, .hs-2 .hs-title, .hs-1 .hs-desc, .hs-2 .hs-desc { color: rgba(255,255,255,0.9); }
+.hs-1 .hs-desc, .hs-2 .hs-desc { color: rgba(255,255,255,0.65); }
+.hs-3 .hs-title { color: var(--teal-deep); }
+.hs-3 .hs-desc { color: var(--teal-dark); opacity: 0.75; }
+
+/* ════════════════════════════════
+   FEATURES — light bento
+════════════════════════════════ */
+.features { background: var(--cream); }
+.feat-head { text-align: center; margin-bottom: 64px; }
+.feat-head .sp { margin: 0 auto; }
+.bento { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; }
+.bcard {
+  background: var(--white); border: 1.5px solid var(--border-gray);
+  border-radius: var(--r-xl); padding: 32px 28px; transition: all 0.25s; cursor: pointer;
+}
+.bcard:hover { border-color: var(--teal-100); transform: translateY(-4px); box-shadow: var(--shadow-md); }
+.bc-1 { grid-column: span 3; background: var(--teal-deep); border-color: transparent; }
+.bc-1:hover { border-color: transparent; box-shadow: var(--shadow-teal); }
+.bc-2 { grid-column: span 3; }
+.bc-3 { grid-column: span 2; }
+.bc-4 { grid-column: span 2; }
+.bc-5 { grid-column: span 2; }
+.bcard-icon { font-size: 36px; margin-bottom: 20px; display: block; }
+.bcard-title { font-size: 18px; font-weight: 800; color: var(--ink); margin-bottom: 10px; letter-spacing: -0.2px; }
+.bcard-desc { font-size: 14px; color: var(--gray-500); line-height: 1.7; }
+.bc-1 .bcard-title { color: white; }
+.bc-1 .bcard-desc { color: rgba(255,255,255,0.6); }
+.bcard-big { font-family: var(--serif); font-size: 64px; font-weight: 200; font-style: italic; color: var(--teal); line-height: 1; margin-bottom: 8px; letter-spacing: -2px; }
+.bcard-big-label { font-size: 12px; font-weight: 700; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; }
+
+/* ════════════════════════════════
+   PRICING
+════════════════════════════════ */
+.pricing { background: var(--white); }
+.pricing-layout { display: grid; grid-template-columns: 480px 1fr; gap: 72px; align-items: start; }
+.price-card {
+  background: var(--teal-deep); border-radius: var(--r-xl); padding: 48px 40px;
+  position: relative; overflow: hidden;
+  box-shadow: var(--shadow-lg), var(--shadow-teal);
+}
+.price-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--teal-bright), var(--green)); }
+.price-card-glow { position: absolute; top: -80px; right: -80px; width: 280px; height: 280px; border-radius: 50%; background: radial-gradient(circle, rgba(45,212,191,0.12), transparent); pointer-events: none; }
+.price-card-inner { position: relative; z-index: 1; }
+.price-zero { font-size: 88px; font-weight: 800; color: white; line-height: 1; letter-spacing: -4px; margin-bottom: 4px; }
+.price-mo { font-size: 18px; color: rgba(255,255,255,0.4); font-weight: 500; }
+.price-cap { font-size: 13px; color: rgba(255,255,255,0.35); margin-bottom: 36px; margin-top: 2px; }
+.comm-box { background: rgba(45,212,191,0.1); border: 1px solid rgba(45,212,191,0.2); border-radius: 14px; padding: 20px 22px; margin-bottom: 32px; display: flex; align-items: center; gap: 18px; }
+.comm-pct { font-size: 44px; font-weight: 800; color: var(--teal-bright); letter-spacing: -1.5px; line-height: 1; }
+.comm-lbl { font-size: 13px; font-weight: 700; color: white; margin-bottom: 3px; }
+.comm-sub-t { font-size: 12px; color: rgba(255,255,255,0.4); }
+.price-feats { display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px; }
+.pf { display: flex; align-items: center; gap: 10px; font-size: 14px; color: rgba(255,255,255,0.75); font-weight: 500; }
+.pf-check { width: 20px; height: 20px; border-radius: 50%; background: rgba(45,212,191,0.15); border: 1px solid rgba(45,212,191,0.3); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 10px; color: var(--teal-bright); font-weight: 800; }
+.btn-price { width: 100%; padding: 16px; background: white; color: var(--teal-dark); border: none; border-radius: var(--r); font-size: 16px; font-weight: 800; font-family: var(--font); cursor: pointer; transition: all 0.2s; }
+.btn-price:hover { background: var(--teal-50); transform: translateY(-1px); }
+
+.pricing-right { padding-top: 8px; }
+.pricing-right .sh { margin-bottom: 16px; }
+.pricing-right .sp { margin-bottom: 40px; }
+.calc-stack { display: flex; flex-direction: column; gap: 12px; }
+.calc-row {
+  display: flex; align-items: stretch; background: var(--white);
+  border: 1.5px solid var(--border-gray); border-radius: var(--r-lg);
+  overflow: hidden; transition: all 0.2s; cursor: pointer;
+}
+.calc-row:hover { border-color: var(--teal-100); box-shadow: var(--shadow); }
+.calc-left { flex: 1; padding: 20px 22px; border-right: 1.5px solid var(--border-gray); }
+.calc-right { flex: 1; padding: 20px 22px; background: var(--teal-50); }
+.calc-lbl { font-size: 11px; font-weight: 700; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+.calc-val { font-size: 26px; font-weight: 800; color: var(--ink); letter-spacing: -0.5px; }
+.calc-right .calc-val { color: var(--teal); }
+
+/* ════════════════════════════════
+   TESTIMONIALS
+════════════════════════════════ */
+.testi { background: var(--warm-50); }
+.testi-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 56px; }
+.testi-stars-big { font-size: 22px; color: var(--gold); letter-spacing: 2px; margin-bottom: 6px; }
+.testi-rating-count { font-size: 14px; color: var(--gray-400); font-weight: 600; text-align: right; }
+.tcards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.tcard { border-radius: var(--r-xl); padding: 32px 28px; transition: all 0.25s; cursor: pointer; }
+.tcard:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+.tc-1 { background: var(--white); border: 1.5px solid var(--teal-100); }
+.tc-2 { background: var(--teal-50); border: 1.5px solid var(--teal-100); }
+.tc-3 { background: var(--white); border: 1.5px solid var(--green-100); }
+.tcard-stars { font-size: 14px; color: var(--gold); letter-spacing: 1px; margin-bottom: 18px; }
+.tcard-quote { font-size: 16px; color: var(--gray-800); line-height: 1.75; margin-bottom: 28px; font-style: italic; font-family: var(--serif); font-weight: 300; }
+.tcard-author { display: flex; align-items: center; gap: 12px; }
+.tcard-av { width: 44px; height: 44px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 800; flex-shrink: 0; }
+.tc-1 .tcard-av { background: var(--teal-50); color: var(--teal-dark); }
+.tc-2 .tcard-av { background: var(--teal-100); color: var(--teal-deep); }
+.tc-3 .tcard-av { background: var(--green-100); color: var(--green); }
+.tcard-name { font-size: 15px; font-weight: 700; color: var(--ink); }
+.tcard-role { font-size: 12px; color: var(--gray-400); margin-top: 2px; font-weight: 500; }
+
+/* ════════════════════════════════
+   FAQ
+════════════════════════════════ */
+.faq { background: var(--white); }
+.faq-layout { display: grid; grid-template-columns: 380px 1fr; gap: 100px; align-items: start; }
+.faq-left { position: sticky; top: 96px; }
+.faq-left .sp { color: var(--gray-500); margin-top: 14px; margin-bottom: 28px; font-size: 16px; }
+.btn-contact { padding: 13px 24px; background: var(--teal-50); color: var(--teal-dark); border: 1.5px solid var(--teal-100); border-radius: var(--r); font-size: 14px; font-weight: 700; cursor: pointer; font-family: var(--font); transition: all 0.2s; }
+.btn-contact:hover { background: var(--teal); color: white; border-color: var(--teal); }
+.faq-list { display: flex; flex-direction: column; }
+.faq-item { border-bottom: 1.5px solid var(--border-gray); overflow: hidden; }
+.faq-q { width: 100%; padding: 22px 0; background: none; border: none; font-size: 16px; font-weight: 700; color: var(--ink); cursor: pointer; font-family: var(--font); text-align: left; letter-spacing: -0.2px; display: flex; justify-content: space-between; align-items: center; gap: 20px; transition: color 0.15s; }
+.faq-q:hover { color: var(--teal); }
+.faq-icon { width: 30px; height: 30px; border-radius: 50%; border: 1.5px solid var(--border-gray); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 16px; color: var(--teal); transition: all 0.3s; font-weight: 300; }
+.faq-item.open .faq-icon { background: var(--teal); border-color: var(--teal); color: white; transform: rotate(45deg); }
+.faq-a { font-size: 15px; color: var(--gray-500); line-height: 1.75; max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s; }
+.faq-item.open .faq-a { max-height: 300px; padding-bottom: 22px; }
+
+/* ════════════════════════════════
+   CTA FINAL — teal on light
+════════════════════════════════ */
+.cta-final {
+  background: var(--teal-50); padding: 100px 56px;
+  border-top: 1.5px solid var(--teal-100);
+  position: relative; overflow: hidden;
+}
+.cta-final::before { content: ''; position: absolute; top: -100px; left: 50%; transform: translateX(-50%); width: 600px; height: 400px; border-radius: 50%; background: radial-gradient(circle, rgba(13,148,136,0.1), transparent); pointer-events: none; }
+.cta-final-inner { max-width: 720px; margin: 0 auto; text-align: center; position: relative; z-index: 1; }
+.cta-final .sh { color: var(--ink); margin-bottom: 16px; }
+.cta-final .sp { color: var(--gray-500); margin: 0 auto 44px; }
+.cta-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.btn-cta-main { padding: 18px 40px; background: var(--teal); color: white; border: none; border-radius: var(--r); font-size: 17px; font-weight: 800; font-family: var(--font); cursor: pointer; transition: all 0.2s; box-shadow: var(--shadow-teal); }
+.btn-cta-main:hover { background: var(--teal-dark); transform: translateY(-2px); box-shadow: 0 20px 48px rgba(13,148,136,0.28); }
+.btn-cta-sec { padding: 18px 32px; background: white; color: var(--ink); border: 1.5px solid var(--border-gray); border-radius: var(--r); font-size: 16px; font-weight: 600; font-family: var(--font); cursor: pointer; transition: all 0.2s; }
+.btn-cta-sec:hover { border-color: var(--teal); color: var(--teal); }
+.cta-note { margin-top: 20px; font-size: 13px; color: var(--gray-400); font-weight: 500; }
+
+/* ════════════════════════════════
+   FOOTER
+════════════════════════════════ */
+footer { background: var(--ink); padding: 64px 56px 32px; }
+.footer-inner { max-width: 1240px; margin: 0 auto; }
+.footer-top { display: grid; grid-template-columns: 1.8fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,0.07); margin-bottom: 28px; }
+.footer-logo-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.footer-mark { font-size:0; width: 32px; height: 32px; border-radius: 9px; background: linear-gradient(135deg, var(--teal-dark), var(--teal-mid)); display: flex; align-items: center; justify-content: center; font-size: 15px; }
+.footer-name { font-size: 17px; font-weight: 800; color: white; letter-spacing: -0.3px; }
+.footer-tagline { font-size: 14px; color: rgba(255,255,255,0.3); line-height: 1.65; max-width: 260px; }
+.footer-col-h { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: rgba(255,255,255,0.25); margin-bottom: 18px; }
+.footer-links { display: flex; flex-direction: column; gap: 10px; }
+.footer-links a { font-size: 14px; color: rgba(255,255,255,0.45); transition: color 0.15s; font-weight: 500; }
+.footer-links a:hover { color: var(--teal-bright); }
+.footer-bottom { display: flex; justify-content: space-between; font-size: 13px; color: rgba(255,255,255,0.2); }
+
+/* ════════════════════════════════
+   REVEAL
+════════════════════════════════ */
+.r { opacity: 0; transform: translateY(28px); transition: opacity 0.75s cubic-bezier(0.16,1,0.3,1), transform 0.75s cubic-bezier(0.16,1,0.3,1); }
+.r.in { opacity: 1; transform: translateY(0); }
+.d1 { transition-delay: 0.1s; }
+.d2 { transition-delay: 0.2s; }
+.d3 { transition-delay: 0.3s; }
+
+/* ════════════════════════════════
+   RESPONSIVE
+════════════════════════════════ */
+@media (max-width: 1100px) {
+  .hero-inner, .pricing-layout { grid-template-columns: 1fr; }
+  .hero-right { display: none; }
+  .fw-strip, .faq-layout { grid-template-columns: 1fr; }
+  .faq-left { position: static; }
+  .bento { grid-template-columns: repeat(2, 1fr); }
+  .bc-1,.bc-2,.bc-3,.bc-4,.bc-5 { grid-column: span 1; }
+  .how-header { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  .hero { padding: 100px 20px 72px; }
+  .section { padding: 72px 20px; }
+  .fw-grid { grid-template-columns: repeat(2, 1fr); }
+  .how-steps, .tcards { grid-template-columns: 1fr; }
+  footer { padding: 56px 20px 28px; }
+  .footer-top { grid-template-columns: 1fr 1fr; }
+  .cta-final { padding: 80px 20px; }
+  .fw-strip { padding: 36px 28px; }
+}
+
+/* ════════════════════════════════
+   URGENCY / FIRST-COME FIRST-SERVED
+════════════════════════════════ */
+.hero-activity {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--teal-50); border: 1.5px solid var(--teal-100);
+  border-radius: 30px; padding: 8px 16px; margin-bottom: 28px;
+  width: fit-content;
+}
+.activity-dot {
+  width: 8px; height: 8px; border-radius: 50%; background: var(--green);
+  flex-shrink: 0; box-shadow: 0 0 0 3px rgba(22,163,74,0.2);
+  animation: live-pulse 2s ease-in-out infinite;
+}
+@keyframes live-pulse {
+  0%,100% { box-shadow: 0 0 0 3px rgba(22,163,74,0.2); }
+  50%      { box-shadow: 0 0 0 6px rgba(22,163,74,0.08); }
+}
+.activity-text { font-size: 13px; font-weight: 600; color: var(--teal-deep); }
+
+.spots-bar-wrap { margin-bottom: 32px; }
+.spots-bar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.spots-bar-label { font-size: 12px; font-weight: 600; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.07em; }
+.spots-bar-count { font-size: 13px; font-weight: 700; color: var(--gray-800); }
+.spots-track {
+  height: 10px; background: var(--gray-100); border-radius: 10px; overflow: hidden;
+}
+.spots-fill {
+  height: 100%; border-radius: 10px;
+  background: linear-gradient(90deg, var(--teal), #F59E0B);
+  transition: width 1s cubic-bezier(0.16,1,0.3,1);
+  position: relative;
+}
+.spots-fill::after {
+  content: ''; position: absolute; right: 0; top: 0; bottom: 0; width: 3px;
+  background: rgba(255,255,255,0.6); border-radius: 0 10px 10px 0;
+  animation: bar-shimmer 1.5s ease-in-out infinite;
+}
+@keyframes bar-shimmer { 0%,100%{opacity:1} 50%{opacity:0.4} }
+.spots-urgency { font-size: 12px; color: #D97706; font-weight: 600; margin-top: 8px; }
+
+.btn-pulse {
+  animation: btn-glow 2.5s ease-in-out infinite;
+}
+@keyframes btn-glow {
+  0%,100% { box-shadow: var(--shadow-teal); }
+  50%      { box-shadow: 0 16px 48px rgba(13,148,136,0.38), 0 0 0 4px rgba(13,148,136,0.1); }
+}
+
+.social-row { display: flex; align-items: center; gap: 12px; margin-top: 24px; }
+.social-avatars { display: flex; }
+.sav {
+  width: 34px; height: 34px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 800; border: 2px solid white;
+  margin-left: -8px; flex-shrink: 0;
+}
+.sav:first-child { margin-left: 0; }
+.social-text { font-size: 13px; color: var(--gray-500); font-weight: 500; }
+.social-text strong { color: var(--ink); }
+
+/* Card timer */
+.card-timer {
+  display: flex; align-items: center; gap: 12px;
+  background: #FEF3C7; border: 1.5px solid #FDE68A;
+  border-radius: var(--r); padding: 12px 16px; margin-bottom: 20px;
+}
+.timer-icon { font-size: 22px; flex-shrink: 0; }
+.timer-label { font-size: 11px; font-weight: 700; color: #92400E; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 2px; }
+.timer-count { font-size: 18px; font-weight: 800; color: #78350F; letter-spacing: -0.5px; font-variant-numeric: tabular-nums; }
+
+/* ════════════════════════════════
+   CUSTOM CURSOR
+════════════════════════════════ */
+* { cursor: none !important; }
+#cur {
+  width: 10px; height: 10px; background: var(--teal);
+  border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999;
+  transform: translate(-50%,-50%); transition: width 0.2s, height 0.2s, background 0.2s, transform 0.15s;
+}
+#cur-ring {
+  width: 38px; height: 38px; border: 2px solid rgba(13,148,136,0.35);
+  border-radius: 50%; position: fixed; pointer-events: none; z-index: 9998;
+  transform: translate(-50%,-50%); transition: width 0.3s cubic-bezier(0.16,1,0.3,1), height 0.3s cubic-bezier(0.16,1,0.3,1), opacity 0.2s, border-color 0.2s;
+}
+#cur.hover { width: 16px; height: 16px; background: var(--teal-dark); transform: translate(-50%,-50%) scale(1.5); }
+#cur-ring.hover { width: 56px; height: 56px; border-color: rgba(13,148,136,0.25); }
+</style>
+</head>
+<body>
+<div id="cur"></div>
+<div id="cur-ring"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-logo">
+    <div class="nav-mark"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="20" height="20"><path d="M10 17.5C5.8 17.5 3.5 13.5 4.2 10.2C4.9 6.9 7.2 5.5 10 5.5C12.8 5.5 15.1 6.9 15.8 10.2C16.5 13.5 14.2 17.5 10 17.5Z" fill="white" opacity=".95"/><line x1="10" y1="17.5" x2="10" y2="19.5" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity=".8"/><line x1="10" y1="7.5" x2="10" y2="16.5" stroke="#0F766E" stroke-width="1" stroke-linecap="round" opacity=".5"/><line x1="10" y1="10.5" x2="13.5" y2="8" stroke="#0F766E" stroke-width=".8" stroke-linecap="round" opacity=".45"/><line x1="10" y1="13" x2="13.8" y2="11" stroke="#0F766E" stroke-width=".8" stroke-linecap="round" opacity=".38"/><line x1="10" y1="12" x2="6.5" y2="10" stroke="#0F766E" stroke-width=".8" stroke-linecap="round" opacity=".38"/></svg></div>
+    <div class="nav-logo-text">Fast<span>Well</span>Book</div>
+  </div>
+  <div class="nav-links">
+    <a href="#wellness">For wellness</a>
+    <a href="#how">How it works</a>
+    <a href="#features">Features</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#faq">FAQ</a>
+  </div>
+  <div class="nav-right">
+    <button class="btn-ghost-nav" onclick="window.location.href='login.html'">Sign in</button>
+    <button class="btn-solid-nav" onclick="window.location.href='onboarding.html'">Get started free</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-dots"></div>
+  <div class="hero-inner">
+    <div class="hero-left">
+
+      <!-- Urgency pill -->
+      <div class="hero-pill" style="background:#FEF3C7;border-color:#FDE68A;gap:10px">
+        <span style="font-size:14px">🔥</span>
+        <span class="hero-pill-text" style="color:#92400E">Only <strong id="spots-left">12</strong> free spots left this month</span>
+      </div>
+
+      <h1 class="hero-h1">
+        Get your free<br>booking site.
+        <span class="hero-h1-serif">Before they're gone.</span>
+      </h1>
+      <p class="hero-sub">
+        We build wellness businesses a <strong>professional booking website for free.</strong> First come, first served — we only take on a limited number of new businesses each month.
+      </p>
+
+      <!-- Live activity feed -->
+      <div class="hero-activity">
+        <div class="activity-dot"></div>
+        <span class="activity-text" id="activity-text">Sarah from Bristol just claimed her free website</span>
+      </div>
+
+      <div class="hero-stats">
+        <div>
+          <div class="hstat-num">£0</div>
+          <div class="hstat-label">Monthly fee</div>
+        </div>
+        <div>
+          <div class="hstat-num">5 min</div>
+          <div class="hstat-label">To go live</div>
+        </div>
+        <div>
+          <div class="hstat-num">8.69%</div>
+          <div class="hstat-label">Commission only</div>
+        </div>
+        <div>
+          <div class="hstat-num" style="color:#D97706" id="spots-stat">12</div>
+          <div class="hstat-label">Spots left</div>
+        </div>
+      </div>
+
+      <!-- Spot progress bar -->
+      <div class="spots-bar-wrap">
+        <div class="spots-bar-header">
+          <span class="spots-bar-label">Monthly spots claimed</span>
+          <span class="spots-bar-count"><strong id="spots-claimed">38</strong> of 50 taken</span>
+        </div>
+        <div class="spots-track">
+          <div class="spots-fill" id="spots-fill" style="width:76%"></div>
+        </div>
+        <div class="spots-urgency" id="spots-urgency">⚠️ Almost full — spots reset on 1st of next month</div>
+      </div>
+
+      <div class="hero-actions">
+        <button class="btn-cta-main btn-pulse" onclick="window.location.href='onboarding.html'">
+          Claim my free spot now →
+        </button>
+        <button class="btn-secondary" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">
+          See how it works
+        </button>
+      </div>
+
+      <!-- Social proof row -->
+      <div class="social-row">
+        <div class="social-avatars">
+          <div class="sav" style="background:#CCFBF1;color:#0F766E">SL</div>
+          <div class="sav" style="background:#DCFCE7;color:#15803D">MO</div>
+          <div class="sav" style="background:#FEF3C7;color:#92400E">PW</div>
+          <div class="sav" style="background:#FCE7F3;color:#9D174D">AK</div>
+          <div class="sav" style="background:#EDE9FE;color:#5B21B6">JR</div>
+        </div>
+        <span class="social-text">Joined by <strong>500+ wellness businesses</strong> across the UK</span>
+      </div>
+
+    </div>
+
+    <div class="hero-right">
+      <div class="signup-card" id="signup-card">
+
+        <!-- Countdown timer -->
+        <div class="card-timer">
+          <div class="timer-icon">⏰</div>
+          <div class="timer-text">
+            <div class="timer-label">Offer resets in</div>
+            <div class="timer-count" id="timer">14d 06h 32m</div>
+          </div>
+        </div>
+
+        <div class="scard-title">Claim your free website</div>
+        <div class="scard-sub" style="color:#D97706;font-weight:600">🔥 <span id="card-spots">12 spots</span> remaining this month</div>
+        <div class="sform">
+          <div class="sform-2">
+            <div class="sfield"><label>First name</label><input type="text" placeholder="Jane"></div>
+            <div class="sfield"><label>Last name</label><input type="text" placeholder="Smith"></div>
+          </div>
+          <div class="sfield"><label>Business name</label><input type="text" placeholder="e.g. Serene Studio"></div>
+          <div class="sfield">
+            <label>Business type</label>
+            <select>
+              <option value="">Choose your type…</option>
+              <option>Massage therapy</option>
+              <option>Beauty salon</option>
+              <option>Yoga studio</option>
+              <option>Pilates</option>
+              <option>Personal training</option>
+              <option>Spa</option>
+              <option>Holistic therapy</option>
+              <option>Other wellness</option>
+            </select>
+          </div>
+          <div class="sfield"><label>Email address</label><input type="email" placeholder="hello@yourbusiness.com"></div>
+          <button class="btn-form btn-pulse" onclick="window.location.href='onboarding.html'">Claim my free spot →</button>
+          <div class="sform-trust">
+            <div class="strust">Free forever</div>
+            <div class="strust">No credit card</div>
+            <div class="strust">Cancel anytime</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-bar">
+  <div class="marquee-track">
+    <div class="mitem"><div class="mdot"></div>Massage Studios</div>
+    <div class="mitem"><div class="mdot"></div>Yoga Studios</div>
+    <div class="mitem"><div class="mdot"></div>Beauty Salons</div>
+    <div class="mitem"><div class="mdot"></div>Personal Trainers</div>
+    <div class="mitem"><div class="mdot"></div>Holistic Therapists</div>
+    <div class="mitem"><div class="mdot"></div>Spas & Retreats</div>
+    <div class="mitem"><div class="mdot"></div>Pilates Studios</div>
+    <div class="mitem"><div class="mdot"></div>Physiotherapists</div>
+    <div class="mitem"><div class="mdot"></div>Massage Studios</div>
+    <div class="mitem"><div class="mdot"></div>Yoga Studios</div>
+    <div class="mitem"><div class="mdot"></div>Beauty Salons</div>
+    <div class="mitem"><div class="mdot"></div>Personal Trainers</div>
+    <div class="mitem"><div class="mdot"></div>Holistic Therapists</div>
+    <div class="mitem"><div class="mdot"></div>Spas & Retreats</div>
+    <div class="mitem"><div class="mdot"></div>Pilates Studios</div>
+    <div class="mitem"><div class="mdot"></div>Physiotherapists</div>
+  </div>
+</div>
+
+<!-- FOR WELLNESS -->
+<section class="section for-wellness" id="wellness">
+  <div class="inner">
+    <div class="fw-header r">
+      <div class="stag">Built for wellness</div>
+      <h2 class="sh">Not for everyone.<br><em>Just for wellness.</em></h2>
+      <p class="sp">FastWellBook is built from the ground up for appointment-based wellness businesses. Not a generic tool. Not a marketplace. Yours.</p>
+    </div>
+    <div class="fw-grid">
+      <div class="fw-card r"><span class="fw-icon">💆</span><div class="fw-name">Massage Therapy</div><div class="fw-desc">Swedish, deep tissue, sports, hot stone — every treatment listed and bookable</div></div>
+      <div class="fw-card r d1"><span class="fw-icon">🧘</span><div class="fw-name">Yoga & Pilates</div><div class="fw-desc">One-to-ones, group classes, workshops — all online booking, no faff</div></div>
+      <div class="fw-card r d2"><span class="fw-icon">💅</span><div class="fw-name">Beauty & Skincare</div><div class="fw-desc">Facials, nails, waxing, lashes — your full menu, live and bookable 24/7</div></div>
+      <div class="fw-card r d3"><span class="fw-icon">🧖</span><div class="fw-name">Spas & Retreats</div><div class="fw-desc">Experiences, packages, day passes — your full offering, professionally presented</div></div>
+      <div class="fw-card r"><span class="fw-icon">🏋️</span><div class="fw-name">Personal Training</div><div class="fw-desc">PT sessions, assessments, nutrition coaching — clients book and pay online</div></div>
+      <div class="fw-card r d1"><span class="fw-icon">🌿</span><div class="fw-name">Holistic Therapy</div><div class="fw-desc">Reiki, acupuncture, reflexology, sound healing — your practice, beautifully presented</div></div>
+      <div class="fw-card r d2"><span class="fw-icon">🫁</span><div class="fw-name">Physiotherapy</div><div class="fw-desc">Assessment appointments, treatment plans, follow-ups — structured booking that works</div></div>
+      <div class="fw-card r d3"><span class="fw-icon">🧠</span><div class="fw-name">Mental Wellness</div><div class="fw-desc">Coaching, counselling, breathwork, meditation — take bookings with confidence</div></div>
+    </div>
+    <div class="fw-strip r">
+      <div class="fw-strip-left">
+        <div class="stag">Why us</div>
+        <h2 class="sh">Made for the way<br><em>wellness works.</em></h2>
+        <p class="sp">Treatwell serves everyone. We serve <em>you</em> — the independent wellness professional who works hard, loves what they do, and deserves a platform built for their world.</p>
+        <button class="fw-btn" onclick="window.location.href='onboarding.html'">Get your free website →</button>
+      </div>
+      <div class="fw-strip-right">
+        <div class="fw-pills">
+          <div class="fw-pill">
+            <span class="fw-pill-icon">⏱️</span>
+            <div><div class="fw-pill-title">Duration-based booking</div><div class="fw-pill-sub">60 min Swedish, 90 min deep tissue — clients pick the right treatment</div></div>
+          </div>
+          <div class="fw-pill">
+            <span class="fw-pill-icon">📍</span>
+            <div><div class="fw-pill-title">Your brand, your page</div><div class="fw-pill-sub">Not buried in a marketplace — your own branded site clients trust</div></div>
+          </div>
+          <div class="fw-pill">
+            <span class="fw-pill-icon">🔒</span>
+            <div><div class="fw-pill-title">Card secured at booking</div><div class="fw-pill-sub">No more no-shows — payment collected when the client books</div></div>
+          </div>
+          <div class="fw-pill">
+            <span class="fw-pill-icon">📲</span>
+            <div><div class="fw-pill-title">Share anywhere</div><div class="fw-pill-sub">One link. Works on Instagram bio, WhatsApp, Google Business, anywhere</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section how" id="how">
+  <div class="inner">
+    <div class="how-header">
+      <div class="r">
+        <div class="stag">How it works</div>
+        <h2 class="sh">Up in <em>3 steps.</em><br>Live in 5 minutes.</h2>
+      </div>
+      <p class="sp r d1">No developers. No design decisions. No waiting. A professional booking site, live the moment you finish setup.</p>
+    </div>
+    <div class="how-steps">
+      <div class="hstep hs-1 r">
+        <span class="hs-num">01</span>
+        <span class="hs-icon">📋</span>
+        <div class="hs-title">Tell us about your business</div>
+        <div class="hs-desc">Name, services, prices, availability — our simple wizard handles everything in 5 minutes flat.</div>
+      </div>
+      <div class="hstep hs-2 r d1">
+        <span class="hs-num">02</span>
+        <span class="hs-icon">✨</span>
+        <div class="hs-title">Your site goes live instantly</div>
+        <div class="hs-desc">A beautiful, professional booking page at fastwellbook.com/b/your-business — live and ready to share immediately.</div>
+      </div>
+      <div class="hstep hs-3 r d2">
+        <span class="hs-num">03</span>
+        <span class="hs-icon">💰</span>
+        <div class="hs-title">Share your link. Start earning.</div>
+        <div class="hs-desc">Clients book and pay online. Earnings land in your bank automatically. We take 8.69%. You keep the rest.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section features" id="features">
+  <div class="inner">
+    <div class="feat-head r">
+      <div class="stag">Everything included</div>
+      <h2 class="sh">Built for wellness.<br><em>Obsessed with growth.</em></h2>
+      <p class="sp">Every feature your clients expect. Nothing you don't need.</p>
+    </div>
+    <div class="bento">
+      <div class="bcard bc-1 r">
+        <span class="bcard-icon">🌐</span>
+        <div class="bcard-title">Professional booking website</div>
+        <div class="bcard-desc">Your own branded page, beautifully designed for wellness businesses. Clients trust it from the first visit.</div>
+      </div>
+      <div class="bcard bc-2 r d1">
+        <div class="bcard-big">£0</div>
+        <div class="bcard-big-label">Monthly fee, forever</div>
+        <div class="bcard-desc">No subscriptions eating into your profit. We only earn when you earn — 8.69% per booking, nothing more.</div>
+      </div>
+      <div class="bcard bc-3 r">
+        <span class="bcard-icon">💳</span>
+        <div class="bcard-title">Secure payments</div>
+        <div class="bcard-desc">Clients pay via Stripe. Earnings go straight to your bank.</div>
+      </div>
+      <div class="bcard bc-4 r d1">
+        <span class="bcard-icon">📅</span>
+        <div class="bcard-title">Real-time availability</div>
+        <div class="bcard-desc">Zero double bookings. Zero back-and-forth messages.</div>
+      </div>
+      <div class="bcard bc-5 r d2">
+        <span class="bcard-icon">📱</span>
+        <div class="bcard-title">Mobile-first design</div>
+        <div class="bcard-desc">Perfect on every device. Most clients book on their phones.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section pricing" id="pricing">
+  <div class="inner">
+    <div class="pricing-layout">
+      <div class="price-card r">
+        <div class="price-card-glow"></div>
+        <div class="price-card-inner">
+          <div class="price-zero">£0</div>
+          <div class="price-mo">/month</div>
+          <div class="price-cap">Free forever. No hidden fees. No contract.</div>
+          <div class="comm-box">
+            <div class="comm-pct">8.69%</div>
+            <div>
+              <div class="comm-lbl">Commission per booking</div>
+              <div class="comm-sub-t">You keep 91.31% — paid to your bank</div>
+            </div>
+          </div>
+          <div class="price-feats">
+            <div class="pf"><div class="pf-check">✓</div>Free booking website</div>
+            <div class="pf"><div class="pf-check">✓</div>Unlimited bookings</div>
+            <div class="pf"><div class="pf-check">✓</div>Secure Stripe payments</div>
+            <div class="pf"><div class="pf-check">✓</div>Business dashboard</div>
+            <div class="pf"><div class="pf-check">✓</div>Automatic bank transfers</div>
+            <div class="pf"><div class="pf-check">✓</div>Email confirmations</div>
+            <div class="pf"><div class="pf-check">✓</div>Cancel anytime</div>
+          </div>
+          <button class="btn-price" onclick="window.location.href='onboarding.html'">Get started free →</button>
+        </div>
+      </div>
+      <div class="pricing-right r d1">
+        <div class="stag">Simple pricing</div>
+        <h2 class="sh">We earn when<br><em>you earn.</em></h2>
+        <p class="sp">No monthly fee eating your profit. No setup cost. A small commission only when a client books through your site. Your risk is zero.</p>
+        <div class="calc-stack">
+          <div class="calc-row">
+            <div class="calc-left"><div class="calc-lbl">Client books</div><div class="calc-val">£50</div></div>
+            <div class="calc-right"><div class="calc-lbl">You receive</div><div class="calc-val">£45.65</div></div>
+          </div>
+          <div class="calc-row">
+            <div class="calc-left"><div class="calc-lbl">Client books</div><div class="calc-val">£100</div></div>
+            <div class="calc-right"><div class="calc-lbl">You receive</div><div class="calc-val">£91.31</div></div>
+          </div>
+          <div class="calc-row">
+            <div class="calc-left"><div class="calc-lbl">Client books</div><div class="calc-val">£150</div></div>
+            <div class="calc-right"><div class="calc-lbl">You receive</div><div class="calc-val">£136.96</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section testi">
+  <div class="inner">
+    <div class="testi-header r">
+      <div>
+        <div class="stag">What businesses say</div>
+        <h2 class="sh">Trusted by <em>wellness professionals</em><br>across the UK</h2>
+      </div>
+      <div>
+        <div class="testi-stars-big">★★★★★</div>
+        <div class="testi-rating-count">Rated 4.9 by 500+ businesses</div>
+      </div>
+    </div>
+    <div class="tcards">
+      <div class="tcard tc-1 r">
+        <div class="tcard-stars">★★★★★</div>
+        <p class="tcard-quote">"Up and running in 10 minutes. My clients love how easy it is to book and I've completely stopped losing appointments to missed WhatsApp messages."</p>
+        <div class="tcard-author">
+          <div class="tcard-av">SL</div>
+          <div><div class="tcard-name">Sophie Laurent</div><div class="tcard-role">Massage Therapist · London</div></div>
+        </div>
+      </div>
+      <div class="tcard tc-2 r d1">
+        <div class="tcard-stars">★★★★★</div>
+        <p class="tcard-quote">"As a sole trader I couldn't justify £80/month for booking software. FastWellBook costs nothing upfront and the commission is completely fair."</p>
+        <div class="tcard-author">
+          <div class="tcard-av">MO</div>
+          <div><div class="tcard-name">Marcus Osei</div><div class="tcard-role">Personal Trainer · Manchester</div></div>
+        </div>
+      </div>
+      <div class="tcard tc-3 r d2">
+        <div class="tcard-stars">★★★★★</div>
+        <p class="tcard-quote">"The page looks so professional. I've seen a 40% increase in new client enquiries since launching. I recommend it to every therapist I know."</p>
+        <div class="tcard-author">
+          <div class="tcard-av">PW</div>
+          <div><div class="tcard-name">Priya Watts</div><div class="tcard-role">Yoga Studio Owner · Bristol</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section faq" id="faq">
+  <div class="inner">
+    <div class="faq-layout">
+      <div class="faq-left r">
+        <div class="stag">FAQ</div>
+        <h2 class="sh">Got<br><em>questions?</em></h2>
+        <p class="sp">Everything you need to know about FastWellBook. Can't find your answer? We're always happy to help.</p>
+        <button class="btn-contact">Contact us →</button>
+      </div>
+      <div class="faq-list r d1">
+        <div class="faq-item">
+          <button class="faq-q" onclick="doFaq(this)">Is it really free? What's the catch?<span class="faq-icon">+</span></button>
+          <div class="faq-a">No catch. £0/month, £0 setup, £0 for anything else. We take 8.69% on each booking made through your site. If you're not getting bookings, we make nothing. We're motivated to help you succeed.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="doFaq(this)">How do I receive my money?<span class="faq-icon">+</span></button>
+          <div class="faq-a">We use Stripe to process all payments. When you sign up you'll connect a Stripe Express account (about 5 minutes). After each booking, your earnings — after our 8.69% — transfer directly to your bank, typically within 2 business days.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="doFaq(this)">What if I already use another booking system?<span class="faq-icon">+</span></button>
+          <div class="faq-a">You can run FastWellBook alongside any existing system. Many businesses use us for online bookings and card payments while managing walk-ins separately. No exclusivity required.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="doFaq(this)">What types of business can sign up?<span class="faq-icon">+</span></button>
+          <div class="faq-a">We're built for wellness and fitness businesses — massage therapists, spas, beauty salons, yoga studios, pilates studios, personal trainers, holistic therapists, and more. If you offer appointment-based wellness services in the UK, you're a perfect fit.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="doFaq(this)">Can I cancel or change my details anytime?<span class="faq-icon">+</span></button>
+          <div class="faq-a">Absolutely. No contract, no minimum term, no cancellation fee. Update your services, prices, and availability from your dashboard anytime you like. Leave whenever you want — no questions asked.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-final" id="cta">
+  <div class="cta-final-inner">
+    <div class="stag r" style="justify-content:center">🌿 Free forever · No credit card</div>
+    <h2 class="sh r" style="font-size:clamp(36px,5vw,60px);text-align:center">Ready to grow<br><em>your practice?</em></h2>
+    <p class="sp r" style="text-align:center;margin:0 auto 44px">Join hundreds of UK wellness businesses who've stopped chasing bookings and started focusing on what they love.</p>
+    <div class="cta-actions r">
+      <button class="btn-cta-main" onclick="window.location.href='onboarding.html'">Get my free website →</button>
+      <button class="btn-cta-sec" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">See how it works</button>
+    </div>
+    <p class="cta-note r">No credit card · Live in 5 minutes · Cancel anytime</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo-row">
+          <div class="footer-mark"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="20" height="20"><path d="M10 17.5C5.8 17.5 3.5 13.5 4.2 10.2C4.9 6.9 7.2 5.5 10 5.5C12.8 5.5 15.1 6.9 15.8 10.2C16.5 13.5 14.2 17.5 10 17.5Z" fill="white" opacity=".95"/><line x1="10" y1="17.5" x2="10" y2="19.5" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity=".8"/><line x1="10" y1="7.5" x2="10" y2="16.5" stroke="#0F766E" stroke-width="1" stroke-linecap="round" opacity=".5"/><line x1="10" y1="10.5" x2="13.5" y2="8" stroke="#0F766E" stroke-width=".8" stroke-linecap="round" opacity=".45"/><line x1="10" y1="13" x2="13.8" y2="11" stroke="#0F766E" stroke-width=".8" stroke-linecap="round" opacity=".38"/><line x1="10" y1="12" x2="6.5" y2="10" stroke="#0F766E" stroke-width=".8" stroke-linecap="round" opacity=".38"/></svg></div>
+          <div class="footer-name">FastWellBook</div>
+        </div>
+        <p class="footer-tagline">Free booking websites for wellness and fitness businesses across the UK. We only earn when you earn.</p>
+      </div>
+      <div>
+        <div class="footer-col-h">Product</div>
+        <div class="footer-links">
+          <a href="#wellness">For wellness</a>
+          <a href="#how">How it works</a>
+          <a href="#pricing">Pricing</a>
+          <a href="/platform/onboarding">Get started</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-h">Business types</div>
+        <div class="footer-links">
+          <a href="#">Massage therapists</a>
+          <a href="#">Yoga studios</a>
+          <a href="#">Beauty salons</a>
+          <a href="#">Personal trainers</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-h">Company</div>
+        <div class="footer-links">
+          <a href="#">About</a>
+          <a href="#">Contact</a>
+          <a href="#">Privacy policy</a>
+          <a href="#">Terms</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 FastWellBook Ltd. All rights reserved.</span>
+      <span>🇬🇧 Built for UK wellness businesses</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── FIRST-COME-FIRST-SERVED LOGIC ──
+
+// Spots counter — slowly decrements to create urgency
+let spots = 12
+function updateSpots() {
+  document.getElementById('spots-left').textContent = spots
+  document.getElementById('spots-stat').textContent = spots
+  document.getElementById('card-spots').textContent = spots + ' spots'
+  const claimed = 50 - spots
+  document.getElementById('spots-claimed').textContent = claimed
+  const pct = (claimed / 50) * 100
+  document.getElementById('spots-fill').style.width = pct + '%'
+  if (spots <= 5) {
+    document.getElementById('spots-urgency').textContent = '🚨 Almost full — don\'t miss out!'
+    document.getElementById('spots-urgency').style.color = '#DC2626'
+  }
+}
+updateSpots()
+
+// Randomly decrement spots every 2–5 minutes to simulate demand
+function scheduleSpotDrop() {
+  const delay = (Math.random() * 180 + 120) * 1000 // 2–5 min
+  setTimeout(() => {
+    if (spots > 1) {
+      spots--
+      updateSpots()
+      showActivity(activityNames[Math.floor(Math.random() * activityNames.length)])
+      scheduleSpotDrop()
+    }
+  }, delay)
+}
+scheduleSpotDrop()
+
+// Live activity feed
+const activityNames = [
+  'Sarah from Bristol', 'Emma from London', 'Priya from Manchester',
+  'Jessica from Leeds', 'Claire from Edinburgh', 'Natalie from Birmingham',
+  'Sophie from Brighton', 'Jade from Liverpool', 'Amara from Cardiff',
+  'Rachel from Bath', 'Laura from Oxford', 'Mia from Glasgow',
+]
+const activityActions = [
+  'just claimed her free website',
+  'just signed up for FastWellBook',
+  'just launched her booking page',
+  'joined 2 minutes ago',
+  'just got her free website live',
+]
+
+let activityIndex = 0
+function showActivity(name) {
+  const el = document.getElementById('activity-text')
+  const action = activityActions[Math.floor(Math.random() * activityActions.length)]
+  el.style.opacity = '0'
+  el.style.transform = 'translateY(4px)'
+  setTimeout(() => {
+    el.textContent = name + ' ' + action
+    el.style.transition = 'opacity 0.4s, transform 0.4s'
+    el.style.opacity = '1'
+    el.style.transform = 'translateY(0)'
+  }, 300)
+}
+
+// Cycle activity every 6 seconds
+setInterval(() => {
+  const name = activityNames[activityIndex % activityNames.length]
+  showActivity(name)
+  activityIndex++
+}, 6000)
+
+// Countdown timer to end of month
+function updateTimer() {
+  const now = new Date()
+  const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1, 0, 0, 0)
+  const diff = endOfMonth - now
+  if (diff <= 0) { document.getElementById('timer').textContent = 'Resetting now!'; return }
+  const d = Math.floor(diff / 86400000)
+  const h = Math.floor((diff % 86400000) / 3600000)
+  const m = Math.floor((diff % 3600000) / 60000)
+  const s = Math.floor((diff % 60000) / 1000)
+  document.getElementById('timer').textContent = `${d}d ${String(h).padStart(2,'0')}h ${String(m).padStart(2,'0')}m ${String(s).padStart(2,'0')}s`
+}
+updateTimer()
+setInterval(updateTimer, 1000)
+
+// ── CURSOR ──
+const cur = document.getElementById('cur')
+const ring = document.getElementById('cur-ring')
+let mx = 0, my = 0, rx = 0, ry = 0
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY
+  cur.style.left = mx + 'px'
+  cur.style.top = my + 'px'
+})
+
+;(function animRing() {
+  rx += (mx - rx) * 0.1
+  ry += (my - ry) * 0.1
+  ring.style.left = rx + 'px'
+  ring.style.top = ry + 'px'
+  requestAnimationFrame(animRing)
+})()
+
+document.querySelectorAll('button, a, .hstep, .bcard, .tcard, .calc-row, .fw-card, .fw-pill, .faq-q').forEach(el => {
+  el.addEventListener('mouseenter', () => { cur.classList.add('hover'); ring.classList.add('hover') })
+  el.addEventListener('mouseleave', () => { cur.classList.remove('hover'); ring.classList.remove('hover') })
+})
+
+// Nav scroll
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 20)
+}, { passive: true })
+
+// FAQ
+function doFaq(btn) {
+  const item = btn.parentElement
+  const open = item.classList.contains('open')
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'))
+  if (!open) item.classList.add('open')
+}
+
+// Reveal
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in') })
+}, { threshold: 0.08 })
+document.querySelectorAll('.r').forEach(el => obs.observe(el))
+</script>
+</body>
+</html>

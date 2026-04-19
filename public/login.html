@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign in — FastWellBook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fraunces:ital,opsz,wght@1,9..144,200;1,9..144,300;1,9..144,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --teal:#0D9488;--teal-dark:#0F766E;--teal-deep:#134E4A;--teal-mid:#14B8A6;
+  --teal-bright:#2DD4BF;--teal-100:#CCFBF1;--teal-50:#F0FDFA;--teal-glow:rgba(13,148,136,0.18);
+  --white:#FFFFFF;--cream:#F5FAF8;--warm:#F7F9F8;
+  --gray-200:#E5E7EB;--gray-400:#9CA3AF;--gray-500:#6B7280;--gray-600:#4B5563;--gray-800:#1F2937;
+  --ink:#0D1F1A;--border:#E5E7EB;--red:#DC2626;--red-50:#FEF2F2;
+  --font:'Plus Jakarta Sans',system-ui,sans-serif;--serif:'Fraunces',Georgia,serif;
+  --r:14px;--r-lg:22px;--shadow-teal:0 12px 40px rgba(13,148,136,0.2);--shadow-lg:0 20px 60px rgba(0,0,0,0.1);
+}
+html{background:var(--cream);font-family:var(--font);color:var(--ink);-webkit-font-smoothing:antialiased}
+body{min-height:100vh;display:flex;flex-direction:column}
+
+/* NAV */
+nav{height:64px;padding:0 40px;display:flex;align-items:center;justify-content:space-between;background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+.nav-logo{display:flex;align-items:center;gap:9px;text-decoration:none}
+.nav-mark{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--teal-dark),var(--teal-mid));display:flex;align-items:center;justify-content:center;font-size:17px;box-shadow:0 4px 12px var(--teal-glow)}
+.nav-name{font-size:18px;font-weight:800;color:var(--ink);letter-spacing:-0.4px}
+.nav-name span{color:var(--teal)}
+.nav-right{font-size:14px;color:var(--gray-500)}
+.nav-right a{color:var(--teal);font-weight:700;text-decoration:none}
+
+/* LAYOUT */
+.auth-layout{flex:1;display:grid;grid-template-columns:1fr 1fr;min-height:calc(100vh - 64px)}
+
+/* LEFT PANEL */
+.auth-left{
+  background:linear-gradient(160deg, var(--teal-deep) 0%, var(--teal-dark) 60%, var(--teal) 100%);
+  padding:60px 56px;display:flex;flex-direction:column;justify-content:space-between;
+  position:relative;overflow:hidden;
+}
+.auth-left::before{content:'';position:absolute;top:-100px;right:-100px;width:350px;height:350px;border-radius:50%;background:radial-gradient(circle,rgba(45,212,191,0.12),transparent);pointer-events:none}
+.auth-left::after{content:'';position:absolute;bottom:-80px;left:-60px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(22,163,74,0.1),transparent);pointer-events:none}
+.al-dots{position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:28px 28px;pointer-events:none}
+.al-content{position:relative;z-index:1}
+.al-tag{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);border-radius:30px;padding:6px 14px 6px 8px;margin-bottom:32px}
+.al-tag-dot{width:7px;height:7px;border-radius:50%;background:var(--teal-bright)}
+.al-tag-text{font-size:12px;font-weight:600;color:rgba(255,255,255,0.8);letter-spacing:0.04em}
+.al-title{font-family:var(--serif);font-size:clamp(32px,3.5vw,48px);font-weight:200;font-style:italic;color:white;line-height:1.15;margin-bottom:20px;letter-spacing:-1px}
+.al-sub{font-size:15px;color:rgba(255,255,255,0.55);line-height:1.7;max-width:360px;margin-bottom:40px}
+
+.al-features{display:flex;flex-direction:column;gap:14px}
+.al-feat{display:flex;align-items:center;gap:12px;font-size:14px;color:rgba(255,255,255,0.75);font-weight:500}
+.al-feat-check{width:22px;height:22px;border-radius:50%;background:rgba(45,212,191,0.15);border:1px solid rgba(45,212,191,0.3);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--teal-bright);font-weight:800;flex-shrink:0}
+
+.al-bottom{position:relative;z-index:1}
+.al-stat-row{display:flex;gap:32px}
+.al-stat-num{font-size:26px;font-weight:800;color:white;line-height:1;margin-bottom:4px}
+.al-stat-label{font-size:11px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.08em;font-weight:600}
+
+/* RIGHT PANEL */
+.auth-right{background:var(--white);display:flex;align-items:center;justify-content:center;padding:48px 40px}
+.auth-card{width:100%;max-width:420px}
+.auth-card-title{font-size:26px;font-weight:800;color:var(--ink);margin-bottom:6px;letter-spacing:-0.4px}
+.auth-card-sub{font-size:14px;color:var(--gray-400);margin-bottom:32px}
+
+/* TABS */
+.auth-tabs{display:flex;background:var(--warm);border-radius:12px;padding:4px;margin-bottom:28px;border:1.5px solid var(--border)}
+.auth-tab{flex:1;padding:10px;border:none;background:none;border-radius:9px;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--font);color:var(--gray-400);transition:all 0.2s}
+.auth-tab.active{background:var(--white);color:var(--ink);box-shadow:0 2px 8px rgba(0,0,0,0.08)}
+
+/* FORM */
+.aform{display:flex;flex-direction:column;gap:16px}
+.afield{display:flex;flex-direction:column;gap:6px}
+.afield label{font-size:12px;font-weight:700;color:var(--gray-600);text-transform:uppercase;letter-spacing:0.07em}
+.afield input{padding:13px 14px;border:1.5px solid var(--border);border-radius:var(--r);font-size:15px;font-family:var(--font);color:var(--ink);background:var(--white);outline:none;transition:all 0.15s;font-weight:500}
+.afield input:focus{border-color:var(--teal);box-shadow:0 0 0 4px var(--teal-50)}
+.afield input::placeholder{color:var(--gray-400);font-weight:400}
+.afield-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.forgot-link{font-size:13px;color:var(--teal);font-weight:600;text-decoration:none;text-align:right;display:block;margin-top:-8px;transition:color 0.15s}
+.forgot-link:hover{color:var(--teal-dark)}
+.btn-auth{width:100%;padding:15px;background:var(--teal);color:white;border:none;border-radius:var(--r);font-size:16px;font-weight:800;font-family:var(--font);cursor:pointer;transition:all 0.2s;letter-spacing:-0.2px;box-shadow:0 6px 24px var(--teal-glow)}
+.btn-auth:hover{background:var(--teal-dark);transform:translateY(-1px);box-shadow:var(--shadow-teal)}
+.divider{display:flex;align-items:center;gap:12px;color:var(--gray-400);font-size:13px;font-weight:500}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border)}
+.btn-google{width:100%;padding:13px;background:var(--white);color:var(--gray-800);border:1.5px solid var(--border);border-radius:var(--r);font-size:14px;font-weight:700;font-family:var(--font);cursor:pointer;transition:all 0.15s;display:flex;align-items:center;justify-content:center;gap:10px}
+.btn-google:hover{border-color:var(--gray-400);box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+.google-icon{font-size:18px}
+.auth-footer{text-align:center;font-size:14px;color:var(--gray-400);margin-top:8px}
+.auth-footer a{color:var(--teal);font-weight:700;text-decoration:none}
+.terms{font-size:12px;color:var(--gray-400);text-align:center;line-height:1.6;margin-top:4px}
+.terms a{color:var(--gray-500)}
+.afield .hint{font-size:12px;color:var(--gray-400);margin-top:4px}
+.error-msg{padding:12px 14px;background:var(--red-50);border:1px solid rgba(220,38,38,0.2);border-radius:10px;font-size:13px;color:var(--red);font-weight:600;display:none}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.auth-card{animation:fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) both}
+.auth-left .al-content{animation:fadeUp 0.6s 0.1s cubic-bezier(0.16,1,0.3,1) both}
+
+@media(max-width:768px){
+  .auth-layout{grid-template-columns:1fr}
+  .auth-left{display:none}
+  .auth-right{padding:40px 24px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">
+    <div class="nav-mark">🌿</div>
+    <div class="nav-name">Fast<span>Well</span>Book</div>
+  </a>
+  <div class="nav-right">Need help? <a href="#">Contact us</a></div>
+</nav>
+
+<div class="auth-layout">
+
+  <!-- LEFT: Brand panel -->
+  <div class="auth-left">
+    <div class="al-dots"></div>
+    <div class="al-content">
+      <div class="al-tag">
+        <div class="al-tag-dot"></div>
+        <span class="al-tag-text">Welcome back</span>
+      </div>
+      <h2 class="al-title">Your wellness<br>business awaits.</h2>
+      <p class="al-sub">Manage your bookings, track your earnings, and grow your practice — all from one beautiful dashboard.</p>
+      <div class="al-features">
+        <div class="al-feat"><div class="al-feat-check">✓</div>See today's bookings at a glance</div>
+        <div class="al-feat"><div class="al-feat-check">✓</div>Track earnings in real time</div>
+        <div class="al-feat"><div class="al-feat-check">✓</div>Manage services &amp; availability</div>
+        <div class="al-feat"><div class="al-feat-check">✓</div>Your booking link, always live</div>
+      </div>
+    </div>
+    <div class="al-bottom">
+      <div class="al-stat-row">
+        <div><div class="al-stat-num">500+</div><div class="al-stat-label">Businesses</div></div>
+        <div><div class="al-stat-num">£0</div><div class="al-stat-label">Monthly fee</div></div>
+        <div><div class="al-stat-num">8.69%</div><div class="al-stat-label">Commission</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: Auth forms -->
+  <div class="auth-right">
+    <div class="auth-card">
+      <div class="auth-card-title">Welcome back</div>
+      <div class="auth-card-sub">Sign in to your FastWellBook account</div>
+
+      <div class="auth-tabs">
+        <button class="auth-tab active" onclick="switchTab('signin',this)">Sign in</button>
+        <button class="auth-tab" onclick="switchTab('register',this)">Create account</button>
+      </div>
+
+      <!-- SIGN IN -->
+      <div id="tab-signin">
+        <div class="aform">
+          <div class="error-msg" id="signin-error">Incorrect email or password. Please try again.</div>
+          <div class="afield">
+            <label>Email address</label>
+            <input type="email" placeholder="hello@yourbusiness.com" id="signin-email">
+          </div>
+          <div class="afield">
+            <label>Password</label>
+            <input type="password" placeholder="••••••••" id="signin-pass">
+            <a href="#" class="forgot-link">Forgot password?</a>
+          </div>
+          <button class="btn-auth" onclick="handleSignin()">Sign in to dashboard →</button>
+          <div class="divider">or</div>
+          <button class="btn-google"><span class="google-icon">G</span> Continue with Google</button>
+          <div class="auth-footer">Don't have an account? <a href="#" onclick="switchTabById('register')">Create one free</a></div>
+        </div>
+      </div>
+
+      <!-- REGISTER -->
+      <div id="tab-register" style="display:none">
+        <div class="aform">
+          <div class="afield-row">
+            <div class="afield"><label>First name</label><input type="text" placeholder="Jane"></div>
+            <div class="afield"><label>Last name</label><input type="text" placeholder="Smith"></div>
+          </div>
+          <div class="afield">
+            <label>Business name</label>
+            <input type="text" placeholder="e.g. Serene Studio">
+          </div>
+          <div class="afield">
+            <label>Email address</label>
+            <input type="email" placeholder="hello@yourbusiness.com">
+          </div>
+          <div class="afield">
+            <label>Password</label>
+            <input type="password" placeholder="Min 8 characters">
+            <span class="hint">At least 8 characters</span>
+          </div>
+          <button class="btn-auth" onclick="window.location.href='onboarding.html'">Create my account →</button>
+          <div class="divider">or</div>
+          <button class="btn-google"><span class="google-icon">G</span> Continue with Google</button>
+          <div class="terms">By creating an account you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></div>
+          <div class="auth-footer">Already have an account? <a href="#" onclick="switchTabById('signin')">Sign in</a></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+function switchTab(tab, btn) {
+  document.querySelectorAll('.auth-tab').forEach(b => b.classList.remove('active'))
+  btn.classList.add('active')
+  document.getElementById('tab-signin').style.display = tab === 'signin' ? 'block' : 'none'
+  document.getElementById('tab-register').style.display = tab === 'register' ? 'block' : 'none'
+}
+function switchTabById(tab) {
+  const btn = tab === 'signin' ? document.querySelectorAll('.auth-tab')[0] : document.querySelectorAll('.auth-tab')[1]
+  switchTab(tab, btn)
+}
+function handleSignin() {
+  const email = document.getElementById('signin-email').value
+  const pass = document.getElementById('signin-pass').value
+  if (!email || !pass) { document.getElementById('signin-error').style.display = 'block'; return }
+  window.location.href = 'dashboard.html'
+}
+</script>
+</body>
+</html>
