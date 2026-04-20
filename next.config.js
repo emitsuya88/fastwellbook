@@ -1,10 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-  typescript: {
-    ignoreBuildErrors: true,
+  eslint: { ignoreDuringBuilds: true },
+  typescript: { ignoreBuildErrors: true },
+  async rewrites() {
+    return [
+      {
+        source: '/b/:slug',
+        destination: '/api/page/:slug',
+      },
+    ]
   },
 }
 
