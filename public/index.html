@@ -301,7 +301,7 @@ nav.scrolled { box-shadow: 0 4px 24px rgba(0,0,0,0.06); }
 .fw-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--teal), var(--teal-bright)); transform: scaleX(0); transform-origin: left; transition: transform 0.3s; }
 .fw-card:hover { border-color: var(--teal-100); transform: translateY(-5px); box-shadow: var(--shadow-md); }
 .fw-card:hover::after { transform: scaleX(1); }
-.fw-icon { font-size: 40px; margin-bottom: 14px; display: block; }
+.fw-icon { width: 52px; height: 52px; margin-bottom: 14px; display: block; color: var(--teal); }
 .fw-name { font-size: 15px; font-weight: 800; color: var(--ink); margin-bottom: 7px; letter-spacing: -0.2px; }
 .fw-desc { font-size: 13px; color: var(--gray-400); line-height: 1.55; }
 
@@ -329,7 +329,7 @@ nav.scrolled { box-shadow: 0 4px 24px rgba(0,0,0,0.06); }
   border-radius: var(--r); padding: 16px 20px; transition: all 0.2s;
 }
 .fw-pill:hover { border-color: var(--teal); box-shadow: var(--shadow-sm); }
-.fw-pill-icon { font-size: 22px; flex-shrink: 0; }
+.fw-pill-icon { width:22px;height:22px;flex-shrink:0;color:var(--teal); }
 .fw-pill-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
 .fw-pill-sub { font-size: 12px; color: var(--gray-400); line-height: 1.4; }
 
@@ -356,7 +356,7 @@ nav.scrolled { box-shadow: 0 4px 24px rgba(0,0,0,0.06); }
 .hs-1 .hs-num, .hs-2 .hs-num { color: white; }
 .hs-3 .hs-num { color: var(--teal); opacity: 0.25; }
 
-.hs-icon { font-size: 36px; margin-bottom: 18px; display: block; }
+.hs-icon { width:40px;height:40px;margin-bottom:18px;display:block;color:var(--white); }
 .hs-title { font-size: 20px; font-weight: 800; margin-bottom: 10px; letter-spacing: -0.3px; }
 .hs-desc { font-size: 14px; line-height: 1.7; }
 .hs-1 .hs-title, .hs-2 .hs-title, .hs-1 .hs-desc, .hs-2 .hs-desc { color: rgba(255,255,255,0.9); }
@@ -382,7 +382,7 @@ nav.scrolled { box-shadow: 0 4px 24px rgba(0,0,0,0.06); }
 .bc-3 { grid-column: span 2; }
 .bc-4 { grid-column: span 2; }
 .bc-5 { grid-column: span 2; }
-.bcard-icon { font-size: 36px; margin-bottom: 20px; display: block; }
+.bcard-icon { width:40px;height:40px;margin-bottom:20px;display:block;color:var(--teal); }
 .bcard-title { font-size: 18px; font-weight: 800; color: var(--ink); margin-bottom: 10px; letter-spacing: -0.2px; }
 .bcard-desc { font-size: 14px; color: var(--gray-500); line-height: 1.7; }
 .bc-1 .bcard-title { color: white; }
@@ -812,14 +812,14 @@ footer { background: var(--ink); padding: 64px 56px 32px; }
       <p class="sp">FastWellBook is built from the ground up for appointment-based wellness businesses. Not a generic tool. Not a marketplace. Yours.</p>
     </div>
     <div class="fw-grid">
-      <div class="fw-card r"><span class="fw-icon">💆</span><div class="fw-name">Massage Therapy</div><div class="fw-desc">Swedish, deep tissue, sports, hot stone — every treatment listed and bookable</div></div>
-      <div class="fw-card r d1"><span class="fw-icon">🧘</span><div class="fw-name">Yoga & Pilates</div><div class="fw-desc">One-to-ones, group classes, workshops — all online booking, no faff</div></div>
-      <div class="fw-card r d2"><span class="fw-icon">💅</span><div class="fw-name">Beauty & Skincare</div><div class="fw-desc">Facials, nails, waxing, lashes — your full menu, live and bookable 24/7</div></div>
-      <div class="fw-card r d3"><span class="fw-icon">🧖</span><div class="fw-name">Spas & Retreats</div><div class="fw-desc">Experiences, packages, day passes — your full offering, professionally presented</div></div>
-      <div class="fw-card r"><span class="fw-icon">🏋️</span><div class="fw-name">Personal Training</div><div class="fw-desc">PT sessions, assessments, nutrition coaching — clients book and pay online</div></div>
-      <div class="fw-card r d1"><span class="fw-icon">🌿</span><div class="fw-name">Holistic Therapy</div><div class="fw-desc">Reiki, acupuncture, reflexology, sound healing — your practice, beautifully presented</div></div>
-      <div class="fw-card r d2"><span class="fw-icon">🫁</span><div class="fw-name">Physiotherapy</div><div class="fw-desc">Assessment appointments, treatment plans, follow-ups — structured booking that works</div></div>
-      <div class="fw-card r d3"><span class="fw-icon">🧠</span><div class="fw-name">Mental Wellness</div><div class="fw-desc">Coaching, counselling, breathwork, meditation — take bookings with confidence</div></div>
+      <div class="fw-card r"><svg class="fw-icon" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="26" cy="14" r="7" stroke="currentColor" stroke-width="2.2"/><path d="M10 42c0-8.837 7.163-16 16-16s16 7.163 16 16" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M18 32c2 3 5 5 8 5s6-2 8-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><div class="fw-name">Massage Therapy</div><div class="fw-desc">Swedish, deep tissue, sports, hot stone — every treatment listed and bookable</div></div>
+      <div class="fw-card r d1"><svg class="fw-icon" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="26" cy="12" r="5" stroke="currentColor" stroke-width="2.2"/><path d="M26 20v12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M14 28c4 2 8 4 12 4s8-2 12-4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M18 44c0-4.418 3.582-8 8-8s8 3.582 8 8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M14 34l4-6M38 34l-4-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><div class="fw-name">Yoga & Pilates</div><div class="fw-desc">One-to-ones, group classes, workshops — all online booking, no faff</div></div>
+      <div class="fw-card r d2"><svg class="fw-icon" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M26 8l4.5 9 10 1.5-7.25 7 1.75 10L26 31l-9 4.5 1.75-10L11.5 18.5l10-1.5z" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><circle cx="26" cy="26" r="4" stroke="currentColor" stroke-width="2"/></svg><div class="fw-name">Beauty & Skincare</div><div class="fw-desc">Facials, nails, waxing, lashes — your full menu, live and bookable 24/7</div></div>
+      <div class="fw-card r d3"><svg class="fw-icon" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M26 8c0 0-12 10-12 20a12 12 0 0024 0C38 18 26 8 26 8z" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><path d="M20 30c1 3 3 5 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><div class="fw-name">Spas & Retreats</div><div class="fw-desc">Experiences, packages, day passes — your full offering, professionally presented</div></div>
+      <div class="fw-card r"><svg class="fw-icon" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 20h10l-4 12h10l-4 12 20-24H30l4-12H18z" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/></svg><div class="fw-name">Personal Training</div><div class="fw-desc">PT sessions, assessments, nutrition coaching — clients book and pay online</div></div>
+      <div class="fw-card r d1"><svg class="fw-icon" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 40c0 0 4-20 20-28 0 0 8 16-4 28C24 44 18 42 12 40z" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><path d="M12 40c4-8 10-14 16-18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><div class="fw-name">Holistic Therapy</div><div class="fw-desc">Reiki, acupuncture, reflexology, sound healing — your practice, beautifully presented</div></div>
+      <div class="fw-card r d2"><svg class="fw-icon" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="22" y="10" width="8" height="32" rx="4" stroke="currentColor" stroke-width="2.2"/><rect x="10" y="22" width="32" height="8" rx="4" stroke="currentColor" stroke-width="2.2"/></svg><div class="fw-name">Physiotherapy</div><div class="fw-desc">Assessment appointments, treatment plans, follow-ups — structured booking that works</div></div>
+      <div class="fw-card r d3"><svg class="fw-icon" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="26" cy="22" r="14" stroke="currentColor" stroke-width="2.2"/><path d="M22 20c0-2.2 1.8-4 4-4s4 1.8 4 4c0 3-4 6-4 6s-4-3-4-6z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M20 36l2 8M32 36l-2 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><div class="fw-name">Mental Wellness</div><div class="fw-desc">Coaching, counselling, breathwork, meditation — take bookings with confidence</div></div>
     </div>
     <div class="fw-strip r">
       <div class="fw-strip-left">
@@ -831,15 +831,15 @@ footer { background: var(--ink); padding: 64px 56px 32px; }
       <div class="fw-strip-right">
         <div class="fw-pills">
           <div class="fw-pill">
-            <span class="fw-pill-icon">⏱️</span>
+            <svg class="fw-pill-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
             <div><div class="fw-pill-title">Duration-based booking</div><div class="fw-pill-sub">60 min Swedish, 90 min deep tissue — clients pick the right treatment</div></div>
           </div>
           <div class="fw-pill">
-            <span class="fw-pill-icon">📍</span>
+            <svg class="fw-pill-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2C8.686 2 6 4.686 6 8c0 5.25 6 14 6 14s6-8.75 6-14c0-3.314-2.686-6-6-6z"/><circle cx="12" cy="8" r="2.5"/></svg>
             <div><div class="fw-pill-title">Your brand, your page</div><div class="fw-pill-sub">Not buried in a marketplace — your own branded site clients trust</div></div>
           </div>
           <div class="fw-pill">
-            <span class="fw-pill-icon">🔒</span>
+            <svg class="fw-pill-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>
             <div><div class="fw-pill-title">Card secured at booking</div><div class="fw-pill-sub">No more no-shows — payment collected when the client books</div></div>
           </div>
           <div class="fw-pill">
@@ -865,19 +865,19 @@ footer { background: var(--ink); padding: 64px 56px 32px; }
     <div class="how-steps">
       <div class="hstep hs-1 r">
         <span class="hs-num">01</span>
-        <span class="hs-icon">📋</span>
+        <svg class="hs-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="10" y="8" width="20" height="26" rx="3"/><path d="M15 8v-2a2 2 0 014 0v2M21 8v-2a2 2 0 014 0v2"/><path d="M14 18h12M14 23h8"/></svg>
         <div class="hs-title">Tell us about your business</div>
         <div class="hs-desc">Name, services, prices, availability — our simple wizard handles everything in 5 minutes flat.</div>
       </div>
       <div class="hstep hs-2 r d1">
         <span class="hs-num">02</span>
-        <span class="hs-icon">✨</span>
+        <svg class="hs-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6v6M20 28v6M6 20h6M28 20h6"/><circle cx="20" cy="20" r="4"/></svg>
         <div class="hs-title">Your site goes live instantly</div>
         <div class="hs-desc">A beautiful, professional booking page at fastwellbook.com/b/your-business — live and ready to share immediately.</div>
       </div>
       <div class="hstep hs-3 r d2">
         <span class="hs-num">03</span>
-        <span class="hs-icon">💰</span>
+        <svg class="hs-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="20" cy="20" r="13"/><path d="M20 13v14M16 17c0-2.2 1.8-4 4-4s4 1.8 4 4-4 3-4 5 1.8 4 4 4"/></svg>
         <div class="hs-title">Share your link. Start earning.</div>
         <div class="hs-desc">Clients book and pay online. Earnings land in your bank automatically. We take 8.69%. You keep the rest.</div>
       </div>
@@ -895,7 +895,7 @@ footer { background: var(--ink); padding: 64px 56px 32px; }
     </div>
     <div class="bento">
       <div class="bcard bc-1 r">
-        <span class="bcard-icon">🌐</span>
+        <svg class="bcard-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="20" cy="20" r="14"/><path d="M20 6c0 0-6 6-6 14s6 14 6 14 6-6 6-14-6-14-6-14z"/><path d="M6 20h28M8 13h24M8 27h24"/></svg>
         <div class="bcard-title">Professional booking website</div>
         <div class="bcard-desc">Your own branded page, beautifully designed for wellness businesses. Clients trust it from the first visit.</div>
       </div>
@@ -905,17 +905,17 @@ footer { background: var(--ink); padding: 64px 56px 32px; }
         <div class="bcard-desc">No subscriptions eating into your profit. We only earn when you earn — 8.69% per booking, nothing more.</div>
       </div>
       <div class="bcard bc-3 r">
-        <span class="bcard-icon">💳</span>
+        <svg class="bcard-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="6" y="12" width="28" height="18" rx="3"/><path d="M6 18h28M12 25h4M22 25h6"/></svg>
         <div class="bcard-title">Secure payments</div>
         <div class="bcard-desc">Clients pay via Stripe. Earnings go straight to your bank.</div>
       </div>
       <div class="bcard bc-4 r d1">
-        <span class="bcard-icon">📅</span>
+        <svg class="bcard-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="7" y="10" width="26" height="22" rx="3"/><path d="M7 17h26M14 7v6M26 7v6"/><rect x="13" y="22" width="5" height="4" rx="1"/></svg>
         <div class="bcard-title">Real-time availability</div>
         <div class="bcard-desc">Zero double bookings. Zero back-and-forth messages.</div>
       </div>
       <div class="bcard bc-5 r d2">
-        <span class="bcard-icon">📱</span>
+        <svg class="bcard-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="13" y="4" width="14" height="32" rx="4"/><circle cx="20" cy="31" r="1.5"/><path d="M17 8h6"/></svg>
         <div class="bcard-title">Mobile-first design</div>
         <div class="bcard-desc">Perfect on every device. Most clients book on their phones.</div>
       </div>
@@ -1056,7 +1056,7 @@ footer { background: var(--ink); padding: 64px 56px 32px; }
 <!-- CTA FINAL -->
 <section class="cta-final" id="cta">
   <div class="cta-final-inner">
-    <div class="stag r" style="justify-content:center">🌿 Free forever · No credit card</div>
+    <div class="stag r" style="justify-content:center">✓ Free forever · No credit card</div>
     <h2 class="sh r" style="font-size:clamp(36px,5vw,60px);text-align:center">Ready to grow<br><em>your practice?</em></h2>
     <p class="sp r" style="text-align:center;margin:0 auto 44px">Join hundreds of UK wellness businesses who've stopped chasing bookings and started focusing on what they love.</p>
     <div class="cta-actions r">
