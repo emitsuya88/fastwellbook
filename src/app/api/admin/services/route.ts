@@ -18,8 +18,9 @@ export async function GET(req: NextRequest) {
   const supabase = createAdminClient()
   const { data: business } = await supabase.from('businesses').select('id,name,slug').eq('slug', slug).single()
   if (!business) return NextResponse.json({ error: 'Business not found' }, { status: 404 })
-  const { data: services } = await supabase.from('services').select('*').eq('business_id', business.id).order('price_pence')
-  return NextResponse.json({ business, services })
+  const { data: services } = await supabase.from('services').select('*').eq('business_id', business.id).order('price_pence');
+  const { data: availability } = await supabase.from('availability').select('*').eq('business_id', business.id).order('day_of_week')
+  return NextResponse.json({ business, services, availability })
 }
 
 // POST — add a service

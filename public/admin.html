@@ -5,42 +5,54 @@
 <title>FastWellBook Admin</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--teal:#0D9488;--teal-dark:#0F766E;--white:#fff;--cream:#F5FAF8;--gray-400:#9CA3AF;--gray-600:#4B5563;--ink:#0D1F1A;--border:#E5E7EB;--red:#EF4444;--font:system-ui,-apple-system,sans-serif}
-html,body{min-height:100vh;background:var(--cream);color:var(--ink);font-family:var(--font)}
-.header{background:var(--teal);color:white;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
-.header h1{font-size:18px;font-weight:700}
-.container{max-width:800px;margin:32px auto;padding:0 20px}
-.card{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:20px}
-.card h2{font-size:16px;font-weight:700;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)}
-.fg{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
+:root{--t:#0D9488;--td:#0F766E;--t0:#F0FDFA;--t1:#CCFBF1;--w:#fff;--cr:#F5FAF8;--g4:#9CA3AF;--g6:#4B5563;--ink:#0D1F1A;--bd:#E5E7EB;--red:#EF4444;--f:system-ui,-apple-system,sans-serif}
+html,body{min-height:100vh;background:var(--cr);color:var(--ink);font-family:var(--f)}
+.hdr{background:var(--t);color:#fff;padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
+.hdr h1{font-size:17px;font-weight:700}
+.hdr span{font-size:12px;opacity:.8}
+.wrap{max-width:860px;margin:28px auto;padding:0 18px}
+.card{background:var(--w);border:1px solid var(--bd);border-radius:16px;padding:22px;margin-bottom:18px}
+.card h2{font-size:15px;font-weight:700;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--bd)}
+.tabs{display:flex;gap:0;margin-bottom:18px;border:1.5px solid var(--bd);border-radius:10px;overflow:hidden}
+.tab{flex:1;padding:10px;text-align:center;font-size:13px;font-weight:600;cursor:pointer;background:var(--w);color:var(--g4);border:none;font-family:var(--f)}
+.tab.on{background:var(--t);color:#fff}
+.fg{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
 .fg2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--gray-600)}
-input{padding:10px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;color:var(--ink);outline:none;font-family:var(--font);width:100%}
-input:focus{border-color:var(--teal)}
-.btn{padding:11px 20px;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font)}
-.btn-t{background:var(--teal);color:white;width:100%;margin-top:4px}
-.btn-t:hover{background:var(--teal-dark)}
-.btn-d{background:#FEE2E2;color:var(--red);border:1px solid #FECACA;padding:6px 12px;font-size:12px}
-.si{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border:1.5px solid var(--border);border-radius:12px;margin-bottom:8px}
-.sn{font-size:14px;font-weight:700;margin-bottom:2px}
-.sm{font-size:12px;color:var(--gray-400)}
-.sp{font-size:16px;font-style:italic;color:var(--teal);margin-right:10px}
-.msg{padding:10px 14px;border-radius:10px;font-size:13px;margin-bottom:12px}
-.err{background:#FEE2E2;color:var(--red)}
-.ok{background:#DCFCE7;color:#15803D}
-.lw{max-width:400px;margin:80px auto;padding:0 20px}
-.lc{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:32px}
-.lt{font-size:22px;font-weight:700;margin-bottom:6px}
-.ls{font-size:14px;color:var(--gray-400);margin-bottom:24px}
+.fg3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--g6)}
+input,select{padding:9px 11px;border:1.5px solid var(--bd);border-radius:9px;font-size:13px;color:var(--ink);outline:none;font-family:var(--f);width:100%}
+input:focus,select:focus{border-color:var(--t)}
+.btn{padding:10px 18px;border:none;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--f)}
+.btn-t{background:var(--t);color:#fff;width:100%;margin-top:4px}
+.btn-t:hover{background:var(--td)}
+.btn-d{background:#FEE2E2;color:var(--red);border:1px solid #FECACA;padding:5px 11px;font-size:12px}
+.btn-s{background:var(--t0);color:var(--t);border:1.5px solid var(--t1);padding:5px 11px;font-size:12px}
+.si{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border:1.5px solid var(--bd);border-radius:11px;margin-bottom:7px}
+.sn{font-size:13px;font-weight:700;margin-bottom:2px}.sm{font-size:11px;color:var(--g4)}
+.sp{font-size:15px;font-style:italic;color:var(--t);margin-right:8px}
+.msg{padding:9px 13px;border-radius:9px;font-size:12px;margin-bottom:11px}
+.err{background:#FEE2E2;color:var(--red)}.ok{background:#DCFCE7;color:#15803D}
+.lw{max-width:380px;margin:80px auto;padding:0 18px}
+.lc{background:var(--w);border:1px solid var(--bd);border-radius:16px;padding:28px}
+.lt{font-size:20px;font-weight:700;margin-bottom:5px}
+.ls{font-size:13px;color:var(--g4);margin-bottom:20px}
 .row{display:flex;gap:8px;align-items:flex-end}
-.row input{flex:1}
+.row input{flex:1}.row .btn{width:auto;margin:0}
+.day-row{display:grid;grid-template-columns:90px 1fr 1fr 80px;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid var(--bd)}
+.day-row:last-child{border-bottom:none}
+.day-label{font-size:13px;font-weight:600}
+.day-row input{padding:7px 9px;font-size:12px}
+.toggle{width:38px;height:22px;border-radius:11px;border:none;cursor:pointer;font-size:11px;font-weight:700;transition:all .2s}
+.toggle.on{background:var(--t);color:#fff}
+.toggle.off{background:var(--bd);color:var(--g4)}
 </style>
 </head>
 <body>
+
 <div id="L">
 <div class="lw"><div class="lc">
 <div class="lt">Admin Panel</div>
-<div class="ls">FastWellBook — Manage business services</div>
+<div class="ls">FastWellBook — Manage your business</div>
 <div id="lm"></div>
 <div class="fg"><label>Password</label><input type="password" id="pw" placeholder="Enter admin password"></div>
 <button class="btn btn-t" onclick="login()">Sign in</button>
@@ -48,17 +60,26 @@ input:focus{border-color:var(--teal)}
 </div>
 
 <div id="M" style="display:none">
-<div class="header"><h1>FastWellBook Admin</h1><span id="hn"></span></div>
-<div class="container">
+<div class="hdr"><h1>FastWellBook Admin</h1><span id="hn"></span></div>
+<div class="wrap">
+
 <div class="card">
 <h2>Select Business</h2>
 <div class="row">
 <div class="fg" style="flex:1;margin:0"><label>Business slug</label><input type="text" id="si" placeholder="e.g. catching-comfort-massage"></div>
-<button class="btn btn-t" style="width:auto;margin:0" onclick="load()">Load</button>
+<button class="btn btn-t" style="width:auto;margin:0;padding:10px 16px" onclick="loadBiz()">Load</button>
 </div>
-<div id="sm" style="margin-top:10px"></div>
+<div id="sm" style="margin-top:8px"></div>
 </div>
+
 <div id="BS" style="display:none">
+<div class="tabs">
+  <button class="tab on" onclick="showTab('services')">Services</button>
+  <button class="tab" onclick="showTab('hours')">Opening Hours</button>
+</div>
+
+<!-- SERVICES TAB -->
+<div id="tab-services">
 <div class="card">
 <h2 id="bt">Services</h2>
 <div id="SL"></div>
@@ -72,18 +93,42 @@ input:focus{border-color:var(--teal)}
 <div class="fg"><label>Duration (minutes)</label><input type="number" id="adur" placeholder="60" min="15" step="15"></div>
 <div class="fg"><label>Price (£)</label><input type="number" id="apr" placeholder="65.00" step="0.50"></div>
 </div>
-<button class="btn btn-t" onclick="add()">Add service</button>
+<button class="btn btn-t" onclick="addSvc()">Add service</button>
 </div>
+</div>
+
+<!-- HOURS TAB -->
+<div id="tab-hours" style="display:none">
+<div class="card">
+<h2>Opening Hours</h2>
+<div id="hm"></div>
+<div style="margin-bottom:12px;font-size:12px;color:var(--g4)">Toggle each day on or off. Set opening and closing times.</div>
+<div id="HL"></div>
+<button class="btn btn-t" style="margin-top:16px" onclick="saveHours()">Save hours</button>
+</div>
+</div>
+
 </div>
 </div>
 </div>
 
 <script>
-var pw='',bid='',bslug='';
+var pw='',bid='',bslug='',bizAvail=[];
+var DAYS=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
 function login(){pw=document.getElementById('pw').value;if(!pw)return;document.getElementById('L').style.display='none';document.getElementById('M').style.display='block';}
 document.getElementById('pw').onkeydown=function(e){if(e.key==='Enter')login();};
-function m(id,t,c){var el=document.getElementById(id);el.innerHTML=t?'<div class="msg '+c+'">'+t+'</div>':'';}
-async function load(){
+
+function showTab(t){
+  document.getElementById('tab-services').style.display=t==='services'?'block':'none';
+  document.getElementById('tab-hours').style.display=t==='hours'?'block':'none';
+  document.querySelectorAll('.tab').forEach(function(el,i){el.classList.toggle('on',(i===0&&t==='services')||(i===1&&t==='hours'));});
+  if(t==='hours')renderHours();
+}
+
+function m(id,txt,cls){var el=document.getElementById(id);el.innerHTML=txt?'<div class="msg '+cls+'">'+txt+'</div>':'';}
+
+async function loadBiz(){
   var slug=document.getElementById('si').value.trim();if(!slug)return;
   m('sm','Loading...','ok');
   try{
@@ -91,19 +136,22 @@ async function load(){
     var d=await r.json();
     if(!r.ok){m('sm',d.error,'err');return;}
     bid=d.business.id;bslug=d.business.slug;
+    bizAvail=d.availability||[];
     document.getElementById('bt').textContent=d.business.name+' — Services';
     document.getElementById('hn').textContent=d.business.name;
     m('sm','','');
     document.getElementById('BS').style.display='block';
-    render(d.services);
+    renderSvcs(d.services);
   }catch(e){m('sm','Failed to load','err');}
 }
-function render(svcs){
+
+function renderSvcs(svcs){
   var el=document.getElementById('SL');
-  if(!svcs||!svcs.length){el.innerHTML='<p style="color:var(--gray-400);text-align:center;padding:20px">No services yet</p>';return;}
-  el.innerHTML=svcs.map(function(s){return'<div class="si"><div><div class="sn">'+s.name+(s.description?' <span style="font-weight:400;color:var(--gray-400)">— '+s.description+'</span>':'')+'</div><div class="sm">'+s.duration_mins+' min</div></div><div style="display:flex;align-items:center"><span class="sp">£'+(s.price_pence/100).toFixed(2)+'</span><button class="btn btn-d" onclick="del(\''+s.id+'\')">Delete</button></div></div>';}).join('');
+  if(!svcs||!svcs.length){el.innerHTML='<p style="color:var(--g4);text-align:center;padding:20px;font-size:13px">No services yet — add one below</p>';return;}
+  el.innerHTML=svcs.map(function(s){return'<div class="si"><div><div class="sn">'+s.name+(s.description?' <span style="font-weight:400;color:var(--g4)">— '+s.description+'</span>':'')+'</div><div class="sm">'+s.duration_mins+' min</div></div><div style="display:flex;align-items:center"><span class="sp">£'+(s.price_pence/100).toFixed(2)+'</span><button class="btn btn-d" onclick="delSvc(\''+s.id+'\')">Delete</button></div></div>';}).join('');
 }
-async function add(){
+
+async function addSvc(){
   var n=document.getElementById('an').value.trim(),desc=document.getElementById('ad').value.trim(),dur=document.getElementById('adur').value,pr=document.getElementById('apr').value;
   if(!n||!dur||!pr){m('am','Fill in name, duration and price','err');return;}
   try{
@@ -111,14 +159,67 @@ async function add(){
     var d=await r.json();
     if(!r.ok){m('am',d.error,'err');return;}
     m('am','Service added!','ok');
-    document.getElementById('an').value='';document.getElementById('ad').value='';document.getElementById('adur').value='';document.getElementById('apr').value='';
-    load();
+    ['an','ad','adur','apr'].forEach(function(id){document.getElementById(id).value='';});
+    loadBiz();
   }catch(e){m('am','Failed','err');}
 }
-async function del(id){
+
+async function delSvc(id){
   if(!confirm('Delete this service?'))return;
   await fetch('/api/admin/services?id='+id,{method:'DELETE',headers:{'x-admin-password':pw}});
-  load();
+  loadBiz();
+}
+
+function renderHours(){
+  var el=document.getElementById('HL');
+  el.innerHTML='<div class="day-row" style="font-weight:700;font-size:11px;color:var(--g4);text-transform:uppercase;letter-spacing:.07em"><div>Day</div><div>Opens</div><div>Closes</div><div>Open?</div></div>'+
+  DAYS.map(function(day,dow){
+    var av=bizAvail.find(function(a){return a.day_of_week===dow;});
+    var isOpen=!!av;
+    var start=av?av.start_time.slice(0,5):'09:00';
+    var end=av?av.end_time.slice(0,5):'18:00';
+    return'<div class="day-row">'+
+      '<div class="day-label">'+day.slice(0,3)+'</div>'+
+      '<div><input type="time" id="s'+dow+'" value="'+start+'"'+(isOpen?'':' disabled')+' style="'+(isOpen?'':'opacity:.4')+'">' +
+      '</div>'+
+      '<div><input type="time" id="e'+dow+'" value="'+end+'"'+(isOpen?'':' disabled')+' style="'+(isOpen?'':'opacity:.4')+'">' +
+      '</div>'+
+      '<div><button class="toggle '+(isOpen?'on':'off')+'" id="t'+dow+'" onclick="toggleDay('+dow+')">'+(isOpen?'ON':'OFF')+'</button></div>'+
+    '</div>';
+  }).join('');
+}
+
+function toggleDay(dow){
+  var btn=document.getElementById('t'+dow);
+  var si=document.getElementById('s'+dow);
+  var ei=document.getElementById('e'+dow);
+  var isOn=btn.classList.contains('on');
+  btn.classList.toggle('on',!isOn);
+  btn.classList.toggle('off',isOn);
+  btn.textContent=isOn?'OFF':'ON';
+  si.disabled=isOn;ei.disabled=isOn;
+  si.style.opacity=isOn?'.4':'1';ei.style.opacity=isOn?'.4':'1';
+}
+
+async function saveHours(){
+  m('hm','Saving...','ok');
+  var newAvail=[];
+  for(var dow=0;dow<7;dow++){
+    var btn=document.getElementById('t'+dow);
+    if(btn&&btn.classList.contains('on')){
+      var s=document.getElementById('s'+dow).value;
+      var e=document.getElementById('e'+dow).value;
+      if(s&&e) newAvail.push({day_of_week:dow,start_time:s+':00',end_time:e+':00'});
+    }
+  }
+  try{
+    var r=await fetch('/api/admin/hours',{method:'POST',headers:{'Content-Type':'application/json','x-admin-password':pw},body:JSON.stringify({business_id:bid,availability:newAvail})});
+    var d=await r.json();
+    if(!r.ok){m('hm',d.error,'err');return;}
+    bizAvail=newAvail.map(function(a,i){return Object.assign({id:'tmp'+i},a);});
+    m('hm','Hours saved!','ok');
+    setTimeout(function(){m('hm','','');},3000);
+  }catch(e){m('hm','Failed to save','err');}
 }
 </script>
 </body>
