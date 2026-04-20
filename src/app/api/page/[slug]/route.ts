@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase'
 
 export const dynamic = 'force-dynamic'
+export const revalidate = 0
 
 export async function GET(req: NextRequest, { params }: { params: { slug: string } }) {
   const supabase = createAdminClient()
@@ -16,10 +17,17 @@ export async function GET(req: NextRequest, { params }: { params: { slug: string
   if (!business) return new NextResponse('Not found', { status: 404 })
 
   const { data: services } = await supabase
-    .from('services').select('*').eq('business_id', business.id).eq('active', true).order('price_pence', { ascending: true })
+    .from('services')
+    .select('*')
+    .eq('business_id', business.id)
+    .eq('active', true)
+    .order('price_pence', { ascending: true })
 
   const { data: availability } = await supabase
-    .from('availability').select('*').eq('business_id', business.id).order('day_of_week', { ascending: true })
+    .from('availability')
+    .select('*')
+    .eq('business_id', business.id)
+    .order('day_of_week', { ascending: true })
 
   const dayNames = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']
   const hoursLines = (availability ?? []).map((a: any) =>
@@ -69,11 +77,13 @@ html,body{min-height:100vh;background:var(--cr);color:var(--ink);font-family:var
 .calh{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
 .calm{font-size:17px;font-style:italic;font-weight:300}
 .cn{display:flex;gap:5px}
-.cb{width:30px;height:30px;border-radius:50%;border:1.5px solid var(--bd);background:var(--w);cursor:pointer;font-size:16px}
+.cb{width:30px;height:30px;border-radius:50%;border:1.5px solid var(--bd);background:var(--w);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center}
 .cg{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:18px}
 .dn{text-align:center;font-size:10px;font-weight:700;color:var(--g4);padding:5px 0;text-transform:uppercase}
 .cd{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:12px;border-radius:8px;cursor:pointer;border:1.5px solid transparent;font-weight:500}
-.cd.sel{background:var(--t);color:#fff}.cd.today{border-color:var(--gd)}.cd.off{color:var(--g2);cursor:default}
+.cd:hover:not(.off){background:var(--t0);border-color:var(--t1)}
+.cd.sel{background:var(--t)!important;color:#fff!important;border-color:var(--t)!important}
+.cd.today{border-color:var(--gd)}.cd.off{color:var(--g2);cursor:default}
 .tl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--g4);margin-bottom:8px}
 .sg{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:18px}
 .slot{padding:8px 4px;border:1.5px solid var(--bd);border-radius:8px;background:var(--w);font-size:12px;font-weight:600;cursor:pointer;text-align:center;font-family:var(--f)}
@@ -177,6 +187,12 @@ go();
 </body>
 </html>`
 
-  return new NextResponse(html, { headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store, no-cache, must-revalidate', 'Pragma': 'no-cache' } })
+  return new NextResponse(html, {
+    headers: {
+      'Content-Type': 'text/html; charset=utf-8',
+      'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
+      'Pragma': 'no-cache',
+      'Expires': '0'
+    }
+  })
 }
- 
